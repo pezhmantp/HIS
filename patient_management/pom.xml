@@ -22,7 +22,9 @@
         <axon.version>4.9.2</axon.version>
     </properties>
 
-
+    <modules>
+        <module>patient_core</module>
+    </modules>
 <dependencies>
     <dependency>
         <groupId>org.axonframework</groupId>
