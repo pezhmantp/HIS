@@ -25,6 +25,7 @@
     <modules>
         <module>patient_core</module>
         <module>patient_cmd_ms</module>
+        <module>patient_query_ms</module>
     </modules>
 <dependencies>
     <dependency>

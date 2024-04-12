@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="patient_query_ms" />
         <module name="patient_core" />
         <module name="patient_cmd_ms" />
       </profile>
@@ -16,6 +17,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="patient_cmd_ms" options="-parameters" />
       <module name="patient_core" options="-parameters" />
+      <module name="patient_query_ms" options="-parameters" />
     </option>
   </component>
 </project>
