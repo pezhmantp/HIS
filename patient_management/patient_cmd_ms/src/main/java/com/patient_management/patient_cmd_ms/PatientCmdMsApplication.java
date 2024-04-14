@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories({"com.patient_management.core"})
+@EnableJpaRepositories({"com.patient_management.patient_core"})
 @EntityScan(basePackages = {
 		"com.patient_management.patient_core.model",
 		"com.patient_management.patient_core.event",
