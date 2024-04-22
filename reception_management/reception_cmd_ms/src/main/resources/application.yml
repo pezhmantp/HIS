@@ -1,0 +1,21 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: reception_cmd_ms
+  datasource:
+    url: jdbc:mysql://localhost:3306/reception_db?createDatabaseIfNotExist=true
+    username: root
+    password: myhawramRootPsw1
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+logging:
+  file.name: logs/reception_cmd_ms.log
+axon:
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson

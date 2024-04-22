@@ -20,6 +20,7 @@
     </properties>
     <modules>
         <module>reception_core</module>
+        <module>reception_cmd_ms</module>
     </modules>
     <dependencies>
         <dependency>
