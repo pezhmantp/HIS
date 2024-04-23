@@ -8,7 +8,21 @@
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/reception_cmd_ms.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/reception_cmd_ms.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reception_cmd_ms/target/classes/com/his/reception_management/reception_cmd_ms/ReceptionCmdMsApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reception_cmd_ms/target/classes/com/his/reception_management/reception_cmd_ms/aggregate/ReceptionAggregate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reception_cmd_ms/target/classes/com/his/reception_management/reception_cmd_ms/command/CreateReceptionCmd$CreateReceptionCmdBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reception_cmd_ms/target/classes/com/his/reception_management/reception_cmd_ms/command/CreateReceptionCmd.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reception_cmd_ms/target/classes/com/his/reception_management/reception_cmd_ms/command/RemoveReceptionCmd.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reception_cmd_ms/target/classes/com/his/reception_management/reception_cmd_ms/command/UpdateReceptionCmd$UpdateReceptionCmdBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reception_cmd_ms/target/classes/com/his/reception_management/reception_cmd_ms/command/UpdateReceptionCmd.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reception_cmd_ms/target/classes/com/his/reception_management/reception_cmd_ms/controller/ReceptionCmdController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reception_cmd_ms/target/classes/com/his/reception_management/reception_cmd_ms/dto/ReceptionDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reception_cmd_ms/target/classes/com/his/reception_management/reception_cmd_ms/dto/UpdateReceptionDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reception_cmd_ms/target/classes/com/his/reception_management/reception_cmd_ms/service/ReceptionService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reception_cmd_ms/target/classes/com/his/reception_management/reception_cmd_ms/service/ReceptionServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reception_cmd_ms/target/classes/com/reception_management/reception_cmd_ms/ReceptionCmdMsApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/reception_cmd_ms/target/classes/com/reception_management/reception_cmd_ms/ReceptionCmdMsApplication.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,16 +53,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4": "",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "last_opened_file_path": "C:/Users/Venos46131105/Downloads/files/UpdateReceptionDto.class"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4&quot;: &quot;&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Venos46131105/Downloads/files/UpdateReceptionDto.class&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -58,7 +72,7 @@
       <recent name="com.reception_management.reception_cmd_ms.aggregate" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ReceptionCmdMsApplication">
+  <component name="RunManager" selected="Application.ReceptionQueryMsApplication">
     <configuration name="ReceptionCmdMsApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.reception_management.reception_cmd_ms.ReceptionCmdMsApplication" />
       <module name="reception_cmd_ms" />
@@ -72,77 +86,73 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ReceptionServiceImplTest.shouldFindReceptionByReceptionId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="reception_cmd_ms" />
+    <configuration name="ReceptionQueryMsApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.reception_management.reception_query_ms.ReceptionQueryMsApplication" />
+      <module name="reception_query_ms" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.reception_management.reception_cmd_ms.service.*" />
+          <option name="PATTERN" value="com.reception_management.reception_query_ms.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.reception_management.reception_cmd_ms.service" />
-      <option name="MAIN_CLASS_NAME" value="com.reception_management.reception_cmd_ms.service.ReceptionServiceImplTest" />
-      <option name="METHOD_NAME" value="shouldFindReceptionByReceptionId" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ReceptionCmdHandlerImplTest.onPatientRemovedEvent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="reception_query_ms" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.reception_management.reception_query_ms.handler.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.reception_management.reception_query_ms.handler" />
+      <option name="MAIN_CLASS_NAME" value="com.reception_management.reception_query_ms.handler.ReceptionCmdHandlerImplTest" />
+      <option name="METHOD_NAME" value="onPatientRemovedEvent" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ReceptionServiceImplTest.shouldGeneratePatientId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="reception_cmd_ms" />
+    <configuration name="ReceptionCmdHandlerImplTest.onReceptionUpdatedEvent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="reception_query_ms" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.reception_management.reception_cmd_ms.service.*" />
+          <option name="PATTERN" value="com.reception_management.reception_query_ms.handler.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.reception_management.reception_cmd_ms.service" />
-      <option name="MAIN_CLASS_NAME" value="com.reception_management.reception_cmd_ms.service.ReceptionServiceImplTest" />
-      <option name="METHOD_NAME" value="shouldGeneratePatientId" />
+      <option name="PACKAGE_NAME" value="com.reception_management.reception_query_ms.handler" />
+      <option name="MAIN_CLASS_NAME" value="com.reception_management.reception_query_ms.handler.ReceptionCmdHandlerImplTest" />
+      <option name="METHOD_NAME" value="onReceptionUpdatedEvent" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ReceptionServiceImplTest.shouldNotFindReceptionByReceptionId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="reception_cmd_ms" />
+    <configuration name="ReceptionQueryMsApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="reception_query_ms" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.reception_management.reception_cmd_ms.service.*" />
+          <option name="PATTERN" value="com.reception_management.reception_query_ms.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.reception_management.reception_cmd_ms.service" />
-      <option name="MAIN_CLASS_NAME" value="com.reception_management.reception_cmd_ms.service.ReceptionServiceImplTest" />
-      <option name="METHOD_NAME" value="shouldNotFindReceptionByReceptionId" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ReceptionServiceImplTest.shouldThrowExceptionOnNullReceptionDto" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="reception_cmd_ms" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.reception_management.reception_cmd_ms.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.reception_management.reception_cmd_ms.service" />
-      <option name="MAIN_CLASS_NAME" value="com.reception_management.reception_cmd_ms.service.ReceptionServiceImplTest" />
-      <option name="METHOD_NAME" value="shouldThrowExceptionOnNullReceptionDto" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="com.reception_management.reception_query_ms" />
+      <option name="MAIN_CLASS_NAME" value="com.reception_management.reception_query_ms.ReceptionQueryMsApplicationTests" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ReceptionQueryMsApplication" />
+        <item itemvalue="JUnit.ReceptionQueryMsApplicationTests" />
         <item itemvalue="Application.ReceptionCmdMsApplication" />
-        <item itemvalue="JUnit.ReceptionServiceImplTest.shouldThrowExceptionOnNullReceptionDto" />
-        <item itemvalue="JUnit.ReceptionServiceImplTest.shouldGeneratePatientId" />
-        <item itemvalue="JUnit.ReceptionServiceImplTest.shouldNotFindReceptionByReceptionId" />
-        <item itemvalue="JUnit.ReceptionServiceImplTest.shouldFindReceptionByReceptionId" />
+        <item itemvalue="JUnit.ReceptionCmdHandlerImplTest.onPatientRemovedEvent" />
+        <item itemvalue="JUnit.ReceptionCmdHandlerImplTest.onReceptionUpdatedEvent" />
       </list>
     </recent_temporary>
   </component>

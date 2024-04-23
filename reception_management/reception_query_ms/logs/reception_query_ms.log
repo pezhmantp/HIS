@@ -1,0 +1,44 @@
+2024-04-22T23:23:36.689+03:30  INFO 9756 --- [reception_query_ms] [main] c.r.r.ReceptionQueryMsApplicationTests   : Starting ReceptionQueryMsApplicationTests using Java 17.0.7 with PID 9756 (started by Venos46131105 in E:\HIS\reception_management\reception_query_ms)
+2024-04-22T23:23:36.690+03:30  INFO 9756 --- [reception_query_ms] [main] c.r.r.ReceptionQueryMsApplicationTests   : No active profile set, falling back to 1 default profile: "default"
+2024-04-22T23:23:36.794+03:30  WARN 9756 --- [reception_query_ms] [main] o.s.c.annotation.AnnotationTypeMapping   : Support for convention-based annotation attribute overrides is deprecated and will be removed in Spring Framework 6.2. Please annotate the following attributes in @org.axonframework.eventhandling.EventHandler with appropriate @AliasFor declarations: [payloadType]
+2024-04-22T23:23:36.798+03:30  WARN 9756 --- [reception_query_ms] [main] o.s.c.annotation.AnnotationTypeMapping   : Support for convention-based annotation attribute overrides is deprecated and will be removed in Spring Framework 6.2. Please annotate the following attributes in @org.axonframework.messaging.interceptors.ExceptionHandler with appropriate @AliasFor declarations: [messageType, payloadType]
+2024-04-22T23:23:36.798+03:30  WARN 9756 --- [reception_query_ms] [main] o.s.c.annotation.AnnotationTypeMapping   : Support for convention-based annotation attribute overrides is deprecated and will be removed in Spring Framework 6.2. Please annotate the following attributes in @org.axonframework.messaging.interceptors.ExceptionHandler with appropriate @AliasFor declarations: [resultType]
+2024-04-22T23:23:36.798+03:30  WARN 9756 --- [reception_query_ms] [main] o.s.c.annotation.AnnotationTypeMapping   : Support for convention-based annotation attribute overrides is deprecated and will be removed in Spring Framework 6.2. Please annotate the following attributes in @org.axonframework.messaging.interceptors.ExceptionHandler with appropriate @AliasFor declarations: [messageType, payloadType]
+2024-04-22T23:23:37.212+03:30  INFO 9756 --- [reception_query_ms] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-22T23:23:37.254+03:30  INFO 9756 --- [reception_query_ms] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 36 ms. Found 1 JPA repository interface.
+2024-04-22T23:23:38.149+03:30  INFO 9756 --- [reception_query_ms] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-22T23:23:38.210+03:30  INFO 9756 --- [reception_query_ms] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-04-22T23:23:38.244+03:30  INFO 9756 --- [reception_query_ms] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-04-22T23:23:38.526+03:30  INFO 9756 --- [reception_query_ms] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-22T23:23:38.549+03:30  INFO 9756 --- [reception_query_ms] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-04-22T23:23:38.820+03:30  INFO 9756 --- [reception_query_ms] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@54234569
+2024-04-22T23:23:38.821+03:30  INFO 9756 --- [reception_query_ms] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-04-22T23:23:38.861+03:30  WARN 9756 --- [reception_query_ms] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-04-22T23:23:38.862+03:30  WARN 9756 --- [reception_query_ms] [main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2024-04-22T23:23:39.786+03:30  INFO 9756 --- [reception_query_ms] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-04-22T23:23:39.861+03:30  INFO 9756 --- [reception_query_ms] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-22T23:23:40.093+03:30  INFO 9756 --- [reception_query_ms] [main] o.a.config.AxonIQConsoleModule           : 
+################################################################################################
+## You have not configured AxonIQ Console. AxonIQ Console provides out-of-the box monitoring  ##
+## and management capabilities for your Axon Application, starting with it is free.           ##
+## Visit https://console.axoniq.io for more information!                                      ##
+## Suppress this message by setting system property disable-axoniq-console-message to true.   ##
+################################################################################################
+
+2024-04-22T23:23:40.513+03:30  WARN 9756 --- [reception_query_ms] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-04-22T23:23:41.277+03:30  INFO 9756 --- [reception_query_ms] [main] i.a.a.c.impl.AxonServerManagedChannel    : Requesting connection details from localhost:8124
+2024-04-22T23:23:41.544+03:30  INFO 9756 --- [reception_query_ms] [main] i.a.a.c.impl.AxonServerManagedChannel    : Successfully connected to localhost:8124
+2024-04-22T23:23:41.554+03:30  INFO 9756 --- [reception_query_ms] [main] i.a.a.connector.impl.ControlChannelImpl  : Connected instruction stream for context 'default'. Sending client identification
+2024-04-22T23:23:41.578+03:30  INFO 9756 --- [reception_query_ms] [main] i.a.a.c.query.impl.QueryChannelImpl      : QueryChannel for context 'default' connected, 0 registrations resubscribed
+2024-04-22T23:23:41.586+03:30  INFO 9756 --- [reception_query_ms] [main] i.a.a.c.query.impl.QueryChannelImpl      : Registered handler for query 'com.reception_management.reception_core.queries.FindReceptionByReceptionIdQuery : com.reception_management.reception_core.responeObj.ReceptionResponseFromQuery' in context 'default'
+2024-04-22T23:23:41.764+03:30  INFO 9756 --- [reception_query_ms] [main] c.r.r.ReceptionQueryMsApplicationTests   : Started ReceptionQueryMsApplicationTests in 5.412 seconds (process running for 6.429)
+2024-04-22T23:23:41.952+03:30  INFO 9756 --- [reception_query_ms] [EventProcessor[reception-group]-0] o.a.e.TrackingEventProcessor             : Worker assigned to segment Segment[0/0] for processing
+2024-04-22T23:23:41.979+03:30  INFO 9756 --- [reception_query_ms] [EventProcessor[reception-group]-0] o.a.e.TrackingEventProcessor             : Using current Thread for last segment worker: TrackingSegmentWorker{processor=reception-group, segment=Segment[0/0]}
+2024-04-22T23:23:41.994+03:30  INFO 9756 --- [reception_query_ms] [EventProcessor[reception-group]-0] o.a.e.TrackingEventProcessor             : Fetched token: IndexTrackingToken{globalIndex=16} for segment: Segment[0/0]
+2024-04-22T23:23:42.235+03:30  INFO 9756 --- [reception_query_ms] [SpringApplicationShutdownHook] o.a.e.TrackingEventProcessor             : Shutdown state set for Processor 'reception-group'.
+2024-04-22T23:23:42.235+03:30  INFO 9756 --- [reception_query_ms] [SpringApplicationShutdownHook] o.a.e.TrackingEventProcessor             : Processor 'reception-group' awaiting termination...
+2024-04-22T23:23:43.099+03:30  INFO 9756 --- [reception_query_ms] [EventProcessor[reception-group]-0] o.a.e.TrackingEventProcessor             : Released claim
+2024-04-22T23:23:43.100+03:30  INFO 9756 --- [reception_query_ms] [EventProcessor[reception-group]-0] o.a.e.TrackingEventProcessor             : Worker for segment Segment[0/0] stopped.
+2024-04-22T23:23:43.580+03:30  INFO 9756 --- [reception_query_ms] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-22T23:23:43.583+03:30  INFO 9756 --- [reception_query_ms] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-04-22T23:23:43.601+03:30  INFO 9756 --- [reception_query_ms] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
