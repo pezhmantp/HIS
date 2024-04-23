@@ -18,6 +18,9 @@
 		<java.version>17</java.version>
 		<axon.version>4.9.2</axon.version>
 	</properties>
+	<modules>
+		<module>visit_core</module>
+	</modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.axonframework</groupId>
