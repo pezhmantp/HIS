@@ -8,13 +8,20 @@ import com.reception_management.reception_cmd_ms.dto.ReceptionDto;
 import com.reception_management.reception_cmd_ms.dto.UpdateReceptionDto;
 import com.reception_management.reception_cmd_ms.service.ReceptionService;
 import com.reception_management.reception_core.model.Reception;
+import com.reception_management.reception_core.queries.FindReceptionByReceptionIdQuery;
 import com.reception_management.reception_core.responeObj.*;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
+import org.axonframework.queryhandling.QueryGateway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -23,17 +30,22 @@ import org.springframework.web.bind.annotation.*;
 public class ReceptionCmdController {
     @Autowired
     private CommandGateway commandGateway;
+    @Autowired
+    private QueryGateway queryGateway;
+
+    @Autowired
+    private KafkaTemplate<String,String> kafkaTemplate;
     private static final Logger log = LoggerFactory.getLogger(ReceptionCmdController.class);
     @Autowired
     private ReceptionService receptionService;
+    @Value(value = "${reception-created-topic}")
+    private String reception_created_topic;
 
-    public ReceptionCmdController() {
-    }
 
     @PostMapping
     public ResponseEntity<?> add(@RequestBody ReceptionDto receptionDto) {
         log.info("add(): receptionDto received from client " + receptionDto.toString());
-        ReceptionResponse receptionResponse = new ReceptionResponse();
+        ReceptionResponse receptionResponse=new ReceptionResponse();
 
         try {
             Reception reception = this.receptionService.mapReceptionDtoToReception(receptionDto);
@@ -42,10 +54,11 @@ public class ReceptionCmdController {
             cmd.setReception(reception);
             log.info("add(): before sending CreateReceptionCmd to CommandGateway " + receptionDto.toString());
             this.commandGateway.sendAndWait(cmd);
-            receptionResponse.setReceptionId(reception.getReceptionId());
-            receptionResponse.setFetchedDoctor((FetchedDoctor)null);
-            receptionResponse.setDepartment("??");
-            receptionResponse.setFetchedPatient((FetchedPatient)null);
+//            SendResult<String,String> kafkaTemplateResult=kafkaTemplate.send(reception_created_topic,reception.getReceptionId(),reception.getReceptionId()).get();
+//            log.info("add(): message sent to kafka brokers: " + kafkaTemplateResult.getRecordMetadata().partition() +
+//                    " " + kafkaTemplateResult.getRecordMetadata().topic());
+
+            receptionResponse.setReception(reception);
             receptionResponse.setMessage("New reception created");
             log.info("add(): New reception created: " + receptionResponse.toString());
             return new ResponseEntity(receptionResponse, HttpStatus.CREATED);
@@ -53,6 +66,7 @@ public class ReceptionCmdController {
             log.error("Error at add() : " + e.getMessage());
             return new ResponseEntity("Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
     @PutMapping

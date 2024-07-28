@@ -3,6 +3,13 @@ server:
 spring:
   application:
     name: reception_cmd_ms
+  profiles:
+    active: docker
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8080/realms/hisclientapp/protocol/openid-connect/certs
   datasource:
     url: jdbc:mysql://localhost:3306/reception_db?createDatabaseIfNotExist=true
     username: root
@@ -12,6 +19,13 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
+  kafka:
+    bootstrap-servers: localhost:29092
+#  kafka:
+#    producer:
+#      bootstrap-servers: localhost:9092,localhost:9094
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 logging:
   file.name: logs/reception_cmd_ms.log
 axon:
@@ -19,3 +33,4 @@ axon:
     general: jackson
     events: jackson
     messages: jackson
+reception-created-topic: "reception-created-topic"

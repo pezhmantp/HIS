@@ -20,6 +20,8 @@ public class Reception {
     private String patientId;
     @Column(name = "emergency")
     private Boolean emergency;
+    @Column(name = "visit_status")
+    private String visitStatus="Not Seen";
     @Column(name = "doctor_id")
     private String doctorId;
     @Column(name = "date_of_reception")

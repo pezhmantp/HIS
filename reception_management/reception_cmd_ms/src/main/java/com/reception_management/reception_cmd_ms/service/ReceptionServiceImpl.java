@@ -43,6 +43,7 @@ public class ReceptionServiceImpl implements ReceptionService{
         if (updateReceptionDto == null) {
             throw new NullPointerException("updateReceptionDto is null");
         } else {
+
             Reception reception = new Reception();
             reception.setDateOfReception(updateReceptionDto.getDateOfReception());
             reception.setVitalSign(updateReceptionDto.getVitalSign());

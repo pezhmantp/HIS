@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: reception_query_ms
+  profiles:
+    active: docker
   datasource:
     url: jdbc:mysql://localhost:3306/reception_db?createDatabaseIfNotExist=true
     username: root

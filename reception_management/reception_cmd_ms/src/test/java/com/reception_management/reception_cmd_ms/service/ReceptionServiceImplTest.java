@@ -34,7 +34,10 @@ class ReceptionServiceImplTest {
     @DisplayName("should find and return reception by receptionId")
     void shouldFindReceptionByReceptionId() {
         Long ms = System.currentTimeMillis();
-        Reception actualReception = new Reception("mSv11Jh8l47t", "patientId", true, "doctorId", new Date(ms), "comment", new VitalSign(1L, 13.5, 7.5, 35.5, 93.2));
+        Reception actualReception = new Reception("mSv11Jh8l47t", "patientId", true,
+                "Not Seen", "doctorId",
+                new Date(ms), "comment",
+                new VitalSign(1L, 13.5, 7.5, 35.5, 93.2));
         Mockito.when(this.receptionRepository.findByReceptionId("mSv11Jh8l47t")).thenReturn(actualReception);
         ReceptionResponseFromQuery response = this.receptionService.getReception("mSv11Jh8l47t");
         Assertions.assertNotNull(response.getReception());
@@ -45,7 +48,10 @@ class ReceptionServiceImplTest {
     @DisplayName("should not find any reception by receptionId")
     void shouldNotFindReceptionByReceptionId() {
         Long ms = System.currentTimeMillis();
-        Reception actualReception = new Reception("mSv11Jh8l47t", "patientId", true, "doctorId", new Date(ms), "comment", new VitalSign(1L, 13.5, 7.5, 35.5, 93.2));
+        Reception actualReception = new Reception("mSv11Jh8l47t", "patientId", true,
+                "Not Seen", "doctorId",
+                new Date(ms), "comment",
+                new VitalSign(1L, 13.5, 7.5, 35.5, 93.2));
         Mockito.when(this.receptionRepository.findByReceptionId("mSv11Jh8l47t")).thenReturn(actualReception);
         ReceptionResponseFromQuery response = this.receptionService.getReception("incorrectReceptionId");
         Assertions.assertNull(response.getReception());
@@ -65,7 +71,9 @@ class ReceptionServiceImplTest {
     void shouldMapReceptionDtoToReception() {
         ReceptionDto receptionDto = new ReceptionDto("123", true, "doctorId", new VitalSign(1L, 14.0, 9.0, 36.0, 92.0), "comment");
         Long ms = System.currentTimeMillis();
-        Reception actualReception = new Reception("12w5Df345", "123", true, "doctorId", new Date(ms), "comment", new VitalSign(1L, 14.0, 9.0, 36.0, 92.0));
+        Reception actualReception = new Reception("12w5Df345", "123", true,"Not Seen",
+                "doctorId", new Date(ms), "comment",
+                new VitalSign(1L, 14.0, 9.0, 36.0, 92.0));
         Mockito.when(this.receptionService.mapReceptionDtoToReception(receptionDto)).thenReturn(actualReception);
         Reception expectedReception = this.receptionService.mapReceptionDtoToReception(receptionDto);
         Assertions.assertEquals(expectedReception.getPatientId(), actualReception.getPatientId());

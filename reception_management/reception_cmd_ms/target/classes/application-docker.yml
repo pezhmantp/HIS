@@ -1,0 +1,36 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: reception_cmd_ms
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://keycloak-docker-compose:8080/realms/hisclientapp/protocol/openid-connect/certs
+  datasource:
+    url: jdbc:mysql://mysql-docker-compose:3306/reception2_db?createDatabaseIfNotExist=true
+    username: root
+    password: myhawramRootPsw1
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+#  kafka:
+#    bootstrap-servers: localhost:29092
+#  kafka:
+#    producer:
+#      bootstrap-servers: localhost:9092,localhost:9094
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+logging:
+  file.name: logs/reception_cmd_ms.log
+axon:
+  axonserver:
+    servers: axon-docker-compose:8124
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson
+reception-created-topic: "reception-created-topic"

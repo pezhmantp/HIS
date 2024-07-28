@@ -4,6 +4,7 @@ import com.reception_management.reception_core.model.Reception;
 import com.reception_management.reception_core.model.VitalSign;
 import com.reception_management.reception_core.queries.FindReceptionByReceptionIdQuery;
 import com.reception_management.reception_core.repository.ReceptionRepository;
+import com.reception_management.reception_core.responeObj.ReceptionResponse;
 import com.reception_management.reception_core.responeObj.ReceptionResponseFromQuery;
 import org.dozer.DozerBeanMapper;
 import org.junit.jupiter.api.Assertions;
@@ -50,17 +51,17 @@ class ReceptionQueryHandlerImplTest {
         FindReceptionByReceptionIdQuery query=new FindReceptionByReceptionIdQuery("receptionId");
         Mockito.when(receptionRepository.findByReceptionId(query.getReceptionId())).thenReturn(actualReception);
 
-        ReceptionResponseFromQuery expectedPatient= receptionQueryHandler.findReceptionByReceptionId(query);
+        ReceptionResponse expectedReception= receptionQueryHandler.findReceptionByReceptionId(query);
 
-        Assertions.assertNotNull(expectedPatient.getReception());
-        Assertions.assertEquals("reception found",expectedPatient.getMessage());
-        Assertions.assertEquals(expectedPatient.getReception().getReceptionId(),actualReception.getReceptionId());
-        Assertions.assertEquals(expectedPatient.getReception().getPatientId(),actualReception.getPatientId());
-        Assertions.assertEquals(expectedPatient.getReception().getDateOfReception(),actualReception.getDateOfReception());
-        Assertions.assertEquals(expectedPatient.getReception().getComment(),actualReception.getComment());
-        Assertions.assertEquals(expectedPatient.getReception().getEmergency(),actualReception.getEmergency());
-        Assertions.assertEquals(expectedPatient.getReception().getDoctorId(),actualReception.getDoctorId());
-        Assertions.assertEquals(expectedPatient.getReception().getVitalSign(),actualReception.getVitalSign());
+        Assertions.assertNotNull(expectedReception.getReception());
+        Assertions.assertEquals("reception found",expectedReception.getMessage());
+        Assertions.assertEquals(expectedReception.getReception().getReceptionId(),actualReception.getReceptionId());
+        Assertions.assertEquals(expectedReception.getReception().getPatientId(),actualReception.getPatientId());
+        Assertions.assertEquals(expectedReception.getReception().getDateOfReception(),actualReception.getDateOfReception());
+        Assertions.assertEquals(expectedReception.getReception().getComment(),actualReception.getComment());
+        Assertions.assertEquals(expectedReception.getReception().getEmergency(),actualReception.getEmergency());
+        Assertions.assertEquals(expectedReception.getReception().getDoctorId(),actualReception.getDoctorId());
+        Assertions.assertEquals(expectedReception.getReception().getVitalSign(),actualReception.getVitalSign());
     }
     @Test
     @DisplayName("Should not find any reception by the given receptionId and return reception response with null value for reception")
@@ -78,7 +79,7 @@ class ReceptionQueryHandlerImplTest {
         FindReceptionByReceptionIdQuery query=new FindReceptionByReceptionIdQuery("incorrectReceptionId");
         Mockito.when(receptionRepository.findByReceptionId("receptionId")).thenReturn(actualReception);
 
-        ReceptionResponseFromQuery expectedReception= receptionQueryHandler.findReceptionByReceptionId(query);
+        ReceptionResponse expectedReception= receptionQueryHandler.findReceptionByReceptionId(query);
 
         Assertions.assertNull(expectedReception.getReception());
         Assertions.assertEquals("reception not found",expectedReception.getMessage());

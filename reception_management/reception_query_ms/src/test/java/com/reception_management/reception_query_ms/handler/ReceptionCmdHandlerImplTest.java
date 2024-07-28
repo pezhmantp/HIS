@@ -56,8 +56,6 @@ class ReceptionCmdHandlerImplTest {
         Assertions.assertEquals(false,receptionArgumentCaptor.getValue().getEmergency());
         Assertions.assertEquals("doctorId",receptionArgumentCaptor.getValue().getDoctorId());
         Assertions.assertEquals(reception.getVitalSign(),receptionArgumentCaptor.getValue().getVitalSign());
-
-
     }
 
 

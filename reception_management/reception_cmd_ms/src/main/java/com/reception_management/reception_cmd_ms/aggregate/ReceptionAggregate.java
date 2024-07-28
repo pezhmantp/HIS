@@ -51,7 +51,7 @@ public class ReceptionAggregate {
     public void handle(UpdateReceptionCmd command) {
         log.info("handle(UpdateReceptionCmd command) -> command received: " + command.toString());
         Reception updatedReception = command.getReception();
-        updatedReception.setPatientId(command.getId());
+        updatedReception.setPatientId(command.getReception().getPatientId());
         ReceptionUpdatedEvent event = new ReceptionUpdatedEvent();
         event.setId(command.getId());
         event.setReception(updatedReception);
