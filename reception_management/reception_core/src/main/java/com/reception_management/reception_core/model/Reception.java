@@ -22,6 +22,8 @@ public class Reception {
     private Boolean emergency;
     @Column(name = "visit_status")
     private String visitStatus="Not Seen";
+    @Column(name = "reception_status")
+    private String receptionStatus="open";
     @Column(name = "doctor_id")
     private String doctorId;
     @Column(name = "date_of_reception")
