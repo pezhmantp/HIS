@@ -3,6 +3,11 @@ server:
 spring:
   application:
     name: reception_query_ms
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://keycloak-docker-compose:8080/realms/hisclientapp/protocol/openid-connect/certs
   datasource:
     url: jdbc:mysql://mysql-docker-compose:3306/reception2_db?createDatabaseIfNotExist=true
     username: root

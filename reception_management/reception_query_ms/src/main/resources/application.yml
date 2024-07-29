@@ -5,6 +5,11 @@ spring:
     name: reception_query_ms
   profiles:
     active: docker
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8080/realms/hisclientapp/protocol/openid-connect/certs
   datasource:
     url: jdbc:mysql://localhost:3306/reception_db?createDatabaseIfNotExist=true
     username: root
