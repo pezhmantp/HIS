@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link th:href="@{/static/styles/patient.css}" rel="stylesheet" />
+    <link th:href="@{/static/styles/header.css}" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+          crossorigin="anonymous"></script>
+  <script
+          src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"
+          integrity="sha256-sw0iNNXmOJbQhYFuC9OF2kOlD5KQKe1y5lfBn4C9Sjg="
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+          integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+          integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script th:src="@{/static/js/datepicker.js}"></script>
+    <script th:src="@{/static/js/patient.js}"></script>
+    <script>
+       var message= "[[${message}]]";
+       var statusCode= "[[${statusCode}]]";
+    </script>
+</head>
+<header>
+    <div th:replace="~{fragments.html :: header(navbarTitle='Reception')}"></div>
+</header>
+<body>
+<div class="popup-modal invisible" id="openReceptionModal">
+    <div class="reception-popup-modal">
+        <p>This patient has an uncompleted reception</p>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Reception Id</th>
+                <th scope="col">Patient Id</th>
+                <th scope="col">Patient Full Name</th>
+                <th scope="col">Visit Status</th>
+                <th scope="col">Reception Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="receptionRow">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><button id="markRecpAsCmpltd" class="btn btn-primary">Mark as completed</button></td>
+            </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-primary" id="closeReceptionPopUpBtn">Close</button>
+    </div>
+</div>
+
+<div class="container-fluid mt-1" >
+    <div class="row row-cols-auto">
+        <div class="col"><a th:href="@{/reception/receptionsList}" class="btn btn-info">Receptions List</a></div>
+<!--        <div class="col"><a class="btn btn-info">Update Patient Information</a></div>-->
+    </div>
+</div>
+
+<form th:method="post" th:action="@{/patient/savePatient}" th:object="${patientDto}" >
+    <div id="basicPatientInfoContainer" class="container border custom-bg-gray rounded mw-75 m-3 p-2" >
+        <h5 class="mb-4">Basic Patient Information</h5>
+        <div class="row">
+            <div class="col">
+                <label for="nationalIdInput" class="form-label">National Id</label>
+                <input type="text" th:field="*{nationalId}" class="form-control" id="nationalIdInput" placeholder="National Id"/>
+                <p th:if="${#fields.hasErrors('nationalId')}" th:errors="*{nationalId}" class="text-danger fs-6"></p>
+            </div>
+            <div class="col">
+                <label for="firstNameInput" class="form-label">First name</label>
+                <input type="text" th:field="*{firstName}" class="form-control patient-input" id="firstNameInput" placeholder="First name"/>
+                <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger fs-6"/>
+            </div>
+            <div class="col">
+                <label for="lastNameInput" class="form-label">Last name</label>
+                <input type="text" th:field="*{lastName}" class="form-control patient-input" id="lastNameInput" placeholder="Last name"/>
+                <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger fs-6"/>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-3">
+                <label for="dobInput" class="form-label">Date of Birth</label>
+                <input type="text" th:field="*{dob}" class="form-control patient-input" id="dobInput" placeholder="Date of birth">
+                <p th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}" class="text-danger fs-6"/>
+            </div>
+            <div class="col-3">
+                <label for="genderDiv" class="form-label">Gender</label>
+                <div id="genderDiv">
+                    <select th:field="*{gender}" id="genderInput" class="w-100 cus-dropdown patient-input">
+                        <option th:value=null th:selected th:disabled hidden>Select</option>
+                        <option th:value="Male">Male</option>
+                        <option th:value="Female">Female</option>
+                    </select>
+                </div>
+                <p th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" class="text-danger fs-6"/>
+            </div>
+            <div class="col-3">
+                <label for="emailInput" class="form-label">Email</label>
+                <input type="text" th:field="*{email}" class="form-control patient-input" id="emailInput" placeholder="Email"/>
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger fs-6"/>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col">
+                <label for="provinceInput" class="form-label">Province</label>
+                <input type="text" th:field="*{address.province}" class="form-control patient-input" id="provinceInput" placeholder="Province">
+            </div>
+            <div class="col">
+                <label for="cityInput" class="form-label">City</label>
+                <input type="text" th:field="*{address.city}" class="form-control patient-input" id="cityInput" placeholder="City">
+            </div>
+            <div class="col">
+                <label for="postalCodeInput" class="form-label">PostalCode</label>
+                <input type="text" th:field="*{address.postalCode}" class="form-control patient-input" id="postalCodeInput" placeholder="PostalCode">
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-8">
+                <label for="restOfAddressInput" class="form-label">Rest of Address</label>
+                <input type="text" th:field="*{address.restOfAddress}" class="form-control patient-input" id="restOfAddressInput" placeholder="Rest of Address">
+            </div>
+            <div class="col-4">
+                <label for="phoneNumberInput" class="form-label">Phone Number</label>
+                <input type="text" th:field="*{phones[0].phoneNumber}" class="form-control patient-input" id="phoneNumberInput" placeholder="Phone Number">
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-4">
+                <label for="patientIdInput" class="form-label">Patient Id</label>
+                <input type="text" th:value="${patientId}" disabled class="form-control" style="color:green" id="patientIdInput" placeholder="Patient Id">
+            </div>
+        </div>
+        <div class="d-flex justify-content-between mt-2">
+            <div class="d-flex">
+                <button type="submit" class="btn btn-primary me-2" id="savePatientBtn">Save</button>
+            </div>
+            <div class="d-flex">
+                <button type="submit" class="btn btn-primary invisible me-2" id="continueBtn">Continue</button>
+            </div>
+            <div class="ms-2 flex-fill">
+                <div class="alert m-auto p-2 invisible text-center" id="alertDiv" role="alert">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>
