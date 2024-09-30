@@ -20,6 +20,8 @@
 	</properties>
 	<modules>
 		<module>visit_core</module>
+		<module>visit_cmd_ms</module>
+		<module>visit_query_ms</module>
 	</modules>
 	<dependencies>
 		<dependency>

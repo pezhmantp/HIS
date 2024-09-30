@@ -15,8 +15,8 @@ public class Investigation {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "investigation_id")
-    private String investigationId;
+    @Column(name = "test_id")
+    private String testId;
     @Column(name = "investigation_status")
     private String investigationStatus;
 }
