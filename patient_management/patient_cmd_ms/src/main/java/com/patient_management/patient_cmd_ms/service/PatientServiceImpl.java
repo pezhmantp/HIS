@@ -49,7 +49,7 @@ public class PatientServiceImpl implements PatientService {
         patient.setEmail(patientDto.getEmail());
         patient.setAge(patientDto.getAge());
         patient.setAddress(patientDto.getAddress());
-        patient.setSex(patientDto.getSex());
+        patient.setGender(patientDto.getGender());
         return patient;
     }
 

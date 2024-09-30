@@ -24,8 +24,8 @@ public class Patient {
     private Date dob;
     @Column(name = "national_id")
     private String nationalId;
-    @Column(name = "sex")
-    private String sex;
+    @Column(name = "gender")
+    private String gender;
     @Column(name = "age")
     private Integer age;
     @Column(name = "email")
@@ -45,7 +45,7 @@ public class Patient {
                 ", lastName='" + lastName + '\'' +
                 ", dob=" + dob +
                 ", nationalId='" + nationalId + '\'' +
-                ", sex='" + sex + '\'' +
+                ", gender='" + gender + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
                 ", address=" + address +

@@ -26,9 +26,6 @@ public class PatientCmdController {
     private final PatientService commonService;
     private final CommandGateway commandGateway;
 
-
-
-
     public PatientCmdController(PatientService commonService, CommandGateway commandGateway) {
         this.commonService = commonService;
         this.commandGateway = commandGateway;

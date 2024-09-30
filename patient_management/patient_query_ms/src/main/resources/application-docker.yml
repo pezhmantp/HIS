@@ -3,15 +3,13 @@ server:
 spring:
   application:
     name: patient_query_ms
-#  profiles:
-#    active: docker
   security:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8080/realms/hisclientapp/protocol/openid-connect/certs
+          jwk-set-uri: http://keycloak-docker-compose:8080/realms/hisclientapp/protocol/openid-connect/certs
   datasource:
-    url: jdbc:mysql://localhost:3306/patient_db?createDatabaseIfNotExist=true
+    url: jdbc:mysql://mysql-docker-compose:3306/patient2_db?createDatabaseIfNotExist=true
     username: root
     password: myhawramRootPsw1
   jpa:
@@ -20,6 +18,8 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
 axon:
+  axonserver:
+    servers: axon-docker-compose:8124
   serializer:
     general: jackson
     events: jackson

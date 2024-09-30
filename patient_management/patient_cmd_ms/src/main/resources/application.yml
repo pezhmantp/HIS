@@ -1,6 +1,15 @@
+server:
+  port: 8081
 spring:
   application:
     name: patient_cmd_ms
+#  profiles:
+#    active: docker
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8080/realms/hisclientapp/protocol/openid-connect/certs
   datasource:
     url: jdbc:mysql://localhost:3306/patient_db?createDatabaseIfNotExist=true
     username: root

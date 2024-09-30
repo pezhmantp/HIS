@@ -39,7 +39,7 @@ public class PatientAggregateTest {
         patient.setDob(date);
         patient.setAge(27);
         patient.setEmail("email");
-        patient.setSex("MAN");
+        patient.setGender("MAN");
         patient.setFirstName("fName");
         patient.setLastName("lName");
         Address address=new Address(1L,"province","city","1234567","","A1");
@@ -64,7 +64,7 @@ public class PatientAggregateTest {
         patient.setDob(date);
         patient.setAge(27);
         patient.setEmail("email-updated");
-        patient.setSex("MAN");
+        patient.setGender("MAN");
         patient.setFirstName("fName");
         patient.setLastName("lName");
         Address address=new Address(1L,"province-updated","city-updated","1234567","","A1");

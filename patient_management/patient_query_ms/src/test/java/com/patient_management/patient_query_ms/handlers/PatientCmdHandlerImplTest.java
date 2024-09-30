@@ -53,7 +53,7 @@ class PatientCmdHandlerImplTest {
 
         Assertions.assertEquals(patient.getPatientId(),patientArgumentCaptor.getValue().getPatientId());
         Assertions.assertEquals(patient.getAge(),patientArgumentCaptor.getValue().getAge());
-        Assertions.assertEquals(patient.getSex(),patientArgumentCaptor.getValue().getSex());
+        Assertions.assertEquals(patient.getGender(),patientArgumentCaptor.getValue().getGender());
         Assertions.assertEquals(patient.getEmail(),patientArgumentCaptor.getValue().getEmail());
         Assertions.assertEquals(patient.getAddress(),patientArgumentCaptor.getValue().getAddress());
         Assertions.assertEquals(patient.getFirstName(),patientArgumentCaptor.getValue().getFirstName());
@@ -85,7 +85,7 @@ class PatientCmdHandlerImplTest {
 
         Assertions.assertEquals(patient.getPatientId(),patientArgumentCaptor.getValue().getPatientId());
         Assertions.assertEquals(patient.getAge(),patientArgumentCaptor.getValue().getAge());
-        Assertions.assertEquals(patient.getSex(),patientArgumentCaptor.getValue().getSex());
+        Assertions.assertEquals(patient.getGender(),patientArgumentCaptor.getValue().getGender());
         Assertions.assertEquals(patient.getEmail(),patientArgumentCaptor.getValue().getEmail());
         Assertions.assertEquals(patient.getAddress(),patientArgumentCaptor.getValue().getAddress());
         Assertions.assertEquals(patient.getFirstName(),patientArgumentCaptor.getValue().getFirstName());

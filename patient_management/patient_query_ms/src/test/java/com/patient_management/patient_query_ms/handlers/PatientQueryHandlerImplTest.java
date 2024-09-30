@@ -54,7 +54,7 @@ class PatientQueryHandlerImplTest {
         PatientResponse fetchedPatient= patientQueryHandler.findPatientByNationalId(query);
 
         Assertions.assertNotNull(fetchedPatient.getPatient());
-        Assertions.assertEquals("Patient found",fetchedPatient.getMessage());
+        Assertions.assertEquals("Patient exists!",fetchedPatient.getMessage());
         Assertions.assertEquals(expectedPatient.getNationalId(),fetchedPatient.getPatient().getNationalId());
     }
     @Test
