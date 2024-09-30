@@ -39,7 +39,7 @@ public class ReceptionAggregateTest {
         Date date = new Date(ms);
         reception.setDateOfReception(date);
         reception.setEmergency(false);
-        reception.setComment("comment");
+        reception.setDescription("comment");
         reception.setDoctorId("doctorId");
         reception.setVitalSign(new VitalSign(1L, 13.5, 7.5, 35.5, 93.2));
         this.fixture.given(new NewReceptionCreatedEvent(reception.getReceptionId(), reception))
@@ -57,7 +57,7 @@ public class ReceptionAggregateTest {
         Date date = new Date(ms);
         reception.setDateOfReception(date);
         reception.setEmergency(false);
-        reception.setComment("comment");
+        reception.setDescription("comment");
         reception.setDoctorId("doctorId");
         reception.setVitalSign(new VitalSign(1L, 13.5, 7.5, 35.5, 93.2));
         this.fixture.given(new ReceptionUpdatedEvent(reception.getReceptionId(), reception))

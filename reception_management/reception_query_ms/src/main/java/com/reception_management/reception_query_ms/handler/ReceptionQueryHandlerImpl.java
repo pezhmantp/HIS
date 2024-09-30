@@ -1,16 +1,18 @@
 package com.reception_management.reception_query_ms.handler;
 
 import com.reception_management.reception_core.model.Reception;
+import com.reception_management.reception_core.queries.FindAllOpenReceptionQuery;
+import com.reception_management.reception_core.queries.FindOpenReceptionByPatientIdQuery;
 import com.reception_management.reception_core.queries.FindReceptionByReceptionIdQuery;
 import com.reception_management.reception_core.queries.FindReceptionsByDoctorIdQuery;
 import com.reception_management.reception_core.repository.ReceptionRepository;
 import com.reception_management.reception_core.responeObj.ReceptionResponse;
-import com.reception_management.reception_core.responeObj.ReceptionResponseFromQuery;
 import com.reception_management.reception_core.responeObj.ReceptionsResponse;
 import org.axonframework.queryhandling.QueryHandler;
 import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -63,9 +65,42 @@ public class ReceptionQueryHandlerImpl implements ReceptionQueryHandler {
             receptionsResponse.setMessage("Receptions found!");
         }
         else {
-            receptionsResponse.setMessage("No reception found!");
+            receptionsResponse.setMessage("No receptions found!");
         }
 
         return receptionsResponse;
     }
+
+    @QueryHandler
+    @Override
+    public ReceptionResponse findOpenReceptionByPatientId(FindOpenReceptionByPatientIdQuery query) {
+        log.info("findOpenReceptionByPatientId() -> patientId received: "+query.getPatientId());
+        Reception tempReception = receptionRepository.findOpenReceptionByPatientId(query.getPatientId());
+        if(tempReception != null)
+        {
+            mapper =new DozerBeanMapper();
+            Reception reception = mapper.map(tempReception,Reception.class);
+            return new ReceptionResponse(reception,"Reception found!");
+        }
+        return new ReceptionResponse(null,"No receptions found!");
+    }
+
+    @QueryHandler
+    @Override
+    public ReceptionsResponse findAllOpenReception(FindAllOpenReceptionQuery query) {
+
+        List<Reception> receptions = receptionRepository.findAll("open",Sort.by(Sort.Direction.DESC,"emergency"));
+        ReceptionsResponse receptionsResponse;
+        if (receptions.size() > 0)
+        {
+            receptionsResponse = new ReceptionsResponse(receptions,"Receptions found");
+        }
+        else {
+            receptionsResponse = new ReceptionsResponse(null,"No receptions found");
+        }
+
+        return receptionsResponse;
+    }
+
+
 }

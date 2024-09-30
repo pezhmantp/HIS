@@ -11,9 +11,10 @@ import java.sql.Date;
 public class UpdateReceptionDto extends ReceptionDto{
     private String receptionId;
     private Date dateOfReception;
-    public UpdateReceptionDto(String patientId, Boolean emergency, String doctorId, VitalSign vitalSign,
-                              String comment, String receptionId,Date dateOfReception) {
-        super(patientId, emergency, doctorId, vitalSign, comment);
+    public UpdateReceptionDto(String patientId, Boolean emergency, String visitStatus, String receptionStatus,
+                              String doctorId, VitalSign vitalSign,
+                              String description, String receptionId,Date dateOfReception) {
+        super(patientId, emergency,visitStatus,receptionStatus, doctorId, vitalSign, description);
         this.receptionId=receptionId;
         this.dateOfReception=dateOfReception;
     }

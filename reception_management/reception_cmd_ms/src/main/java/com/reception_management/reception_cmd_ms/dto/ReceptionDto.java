@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 public class ReceptionDto {
     private String patientId;
     private Boolean emergency;
+    private String visitStatus;
+    private String receptionStatus;
     private String doctorId;
     private VitalSign vitalSign;
-    private String comment;
+    private String description;
 }

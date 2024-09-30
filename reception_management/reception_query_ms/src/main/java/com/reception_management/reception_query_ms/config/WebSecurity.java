@@ -15,7 +15,7 @@ public class WebSecurity {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-     
+
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new JwtRoleConverter());
 
@@ -23,7 +23,7 @@ public class WebSecurity {
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                 .requestMatchers("/api/receptionQueries/**")
-                        .hasRole("receptionist")
+                        .hasAnyRole("receptionist","doctor")
                 .anyRequest().authenticated())
                 .oauth2ResourceServer(o -> o.jwt(j -> j.jwtAuthenticationConverter(jwtAuthenticationConverter)));
         return http.build();

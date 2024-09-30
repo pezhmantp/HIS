@@ -28,8 +28,8 @@ public class Reception {
     private String doctorId;
     @Column(name = "date_of_reception")
     private Date dateOfReception;
-    @Column(name = "comment")
-    private String comment;
+    @Column(name = "description")
+    private String description;
     @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "vital_sign_id")
     private VitalSign vitalSign;

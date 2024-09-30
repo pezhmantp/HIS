@@ -3,8 +3,8 @@ server:
 spring:
   application:
     name: reception_query_ms
-  profiles:
-    active: docker
+#  profiles:
+#    active: docker
   security:
     oauth2:
       resourceserver:

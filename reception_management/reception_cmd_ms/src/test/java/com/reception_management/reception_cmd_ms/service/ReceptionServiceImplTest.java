@@ -4,6 +4,7 @@ import com.reception_management.reception_cmd_ms.dto.ReceptionDto;
 import com.reception_management.reception_core.model.Reception;
 import com.reception_management.reception_core.model.VitalSign;
 import com.reception_management.reception_core.repository.ReceptionRepository;
+import com.reception_management.reception_core.responeObj.ReceptionResponse;
 import com.reception_management.reception_core.responeObj.ReceptionResponseFromQuery;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,11 +36,11 @@ class ReceptionServiceImplTest {
     void shouldFindReceptionByReceptionId() {
         Long ms = System.currentTimeMillis();
         Reception actualReception = new Reception("mSv11Jh8l47t", "patientId", true,
-                "Not Seen", "doctorId",
+                "Not Seen","open", "doctorId",
                 new Date(ms), "comment",
                 new VitalSign(1L, 13.5, 7.5, 35.5, 93.2));
         Mockito.when(this.receptionRepository.findByReceptionId("mSv11Jh8l47t")).thenReturn(actualReception);
-        ReceptionResponseFromQuery response = this.receptionService.getReception("mSv11Jh8l47t");
+        ReceptionResponse response = this.receptionService.getReception("mSv11Jh8l47t");
         Assertions.assertNotNull(response.getReception());
         Assertions.assertEquals(response.getReception(), actualReception);
     }
@@ -49,11 +50,11 @@ class ReceptionServiceImplTest {
     void shouldNotFindReceptionByReceptionId() {
         Long ms = System.currentTimeMillis();
         Reception actualReception = new Reception("mSv11Jh8l47t", "patientId", true,
-                "Not Seen", "doctorId",
+                "Not Seen","open", "doctorId",
                 new Date(ms), "comment",
                 new VitalSign(1L, 13.5, 7.5, 35.5, 93.2));
         Mockito.when(this.receptionRepository.findByReceptionId("mSv11Jh8l47t")).thenReturn(actualReception);
-        ReceptionResponseFromQuery response = this.receptionService.getReception("incorrectReceptionId");
+        ReceptionResponse response = this.receptionService.getReception("incorrectReceptionId");
         Assertions.assertNull(response.getReception());
         Assertions.assertNotEquals(response.getReception(), actualReception);
     }
@@ -69,17 +70,17 @@ class ReceptionServiceImplTest {
     @Test
     @DisplayName("should map receptionDto to reception")
     void shouldMapReceptionDtoToReception() {
-        ReceptionDto receptionDto = new ReceptionDto("123", true, "doctorId", new VitalSign(1L, 14.0, 9.0, 36.0, 92.0), "comment");
+        ReceptionDto receptionDto = new ReceptionDto("123", true,"Not Seen","open", "doctorId", new VitalSign(1L, 14.0, 9.0, 36.0, 92.0), "comment");
         Long ms = System.currentTimeMillis();
         Reception actualReception = new Reception("12w5Df345", "123", true,"Not Seen",
-                "doctorId", new Date(ms), "comment",
+                "open","doctorId", new Date(ms), "comment",
                 new VitalSign(1L, 14.0, 9.0, 36.0, 92.0));
         Mockito.when(this.receptionService.mapReceptionDtoToReception(receptionDto)).thenReturn(actualReception);
         Reception expectedReception = this.receptionService.mapReceptionDtoToReception(receptionDto);
         Assertions.assertEquals(expectedReception.getPatientId(), actualReception.getPatientId());
         Assertions.assertEquals(expectedReception.getReceptionId(), actualReception.getReceptionId());
         Assertions.assertEquals(expectedReception.getDateOfReception(), actualReception.getDateOfReception());
-        Assertions.assertEquals(expectedReception.getComment(), actualReception.getComment());
+        Assertions.assertEquals(expectedReception.getDescription(), actualReception.getDescription());
         Assertions.assertEquals(expectedReception.getEmergency(), actualReception.getEmergency());
         Assertions.assertEquals(expectedReception.getDoctorId(), actualReception.getDoctorId());
         Assertions.assertEquals(expectedReception.getVitalSign(), actualReception.getVitalSign());

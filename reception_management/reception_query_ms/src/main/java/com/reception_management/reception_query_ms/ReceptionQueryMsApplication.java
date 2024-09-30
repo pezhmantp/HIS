@@ -13,7 +13,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		"com.reception_management.reception_core.query",
 		"com.reception_management.reception_core.responseObj",
 		"org.axonframework.eventsourcing.eventstore.jpa",
-		"org.axonframework.eventhandling.saga.repository.jpa",
+//		"org.axonframework.eventhandling.saga.repository.jpa",
+		"org.axonframework.modelling.saga.repository.jpa",
 		"org.axonframework.eventhandling.tokenstore"
 })
 public class ReceptionQueryMsApplication {

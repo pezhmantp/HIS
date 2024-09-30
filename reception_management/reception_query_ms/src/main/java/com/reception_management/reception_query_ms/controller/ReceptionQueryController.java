@@ -1,9 +1,10 @@
 package com.reception_management.reception_query_ms.controller;
 
+import com.reception_management.reception_core.queries.FindAllOpenReceptionQuery;
+import com.reception_management.reception_core.queries.FindOpenReceptionByPatientIdQuery;
 import com.reception_management.reception_core.queries.FindReceptionByReceptionIdQuery;
 import com.reception_management.reception_core.queries.FindReceptionsByDoctorIdQuery;
 import com.reception_management.reception_core.responeObj.ReceptionResponse;
-import com.reception_management.reception_core.responeObj.ReceptionResponseFromQuery;
 import com.reception_management.reception_core.responeObj.ReceptionsResponse;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
@@ -31,15 +32,11 @@ public class ReceptionQueryController {
             FindReceptionByReceptionIdQuery query = new FindReceptionByReceptionIdQuery(receptionId);
 
             ReceptionResponse response = queryGateway.query(query, ResponseTypes.instanceOf(ReceptionResponse.class)).join();
-
-//            if (response == null || response.getUsers() == null) {
-//                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-//            }
-
-            return new ResponseEntity<ReceptionResponse>(response, HttpStatus.OK);
+            System.out.println(">>>>>>>>>>>>>>>>>> "+response.getReception());
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             var safeErrorMessage = "Failed to complete get reception by receptionId request";
-            System.out.println(e.toString());
+            log.error("Error at findReceptionByReceptionId(): " + e.getMessage());
 
             return new ResponseEntity<>(new ReceptionResponse(null,safeErrorMessage), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -54,7 +51,39 @@ public class ReceptionQueryController {
             return new ResponseEntity<ReceptionsResponse>(response, HttpStatus.OK);
         } catch (Exception e) {
             var safeErrorMessage = "Failed to complete get receptions by doctorId request";
+            log.error("Error at getReceptionsByDoctorId(): " + e.getMessage());
+
+            return new ResponseEntity<>(new ReceptionsResponse(null,safeErrorMessage), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/openReception/byPatientId/{patientId}")
+    public ResponseEntity<ReceptionResponse> getOpenReceptionsByPatientId(@PathVariable(value = "patientId") String patientId)
+    {
+        try {
+            FindOpenReceptionByPatientIdQuery query = new FindOpenReceptionByPatientIdQuery(patientId);
+
+            ReceptionResponse response = queryGateway.query(query, ResponseTypes.instanceOf(ReceptionResponse.class)).join();
+            return new ResponseEntity<ReceptionResponse>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            var safeErrorMessage = "Failed to complete get reception by patientId request";
             System.out.println(e.toString());
+            log.error("Error at getOpenReceptionsByPatientId(): " + e.getMessage());
+
+            return new ResponseEntity<>(new ReceptionResponse(null,safeErrorMessage), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/allOpenReceptions")
+    public ResponseEntity<ReceptionsResponse> getAllReceptions()
+    {
+
+        try {
+            FindAllOpenReceptionQuery query = new FindAllOpenReceptionQuery();
+
+            ReceptionsResponse response = queryGateway.query(query, ResponseTypes.instanceOf(ReceptionsResponse.class)).join();
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            var safeErrorMessage = "Failed to complete get reception by patientId request";
+            log.error("Error at getAllReceptions(): " + e.getMessage());
 
             return new ResponseEntity<>(new ReceptionsResponse(null,safeErrorMessage), HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -16,7 +16,7 @@ import org.springframework.kafka.config.TopicBuilder;
 		"com.reception_management.reception_core.queries",
 		"com.reception_management.reception_core.responeObj",
 		"org.axonframework.eventsourcing.eventstore.jpa",
-		"org.axonframework.eventhandling.saga.repository.jpa",
+		"org.axonframework.modelling.saga.repository.jpa",
 		"org.axonframework.eventhandling.tokenstore"
 })
 public class ReceptionCmdMsApplication {

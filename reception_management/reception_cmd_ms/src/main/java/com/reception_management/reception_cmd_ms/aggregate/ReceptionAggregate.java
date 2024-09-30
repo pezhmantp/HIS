@@ -10,7 +10,6 @@ import com.reception_management.reception_core.model.Reception;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -78,4 +77,14 @@ public class ReceptionAggregate {
     public void on(ReceptionRemovedEvent event) {
         AggregateLifecycle.markDeleted();
     }
+
+
+//    @CommandHandler
+//    public void handle(RemoveVisitCmd command) {
+//        log.info("handle(RemoveReceptionCmd command) -> command received: " + command.toString());
+//        VisitRemovedEvent event = new VisitRemovedEvent();
+//        event.setId(command.getId());
+//        AggregateLifecycle.apply(event);
+//        log.info("handle(RemovePatientCmd command) -> ReceptionRemovedEvent published: " + event.toString());
+//    }
 }
