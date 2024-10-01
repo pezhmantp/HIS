@@ -1,7 +1,12 @@
 package com.his.client_side.controller;
 
 import com.his.client_side.dto.ReceptionDto;
-import com.his.client_side.response.*;
+import com.his.client_side.response.patient.PatientResponse;
+import com.his.client_side.response.patient.PatientsResponse;
+import com.his.client_side.response.reception.ReceptionPatientJoin;
+import com.his.client_side.response.reception.ReceptionResponse;
+import com.his.client_side.response.reception.ReceptionsResponse;
+import com.his.client_side.response.reception.ResponseMsgWithBoolean;
 import com.his.client_side.service.CommonService;
 import com.his.client_side.service.ReceptionService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +34,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/reception")
 public class ReceptionController {
+
     @Autowired
     private OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     @Autowired
@@ -63,7 +69,7 @@ public class ReceptionController {
     }
     @PostMapping("/saveReception")
     public String saveReception(@Valid @ModelAttribute("receptionDto") ReceptionDto receptionDto, BindingResult result,
-                                Authentication authentication, Model model){
+                                Authentication authentication,Model model){
 
         //   PatientDto patientDto=new PatientDto();
         model.addAttribute("doctorsList",receptionService.getDoctors());
@@ -86,6 +92,7 @@ public class ReceptionController {
         }
         return "reception";
     }
+
     @GetMapping("/changeReceptionStatusToCompleted/{receptionId}")
     public ResponseEntity<?> changeReceptionStatusToCompleted(@PathVariable String receptionId, Authentication authentication){
 
@@ -108,8 +115,10 @@ public class ReceptionController {
         });
 
 
-        return new ResponseEntity<>(receptionResponse.getBody().getReception(), HttpStatus.OK);
+        return new ResponseEntity<>(receptionResponse.getBody().getReception(),HttpStatus.OK);
     }
+
+
     @GetMapping("/receptionsList")
     public String getReceptionsList(Model model, Authentication authentication,
                                     HttpServletRequest request){
@@ -145,6 +154,7 @@ public class ReceptionController {
 
         return "receptionsList";
     }
+
     @GetMapping("/getVisitStatus/{receptionId}")
     public ResponseEntity<?> isVisited(@PathVariable ("receptionId") String receptionId, Authentication authentication){
         String jwtAccessToken = commonService.getJWT(authentication);
@@ -216,7 +226,7 @@ public class ReceptionController {
         System.out.println("ReceptionResponse : " + receptionEntity.getBody().getReception());
         if (receptionEntity.getBody().getReception() != null)
         {
-            ReceptionPatientJoin recpRespnsForJoin= receptionService.joinPatientToReception(patientEntity.getBody().getPatient(),
+           ReceptionPatientJoin recpRespnsForJoin= receptionService.joinPatientToReception(patientEntity.getBody().getPatient(),
                     receptionEntity.getBody().getReception());
             model.addAttribute("recpsRespnForJoin",recpRespnsForJoin);
         }
@@ -225,4 +235,5 @@ public class ReceptionController {
         }
         return "receptionsList";
     }
+
 }

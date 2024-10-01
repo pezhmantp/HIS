@@ -1,83 +1,85 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Receptions List</title>
-  <link href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <link th:href="@{/static/styles/receptionsList.css}" rel="stylesheet" />
-  <link th:href="@{/static/styles/header.css}" rel="stylesheet" />
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-          crossorigin="anonymous"></script>
-  <script
-          src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"
-          integrity="sha256-sw0iNNXmOJbQhYFuC9OF2kOlD5KQKe1y5lfBn4C9Sjg="
-          crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-          integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-          integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-  <script th:src="@{/static/js/receptionsList.js}"></script>
+    <meta charset="UTF-8">
+    <title>Receptions List</title>
+    <link href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link th:href="@{/static/styles/receptionsList.css}" rel="stylesheet" />
+    <link th:href="@{/static/styles/header.css}" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+    <script
+            src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"
+            integrity="sha256-sw0iNNXmOJbQhYFuC9OF2kOlD5KQKe1y5lfBn4C9Sjg="
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+            integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script th:src="@{/static/js/receptionsList.js}"></script>
 
 </head>
 <header>
-  <div th:replace="~{fragments.html :: header(navbarTitle='Receptions List')}"/>
+    <div th:replace="~{fragments.html :: header(navbarTitle='Receptions List')}"/>
 </header>
 <body>
-
 <div class="container-fluid mt-2">
-  <div class="row">
-    <div class="col-9 col-sm-6 col-lg-4">
-      <form th:action="@{/reception/findReception/byNationalId}" method="get">
-        <div class="input-group ">
-          <input type="text" name="nationalId" class="form-control" placeholder="National Id"
-                 aria-label="National Id" aria-describedby="basic-addon2"/>
-          <div class="input-group-append">
-            <button type="submit" id="findBtn" class="btn btn-primary">Find</button>
-          </div>
-        </div>
-      </form>
+    <div class="row">
+        <div class="col-9 col-sm-6 col-lg-4">
+            <form th:action="@{/reception/findReception/byNationalId}" method="get">
+                <div class="input-group ">
+                    <input type="text" name="nationalId" class="form-control" placeholder="National Id"
+                           aria-label="National Id" aria-describedby="basic-addon2"/>
+                    <div class="input-group-append">
+                        <button type="submit" id="findBtn" class="btn btn-primary">Find</button>
+                    </div>
+                </div>
+            </form>
 
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="container border custom-bg-gray rounded mw-75 m-3 p-2">
-  <div th:if="${deleteResult} == true" class="alert h6 m-auto p-2 alert-success" style="color:#009a15" role="alert" th:text="${deleteMsg}"></div>
-  <div th:if="${deleteResult} == false" class="alert m-auto p-2 alert-danger" role="alert" th:text="${deleteMsg}"></div>
-  <div id="visitErr" class="alert invisible m-auto p-2 alert-danger" ></div>
-  <div th:if="${recpsRespnForJoin} == null" class="h4">No receptions found!</div>
+    <div th:if="${deleteResult} == true" class="alert h6 m-auto p-2 alert-success" style="color:#009a15" role="alert" th:text="${deleteMsg}"></div>
+    <div th:if="${deleteResult} == false" class="alert m-auto p-2 alert-danger" role="alert" th:text="${deleteMsg}"></div>
+    <div id="visitErr" class="alert invisible m-auto p-2 alert-danger" ></div>
+    <div th:if="${recpsRespnForJoin} == null" class="h4">No receptions found!</div>
+    <table th:if="${recpsRespnForJoin} != null" class="table">
+        <thead>
+        <tr>
+            <th scope="col">Reception Id</th>
+            <th scope="col">National Id</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">Emergency</th>
+            <th scope="col">Visit Status</th>
+            <th scope="col">Reception Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i : ${recpsRespnForJoin}">
+            <td th:text="${i.receptionId}"></td>
+            <td th:text="${i.nationalId}"></td>
+            <td th:text="${i.firstName} + ' ' + ${i.lastName}"></td>
+            <td th:style="${i.emergency == true ? 'color:red;font-weight:bold' : 'color:black'}" th:text="${i.emergency}"></td>
+            <td th:text="${i.visitStatus}"></td>
+            <td th:text="${i.receptionStatus}"></td>
+            <td>
+                <button th:id="${i.receptionId}" onclick="getVisitStatus(this.id)" class="btn btn-primary">Mark as completed</button>
+<!--                <a th:href="@{/reception/changeReceptionStatusToCompleted/{receptionId}(receptionId=${i.receptionId})}" class="btn btn-primary">Mark as completed</a>-->
+<!--                <form th:action="@{delete_user}" method="post" th:object="${user}">-->
+<!--                    <input type="hidden" th:field="${user.personId}"/>-->
+<!--                    <button type="submit"  value="Submit" class="btn btn-danger">Delete</button>-->
+<!--                </form>-->
+            </td>
+            <td>
+                <a th:id="${i.receptionId}" onclick="deleteReceptionFunc(this.id)" class="btn deleteBtn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
 
-  <table th:if="${recpsRespnForJoin} != null" class="table">
-    <thead>
-    <tr>
-      <th scope="col">Reception Id</th>
-      <th scope="col">National Id</th>
-      <th scope="col">Full Name</th>
-      <th scope="col">Emergency</th>
-      <th scope="col">Visit Status</th>
-      <th scope="col">Reception Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="i : ${recpsRespnForJoin}">
-      <td th:text="${i.receptionId}"></td>
-      <td th:text="${i.nationalId}"></td>
-      <td th:text="${i.firstName} + ' ' + ${i.lastName}"></td>
-      <td th:style="${i.emergency == true ? 'color:red;font-weight:bold' : 'color:black'}" th:text="${i.emergency}"></td>
-      <td th:text="${i.visitStatus}"></td>
-      <td th:text="${i.receptionStatus}"></td>
-      <td>
-        <button th:id="${i.receptionId}" onclick="getVisitStatus(this.id)" class="btn btn-primary">Mark as completed</button>
-      </td>
-      <td>
-        <a th:id="${i.receptionId}" onclick="deleteReceptionFunc(this.id)" class="btn deleteBtn btn-danger">Delete</a>
-      </td>
-    </tr>
-    </tbody>
-
-  </table>
-
+    </table>
 </div>
 
 </body>

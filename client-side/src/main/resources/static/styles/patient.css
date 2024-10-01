@@ -1,22 +1,3 @@
-.bg-gray1{
-  background-color: rgb(231, 247, 255);
-}
-.cus-dropdown{
-  height: 38px;
-  border: solid;
-  border-color: rgb(222, 222, 222);
-  border-width: 1px;
-  border-radius: 3px;
-  text-align: center;
-}
-.custom-nav{
-  height: 80px;
-  background-color: rgb(231, 247, 255);
-  color: rgb(38, 113, 226) !important;
-}
-.nav-brand-color{
-  color: rgb(38, 113, 226) !important;
-}
 .reception-popup-modal{
   width: 80%;
   background-color:white;
@@ -27,6 +8,27 @@
   border-radius:7px;
   padding:5px;
   box-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+}
+.reception-info-container{
+  max-width: 1000px;
+}
+.max-width300{
+  max-width: 300px;
+}
+.custom-bg-gray{
+  background-color: rgb(246, 246, 246);
+}
+.cust-error{
+  color: red;
+  font-size: 14px;
+}
+.cus-dropdown{
+  height: 38px;
+  border: solid;
+  border-color: rgb(222, 222, 222);
+  border-width: 1px;
+  border-radius: 3px;
+  text-align: center;
 }
 .popup-modal{
   z-index: 150;

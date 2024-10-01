@@ -1,4 +1,4 @@
-package com.his.client_side.response;
+package com.his.client_side.response.reception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

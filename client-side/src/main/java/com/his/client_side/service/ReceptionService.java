@@ -4,9 +4,9 @@ import com.his.client_side.dto.PatientDto;
 import com.his.client_side.model.doctor.Doctor;
 import com.his.client_side.model.patient.Patient;
 import com.his.client_side.model.reception.Reception;
-import com.his.client_side.response.PatientsResponse;
-import com.his.client_side.response.ReceptionPatientJoin;
-import com.his.client_side.response.ReceptionsResponse;
+import com.his.client_side.response.patient.PatientsResponse;
+import com.his.client_side.response.reception.ReceptionPatientJoin;
+import com.his.client_side.response.reception.ReceptionsResponse;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,5 +19,4 @@ public interface ReceptionService {
     PatientsResponse getPatientsByPatientIds(ResponseEntity<ReceptionsResponse> responseEntity, HttpEntity<?> httpEntity);
     Boolean validateJWTExpirationTime(Authentication authentication);
     ReceptionPatientJoin joinPatientToReception(Patient patient, Reception reception);
-
 }

@@ -27,7 +27,7 @@ function getVisitStatus(receptionId){
      }
    },
    error: function(jqXHR, textStatus, errorThrown){
-     alert("errorThrown");
+     alert(errorThrown);
    },
  });
 }

@@ -1,22 +1,24 @@
 package com.his.client_side.controller;
 
 import com.his.client_side.dto.PatientDto;
-import com.his.client_side.response.PatientResponse;
-import com.his.client_side.response.ReceptionResponse;
+import com.his.client_side.response.patient.PatientResponse;
+import com.his.client_side.response.reception.ReceptionResponse;
 import com.his.client_side.service.CommonService;
 import com.his.client_side.service.ReceptionService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,19 +32,18 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @Controller
 @RequestMapping("/patient")
 public class PatientController {
-
+    @Autowired
+    private OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
+    @Autowired
+    private ReceptionService receptionService;
     @Autowired
     private CommonService commonService;
     @Autowired
     private RestTemplate restTemplate;
-    @Autowired
-    private ReceptionService receptionService;
-    @Autowired
-    private OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
-
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -50,21 +51,7 @@ public class PatientController {
                 dateFormat, true));
     }
 
-    private static final Logger log= LoggerFactory.getLogger(PatientController.class);
 
-
-    @GetMapping("/patientFrom")
-    public String getReceptionView(Model model, Authentication authentication)
-    {
-        String jwtAccessToken= commonService.getJWT(authentication);
-        boolean isAuthorized= commonService.checkRoles(jwtAccessToken,"receptionist");
-        if(!isAuthorized){
-            return "unAuthorized";
-        }
-        PatientDto patientDto = new PatientDto();
-        model.addAttribute("patientDto", patientDto);
-        return "patient";
-    }
 
     @GetMapping("/getPatient/{nationalId}")
     @ResponseBody
@@ -100,35 +87,46 @@ public class PatientController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
+    @GetMapping("/patientFrom")
+    public String getReceptionView(Model model,Authentication authentication,
+                                   @AuthenticationPrincipal OidcUser principle,
+                                   HttpServletRequest request) throws ServletException {
+        String jwtAccessToken= commonService.getJWT(authentication);
+        boolean isAuthorized= commonService.checkRoles(jwtAccessToken,"receptionist");
+        if(!isAuthorized){
+            return "unAuthorized";
+        }
+
+        PatientDto patientDto = new PatientDto();
+        model.addAttribute("patientDto", patientDto);
+        return "patient";
+    }
 
     @PostMapping("/savePatient")
     public String savePatient(@Valid @ModelAttribute("patientDto") PatientDto patientDto,
                               BindingResult result, Model model, Authentication authentication,
+                              @AuthenticationPrincipal OidcUser principle,
                               RedirectAttributes attributes){
         if(!result.hasErrors()) {
-            log.info("savePatient() - before getting JWT");
             String jwtAccessToken = commonService.getJWT(authentication);
             String receptionMsUri = "http://localhost:8081/patient";
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
-            PatientDto patientDtoRest= receptionService.mapPatientDtoRest(patientDto);
+
+
+           PatientDto patientDtoRest= receptionService.mapPatientDtoRest(patientDto);
+
             HttpEntity<?> httpEntity = new HttpEntity<>(patientDto, httpHeaders);
-            log.info("savePatient() - before restTemplate.exchange()");
-            try {
-                ResponseEntity<PatientResponse> responseEntity = restTemplate.exchange(receptionMsUri, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<PatientResponse>() {
-                });
-                log.info("savePatient() - after restTemplate.exchange()");
-                model.addAttribute("statusCode",responseEntity.getStatusCode().value());
-                model.addAttribute("message",responseEntity.getBody().getMessage());
-                model.addAttribute("patientId",responseEntity.getBody().getPatient().getPatientId());
-                attributes.addAttribute("patientIdAttr",responseEntity.getBody().getPatient().getPatientId());
-                 return "redirect:/reception/receptionFrom";
-            }
-            catch (Exception e)
-            {
-                log.error("savePatient() - " + e.getMessage());
-            }
+            ResponseEntity<PatientResponse> responseEntity = restTemplate.exchange(receptionMsUri, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<PatientResponse>() {
+            });
+            model.addAttribute("statusCode",responseEntity.getStatusCode().value());
+            model.addAttribute("message",responseEntity.getBody().getMessage());
+            model.addAttribute("patientId",responseEntity.getBody().getPatient().getPatientId());
+            attributes.addAttribute("patientIdAttr",responseEntity.getBody().getPatient().getPatientId());
+            return "redirect:/reception/receptionFrom";
         }
+
         return "patient";
     }
+
 }

@@ -1,16 +1,14 @@
 package com.his.client_side.service;
 
-
 import com.his.client_side.dto.PatientDto;
 import com.his.client_side.model.doctor.Doctor;
 import com.his.client_side.model.patient.Address;
 import com.his.client_side.model.patient.Patient;
 import com.his.client_side.model.reception.Reception;
 import com.his.client_side.repository.DoctorRepository;
-import com.his.client_side.response.PatientsResponse;
-import com.his.client_side.response.ReceptionPatientJoin;
-import com.his.client_side.response.ReceptionsResponse;
-import com.his.client_side.service.ReceptionService;
+import com.his.client_side.response.patient.PatientsResponse;
+import com.his.client_side.response.reception.ReceptionPatientJoin;
+import com.his.client_side.response.reception.ReceptionsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -31,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class ReceptionServiceImpl implements ReceptionService {
+public class ReceptionServiceImpl implements ReceptionService{
     @Autowired
     private DoctorRepository doctorRepository;
     @Autowired
@@ -58,7 +56,7 @@ public class ReceptionServiceImpl implements ReceptionService {
 
     @Override
     public List<Doctor> getDoctors() {
-        return doctorRepository.findAll();
+       return doctorRepository.findAll();
     }
 
     @Override
