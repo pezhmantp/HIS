@@ -6,7 +6,6 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.2.2</version>
-		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.laboratory_management</groupId>
 	<artifactId>laboratory_management</artifactId>
@@ -16,9 +15,12 @@
 	<description>Demo project for laboratory management</description>
 	<properties>
 		<java.version>17</java.version>
+		<axon.version>4.9.2</axon.version>
 	</properties>
 	<modules>
 		<module>laboratory_core</module>
+		<module>laboratory_cmd_ms</module>
+		<module>laboratory_query_ms</module>
 	</modules>
 	<build>
 		<plugins>
