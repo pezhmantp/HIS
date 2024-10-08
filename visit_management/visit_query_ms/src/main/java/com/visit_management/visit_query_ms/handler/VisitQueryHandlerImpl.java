@@ -18,8 +18,8 @@ public class VisitQueryHandlerImpl implements VisitQueryHandler{
 
     @QueryHandler
     @Override
-    public String findVisitByReceptionId(FindVisitByReceptionIdQuery event) {
-        Visit visit = visitRepository.findVisitByReceptionId(event.getReceptionId());
+    public String findVisitByReceptionId(FindVisitByReceptionIdQuery query) {
+        Visit visit = visitRepository.findVisitByReceptionId(query.getReceptionId());
         if(visit == null)
         {
             return null;
