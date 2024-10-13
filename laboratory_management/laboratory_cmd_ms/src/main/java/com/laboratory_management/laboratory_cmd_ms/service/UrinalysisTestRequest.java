@@ -33,7 +33,7 @@ public class UrinalysisTestRequest implements TestOperation{
         cmd.setId(testId);
         cmd.setUrinalysisTest(urinalysisTest);
         return this.commandGateway.send(cmd).thenApply(r -> mapResult("testId",r.toString(),"visitId",visitId))
-                .exceptionally(throwable -> mapError("error","Error occurred"));
+                .exceptionally(throwable -> mapError("error",throwable.getMessage()));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class UrinalysisTestRequest implements TestOperation{
         DeleteUrinalysisTestCommand command=new DeleteUrinalysisTestCommand();
         command.setId(testId);
         return this.commandGateway.send(command).thenApply(r -> mapResult("testId",r.toString(),"visitId",null))
-                .exceptionally(throwable -> mapError("error","Error occurred"));
+                .exceptionally(throwable -> mapError("error",throwable.getMessage()));
     }
     @Override
     public CompletableFuture<Map<String, String>> updateTest(TestDto testDto) {
@@ -50,8 +50,8 @@ public class UrinalysisTestRequest implements TestOperation{
         UpdateUrinalysisTestCommand cmd = new UpdateUrinalysisTestCommand();
         cmd.setId(urinalysisTestDto.getTestId());
         cmd.setUrinalysisTest(urinalysisTest);
-        return this.commandGateway.send(cmd).thenApply(r -> mapResult("testId",r.toString(),"visitId",testDto.getVisitId()))
-                .exceptionally(throwable -> mapError("error","Error occurred"));
+        return this.commandGateway.send(cmd).thenApply(r -> mapResult("testId",urinalysisTestDto.getTestId(),"visitId",testDto.getVisitId()))
+                .exceptionally(throwable -> mapError("error",throwable.getMessage()));
     }
     private Map<String,String> mapResult(String testIdKey,String testIdValue,String visitIdKey, String visitIdValue){
         Map<String,String> result=new HashMap<>();

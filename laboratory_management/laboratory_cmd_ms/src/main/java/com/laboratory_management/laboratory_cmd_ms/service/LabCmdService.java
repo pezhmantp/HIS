@@ -4,6 +4,7 @@ import com.laboratory_management.laboratory_core.dto.BloodTestDto;
 import com.laboratory_management.laboratory_core.dto.UrinalysisTestDto;
 import com.laboratory_management.laboratory_core.model.BloodTest;
 import com.laboratory_management.laboratory_core.model.UrinalysisTest;
+import com.laboratory_management.laboratory_core.response.CompleteBloodTestResponse;
 
 public interface LabCmdService {
     BloodTest mapBloodTestDtoToBloodTest(BloodTestDto bloodTestDto);

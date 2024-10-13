@@ -11,8 +11,12 @@ public class TestRequestFactory {
     private UrinalysisTestRequest urinalysisTestRequest;
     public TestOperation getTestRequest(String testType){
         switch (testType){
-            case "bloodTest" : return bloodTestRequest;
-            case "urinalysisTest" : return urinalysisTestRequest;
+            case "bloodTest" :
+            case "BloodTestDto" :
+                return bloodTestRequest;
+            case "urinalysisTest" :
+            case "UrinalysisTestDto" :
+                return urinalysisTestRequest;
         }
         return null;
     }

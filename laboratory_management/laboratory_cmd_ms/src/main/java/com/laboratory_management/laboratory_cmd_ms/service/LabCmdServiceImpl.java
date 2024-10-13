@@ -4,6 +4,7 @@ import com.laboratory_management.laboratory_core.dto.BloodTestDto;
 import com.laboratory_management.laboratory_core.dto.UrinalysisTestDto;
 import com.laboratory_management.laboratory_core.model.BloodTest;
 import com.laboratory_management.laboratory_core.model.UrinalysisTest;
+import com.laboratory_management.laboratory_core.response.CompleteBloodTestResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -24,10 +25,12 @@ public class LabCmdServiceImpl implements LabCmdService{
         bloodTest.setPcv(bloodTestDto.getPcv());
         bloodTest.setRbc(bloodTestDto.getRbc());
         bloodTest.setWbc(bloodTestDto.getWbc());
-        bloodTest.setStatus("completed");
+        bloodTest.setStatus(bloodTestDto.getStatus());
         bloodTest.setVisitId(bloodTestDto.getVisitId());
         return bloodTest;
     }
+
+
 
     @Override
     public UrinalysisTest mapUrinalysisTestDtoToUrinalysisTest(UrinalysisTestDto urinalysisTestDto) {
@@ -46,7 +49,7 @@ public class LabCmdServiceImpl implements LabCmdService{
         urinalysisTest.setUrobilinogen(urinalysisTestDto.getUrobilinogen());
         urinalysisTest.setVisitId(urinalysisTestDto.getVisitId());
         urinalysisTest.setTestId(urinalysisTestDto.getTestId());
-        urinalysisTest.setStatus("completed");
+        urinalysisTest.setStatus(urinalysisTestDto.getStatus());
         return urinalysisTest;
     }
 

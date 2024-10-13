@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/laboratoryCmd/test")
-public class TestCmdController {
+public class LabCmdController {
     @Autowired
     private TestRequestFactory testRequestFactory;
 
@@ -23,9 +23,9 @@ public class TestCmdController {
     }
 
     @PutMapping
-    public void updateTest(@RequestBody TestDto testDto){
+    public CompletableFuture<Map<String, String>> updateTest(@RequestBody TestDto testDto){
         TestOperation testOperation= testRequestFactory.getTestRequest(testDto.getClass().getSimpleName());
-        testOperation.updateTest(testDto);
+        return testOperation.updateTest(testDto);
     }
     @DeleteMapping
     public CompletableFuture<Map<String,String>> removeTest(@RequestParam String testId, @RequestParam String testType){

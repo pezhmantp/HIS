@@ -45,21 +45,25 @@ public class BloodTestRequest implements TestOperation {
         DeleteBloodTestCommand command=new DeleteBloodTestCommand();
         command.setId(testId);
         return this.commandGateway.send(command).thenApply(r -> mapResult("testId",r.toString(),"visitId",null))
-                .exceptionally(throwable -> mapError("error","Error occurred"));
+                .exceptionally(throwable -> mapError("error",throwable.getMessage()));
     }
 
     @Override
     public CompletableFuture<Map<String, String>> updateTest(TestDto testDto) {
+        System.out.println("updateTest(): bloodTestDto received: " + testDto.toString());
         BloodTestDto bloodTestDto=(BloodTestDto) testDto;
         BloodTest bloodTest= labCmdService.mapBloodTestDtoToBloodTest(bloodTestDto);
         UpdateBloodTestCommand cmd = new UpdateBloodTestCommand();
         cmd.setId(bloodTestDto.getTestId());
         cmd.setBloodTest(bloodTest);
-        return this.commandGateway.send(cmd).thenApply(r -> mapResult("testId",r.toString(),"visitId",testDto.getVisitId()))
-                .exceptionally(throwable -> mapError("error","Error occurred"));
+        return this.commandGateway.send(cmd).thenApply(r -> mapResult("testId",bloodTestDto.getTestId(),"visitId",testDto.getVisitId()))
+                .exceptionally(throwable -> mapError("error",throwable.getMessage()));
+//        return this.commandGateway.send(cmd).thenApply(r -> mapResult("testId",r.toString(),"visitId",testDto.getVisitId()))
+//                .exceptionally(throwable -> mapError("error","Error occurred"));
     }
 
     private Map<String,String> mapResult(String testIdKey,String testIdValue,String visitIdKey, String visitIdValue){
+        System.out.println("testIdValue: " + testIdValue);
         Map<String,String> result=new HashMap<>();
         result.put(testIdKey,testIdValue);
         result.put(visitIdKey,visitIdValue);
