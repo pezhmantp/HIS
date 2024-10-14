@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface ReceptionRepository extends JpaRepository<Reception, String> {
     Reception findByReceptionId(String receptionId);
-    @Query("SELECT r FROM Reception r WHERE r.visitStatus != 'visited' AND r.receptionStatus !='completed' ORDER BY r.emergency DESC")
+    @Query("SELECT r FROM Reception r WHERE r.visitStatus != 'visited' AND r.receptionStatus !='completed' AND r.doctorId =?1 ORDER BY r.emergency DESC")
     List<Reception> findByDoctorId(String doctorId);
     @Query("SELECT r FROM Reception r WHERE r.receptionStatus ='open' AND r.patientId = ?1 ")
     Reception findOpenReceptionByPatientId(String patientId);
