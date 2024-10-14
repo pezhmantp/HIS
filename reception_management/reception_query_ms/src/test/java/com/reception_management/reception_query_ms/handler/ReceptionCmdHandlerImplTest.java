@@ -41,7 +41,7 @@ class ReceptionCmdHandlerImplTest {
         Date date=new Date(ms);
         reception.setDateOfReception(date);
         reception.setEmergency(false);
-        reception.setComment("comment");
+        reception.setDescription("comment");
         reception.setDoctorId("doctorId");
         reception.setVitalSign(new VitalSign(1L,13.5,7.5,35.5,93.2));
         NewReceptionCreatedEvent event=new NewReceptionCreatedEvent("receptionId",reception);
@@ -52,7 +52,7 @@ class ReceptionCmdHandlerImplTest {
         Assertions.assertEquals("receptionId",receptionArgumentCaptor.getValue().getReceptionId());
         Assertions.assertEquals("123",receptionArgumentCaptor.getValue().getPatientId());        Assertions.assertEquals("receptionId",receptionArgumentCaptor.getValue().getReceptionId());
         Assertions.assertEquals(reception.getDateOfReception(),receptionArgumentCaptor.getValue().getDateOfReception());
-        Assertions.assertEquals("comment",receptionArgumentCaptor.getValue().getComment());
+        Assertions.assertEquals("comment",receptionArgumentCaptor.getValue().getDescription());
         Assertions.assertEquals(false,receptionArgumentCaptor.getValue().getEmergency());
         Assertions.assertEquals("doctorId",receptionArgumentCaptor.getValue().getDoctorId());
         Assertions.assertEquals(reception.getVitalSign(),receptionArgumentCaptor.getValue().getVitalSign());
@@ -69,7 +69,7 @@ class ReceptionCmdHandlerImplTest {
         Date date=new Date(ms);
         reception.setDateOfReception(date);
         reception.setEmergency(false);
-        reception.setComment("comment");
+        reception.setDescription("comment");
         reception.setDoctorId("doctorId");
         reception.setVitalSign(new VitalSign(1L,13.5,7.5,35.5,93.2));
         ReceptionUpdatedEvent event=new ReceptionUpdatedEvent("receptionId",reception);
@@ -81,7 +81,7 @@ class ReceptionCmdHandlerImplTest {
         Assertions.assertEquals("receptionId",receptionArgumentCaptor.getValue().getReceptionId());
         Assertions.assertEquals("123",receptionArgumentCaptor.getValue().getPatientId());        Assertions.assertEquals("receptionId",receptionArgumentCaptor.getValue().getReceptionId());
         Assertions.assertEquals(reception.getDateOfReception(),receptionArgumentCaptor.getValue().getDateOfReception());
-        Assertions.assertEquals("comment",receptionArgumentCaptor.getValue().getComment());
+        Assertions.assertEquals("comment",receptionArgumentCaptor.getValue().getDescription());
         Assertions.assertEquals(false,receptionArgumentCaptor.getValue().getEmergency());
         Assertions.assertEquals("doctorId",receptionArgumentCaptor.getValue().getDoctorId());
         Assertions.assertEquals(reception.getVitalSign(),receptionArgumentCaptor.getValue().getVitalSign());

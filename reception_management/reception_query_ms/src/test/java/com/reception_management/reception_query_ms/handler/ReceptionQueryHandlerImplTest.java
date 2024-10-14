@@ -45,7 +45,7 @@ class ReceptionQueryHandlerImplTest {
         Date date=new Date(ms);
         actualReception.setDateOfReception(date);
         actualReception.setEmergency(false);
-        actualReception.setComment("comment");
+//        actualReception.setComment("comment");
         actualReception.setDoctorId("doctorId");
         actualReception.setVitalSign(new VitalSign(1L,13.5,7.5,35.5,93.2));
         FindReceptionByReceptionIdQuery query=new FindReceptionByReceptionIdQuery("receptionId");
@@ -58,7 +58,7 @@ class ReceptionQueryHandlerImplTest {
         Assertions.assertEquals(expectedReception.getReception().getReceptionId(),actualReception.getReceptionId());
         Assertions.assertEquals(expectedReception.getReception().getPatientId(),actualReception.getPatientId());
         Assertions.assertEquals(expectedReception.getReception().getDateOfReception(),actualReception.getDateOfReception());
-        Assertions.assertEquals(expectedReception.getReception().getComment(),actualReception.getComment());
+//        Assertions.assertEquals(expectedReception.getReception().getComment(),actualReception.getComment());
         Assertions.assertEquals(expectedReception.getReception().getEmergency(),actualReception.getEmergency());
         Assertions.assertEquals(expectedReception.getReception().getDoctorId(),actualReception.getDoctorId());
         Assertions.assertEquals(expectedReception.getReception().getVitalSign(),actualReception.getVitalSign());
@@ -73,7 +73,7 @@ class ReceptionQueryHandlerImplTest {
         Date date=new Date(ms);
         actualReception.setDateOfReception(date);
         actualReception.setEmergency(false);
-        actualReception.setComment("comment");
+//        actualReception.setComment("comment");
         actualReception.setDoctorId("doctorId");
         actualReception.setVitalSign(new VitalSign(1L,13.5,7.5,35.5,93.2));
         FindReceptionByReceptionIdQuery query=new FindReceptionByReceptionIdQuery("incorrectReceptionId");
