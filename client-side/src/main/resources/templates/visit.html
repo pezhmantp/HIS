@@ -109,39 +109,62 @@
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-
                     <form id="testReqForm" th:action="@{/visit/requestNewTest}" th:method="post">
-                        <input type="text" name="visitId" id="visitId"/>
-                        <input type="text" name="testType" id="testType"/>
-                        <input type="submit" id="addTest">
+                    <div class="row">
+                            <label for="testTypeDiv" class="form-label">Test type</label>
+                            <div id="testTypeDiv" class="col-3">
+                                <select id="testType" name="testType" class="w-100 cus-dropdown">
+                                    <option th:value=null th:selected th:disabled hidden>Select</option>
+                                    <option th:value="bloodTest">Blood test</option>
+                                    <option th:value="urinalysisTest">Urinalysis test</option>
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <input type="hidden" name="visitId" th:value="${visitId}" id="visitId"/>
+                                <input type="submit" value="Add" class="btn btn-primary" id="addTestBtn"/>
+                            </div>
+                    </div>
+                        <div class="row">
+                            <div class="col-3 alert m-2 invisible alert-danger p-2" id="alertDiv">
+                                Please select a test
+                            </div>
+                        </div>
                     </form>
+
+<!--        test list            -->
+                    <div id="testTableDiv" class="invisible w-50">
+                        <form id='removeTestForm' th:action='@{/visit/requestNewTest}' th:method='post'>
+                        <table class="table" id="testTable">
+                            <thead>
+                            <tr>
+                                <th>Visit Id</th>
+                                <th>Test Id</th>
+                                <th>Test type</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbody1">
+
+<!--                            <form id='removeTestForm' th:action='@{/visit/requestNewTest}' th:method='post'>-->
+<!--                            </form>-->
+                            </tbody>
+                        </table>
+                        </form>
+                    </div>
+<!--        end of test list            -->
 
                 </div>
             </div>
         </div>
     </div>
-<!--    <div class="row">-->
-<!--        <div class="col-2">-->
-<!--            <label for="patientIdInput" class="form-label">Patient Id</label>-->
-<!--            <input type="text" class="form-control" id="patientIdInput" />-->
-<!--        </div>-->
-<!--        <div class="col-3">-->
-<!--            <label for="fullNameInput" class="form-label">Patient's full name</label>-->
-<!--            <input type="text" class="form-control" id="fullNameInput" />-->
-<!--        </div>-->
-<!--        <div class="col-2">-->
-<!--            <label for="dobInput" class="form-label">Gender</label>-->
-<!--            <input type="text" class="form-control" id="dobInput" />-->
-<!--        </div>-->
-<!--        <div class="col-2">-->
-<!--            <label for="genderInput" class="form-label">Gender</label>-->
-<!--            <input type="text" class="form-control" id="genderInput" />-->
-<!--        </div>-->
-<!--        <div class="col-2">-->
-<!--            <label for="emergencyInput" class="form-label">Is emergency?</label>-->
-<!--            <input id="emergencyInput" value="www" class="form-control disabled"/>-->
-<!--        </div>-->
-<!--    </div>-->
+
+<!--test result modal-->
+<div class="popup-modal invisible" id="testResultModal">
+    <div class="test-popup-modal p-3" id="testResultModalContent">
+
+    </div>
+</div>
+<!--end-->
 
 </body>
 </html>

@@ -187,6 +187,7 @@ public class ReceptionController {
                                   Authentication authentication, Model model,
                                   RedirectAttributes attributes){
         String deleteReceptionUri = "http://localhost:8084/receptionCmd/"+receptionId;
+
         String jwtAccessToken = commonService.getJWT(authentication);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
@@ -217,22 +218,33 @@ public class ReceptionController {
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
         httpHeaders.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
+        if(nationalId == "")
+        {
+            return "redirect:/reception/receptionsList";
+        }
         ResponseEntity<PatientResponse> patientEntity = restTemplate.exchange(getPatientUrl, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<PatientResponse>() {
         });
-        String getReceptionUrl = "http://localhost:8085/api/receptionQueries/openReception/byPatientId/"+
-                patientEntity.getBody().getPatient().getPatientId();
-        ResponseEntity<ReceptionResponse> receptionEntity = restTemplate.exchange(getReceptionUrl, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<ReceptionResponse>() {
-        });
-        System.out.println("ReceptionResponse : " + receptionEntity.getBody().getReception());
-        if (receptionEntity.getBody().getReception() != null)
+        if(patientEntity.getBody().getPatient() !=null)
         {
-           ReceptionPatientJoin recpRespnsForJoin= receptionService.joinPatientToReception(patientEntity.getBody().getPatient(),
-                    receptionEntity.getBody().getReception());
-            model.addAttribute("recpsRespnForJoin",recpRespnsForJoin);
+            String getReceptionUrl = "http://localhost:8085/api/receptionQueries/openReception/byPatientId/"+
+                    patientEntity.getBody().getPatient().getPatientId();
+            ResponseEntity<ReceptionResponse> receptionEntity = restTemplate.exchange(getReceptionUrl, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<ReceptionResponse>() {
+            });
+            System.out.println("ReceptionResponse : " + receptionEntity.getBody().getReception());
+            if (receptionEntity.getBody().getReception() != null)
+            {
+                ReceptionPatientJoin recpRespnsForJoin= receptionService.joinPatientToReception(patientEntity.getBody().getPatient(),
+                        receptionEntity.getBody().getReception());
+                model.addAttribute("recpsRespnForJoin",recpRespnsForJoin);
+            }
+            else {
+                model.addAttribute("recpsRespnForJoin",null);
+            }
         }
         else {
             model.addAttribute("recpsRespnForJoin",null);
         }
+
         return "receptionsList";
     }
 

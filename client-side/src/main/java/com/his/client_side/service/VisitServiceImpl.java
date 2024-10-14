@@ -46,13 +46,18 @@ public class VisitServiceImpl implements VisitService{
             if (receptionEntity.getBody().getVisitId() != null) {
                 return receptionEntity.getBody().getVisitId();
             }
+            else {
+                log.error("No visit has been created for the receptionId: " + receptionId);
+                return null;
+            }
         }
         catch (Exception e)
         {
             log.error("No visit has been created for the receptionId: " + receptionId);
+            return null;
         }
 
-        return null;
+
 
     }
 }

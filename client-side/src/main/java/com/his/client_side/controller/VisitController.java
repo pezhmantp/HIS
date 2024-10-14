@@ -1,5 +1,6 @@
 package com.his.client_side.controller;
 
+import com.his.client_side.response.laboratory.*;
 import com.his.client_side.response.patient.PatientResponse;
 import com.his.client_side.response.patient.PatientsResponse;
 import com.his.client_side.response.reception.ReceptionPatientJoin;
@@ -84,17 +85,6 @@ public class VisitController {
     @GetMapping("/findReception/byReceptionId/{receptionId}")
     public String findReceptionReceptionId(@PathVariable("receptionId") String receptionId, Authentication authentication, Model model)
     {
-
-//        String getReceptionUrl = "http://localhost:8091/visitCmd";
-//        String jwtAccessToken = commonService.getJWT(authentication);
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
-//        httpHeaders.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-//        HttpEntity<?> httpEntity = new HttpEntity<>(receptionId,httpHeaders);
-//        restTemplate.exchange(getReceptionUrl, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
-//        });
-
-
         String getReceptionUrl = "http://localhost:8085/api/receptionQueries/byReceptionId/"+receptionId;
         String jwtAccessToken = commonService.getJWT(authentication);
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -104,14 +94,16 @@ public class VisitController {
         ResponseEntity<ReceptionResponse> receptionEntity = restTemplate.exchange(getReceptionUrl, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<ReceptionResponse>() {
         });
 
-        String visitId = visitService.getVisitIdByReceptionId(receptionId,jwtAccessToken);
 
+        String visitId = visitService.getVisitIdByReceptionId(receptionId,jwtAccessToken);
+        System.out.println("99999999999999999999 : " + visitId);
         if(visitId != null)
         {
             model.addAttribute("visitId",visitId);
         }
         else {
             visitId = visitService.createNewVisit(receptionId,jwtAccessToken);
+            System.out.println("OKKKKKKKKKKKKKKKKKKKKKKKKK");
             model.addAttribute("visitId",visitId);
         }
 
@@ -136,7 +128,7 @@ public class VisitController {
 
 
     @PostMapping("/requestNewTest")
-    public void requestNewTest(@RequestParam String visitId, @RequestParam String testType,
+    public ResponseEntity<?> requestNewTest(@RequestParam String visitId, @RequestParam String testType,
                                Authentication authentication)
     {
         String jwtAccessToken= commonService.getJWT(authentication);
@@ -153,9 +145,76 @@ public class VisitController {
                 .toUri();
         ResponseEntity<Map<String,String>> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, httpEntity,
                 new ParameterizedTypeReference<>() {});
-        System.out.println(">>>>>>>>>>>>> " + responseEntity.getBody().get("testId"));
+        System.out.println("? testId" + responseEntity.getBody().get("testId"));
+        System.out.println("? visitId" + responseEntity.getBody().get("visitId"));
+        return new ResponseEntity<>("",HttpStatus.OK);
+    }
+    @GetMapping("/getTestsByVisitId/{visitId}")
+    public ResponseEntity<?> getTestsByVisitId(@PathVariable ("visitId") String visitId, Authentication authentication)
+    {
+        String jwtAccessToken= commonService.getJWT(authentication);
+        String laboratoryQueryUri = "http://localhost:8089/laboratoryQuery/getTestsByVisitId/"+visitId;
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
 
+        HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
 
+        ResponseEntity<TestResponses> testResponses = restTemplate.exchange(laboratoryQueryUri, HttpMethod.GET, httpEntity,
+                new ParameterizedTypeReference<>() {});
+        System.out.println(">>>>>>>>>>>>> testId" + testResponses.getBody().getTestResponses());
+        return new ResponseEntity<>(testResponses.getBody().getTestResponses(),HttpStatus.OK);
+    }
+    @GetMapping("/removeTest")
+    public ResponseEntity<?> removeTest(@RequestParam String testId,@RequestParam String testType, Authentication authentication)
+    {
+//        System.out.println("testId " + testId +"  testType " + testType);
+        String jwtAccessToken= commonService.getJWT(authentication);
+        String laboratoryCmdUri = "http://localhost:8088/laboratoryCmd/test";
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
 
+        HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
+
+        URI uri = UriComponentsBuilder
+                .fromUri(URI.create(laboratoryCmdUri))
+                .queryParam("testId", testId)
+                .queryParam("testType",testType)
+                .build()
+                .toUri();
+        ResponseEntity<Map<String,String>> responseEntity = restTemplate.exchange(uri, HttpMethod.DELETE, httpEntity,
+                new ParameterizedTypeReference<>() {});
+        System.out.println(">>>>>>>>>>>>> testId" + responseEntity.getBody().get("testId"));
+        return new ResponseEntity<>(responseEntity.getBody().get("responseEntity"),HttpStatus.OK);
+//        return new ResponseEntity<>("klj",HttpStatus.OK);
+    }
+    @GetMapping("/getTestResult")
+    public ResponseEntity<?> getTestResult(@RequestParam String testId,@RequestParam String testType, Authentication authentication)
+    {
+//        System.out.println("testId " + testId +"  testType " + testType);
+        String jwtAccessToken= commonService.getJWT(authentication);
+        String laboratoryCmdUri = "http://localhost:8089/laboratoryQuery/getTestResultByTestId";
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
+
+        URI uri = UriComponentsBuilder
+                .fromUri(URI.create(laboratoryCmdUri))
+                .queryParam("testId", testId)
+                .queryParam("testType",testType)
+                .build()
+                .toUri();
+        ResponseEntity<CompleteTestResponse> completeTestResponse = restTemplate.exchange(uri, HttpMethod.GET, httpEntity,
+                new ParameterizedTypeReference<>() {});
+//        CompleteBloodTestResponse testResponse = (CompleteBloodTestResponse) completeTestResponse.getBody();
+//        CompleteUrinalysisTestResponse testResponse = (CompleteUrinalysisTestResponse) completeTestResponse.getBody();
+//        switch (testType)
+//        {
+//            case "bloodTest" :
+//        }
+//        System.out.println(">>>>>>>>>>>>> completeTestResponse: " + completeTestResponse.getBody().getClass().getSimpleName());
+        completeTestResponse.getBody().setClassName(completeTestResponse.getBody().getClass().getSimpleName());
+//        return new ResponseEntity<>(completeTestResponse.getBody().get("responseEntity"),HttpStatus.OK);
+        return new ResponseEntity<>(completeTestResponse.getBody(),HttpStatus.OK);
     }
 }

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HIS Home</title>
+    <link th:href="@{/static/styles/main.css}" rel="stylesheet" />
+    <link th:href="@{/static/styles/header.css}" rel="stylesheet" />
+    <link th:href="@{/static/styles/laboratory.css}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <title>Laboratory</title>
+</head>
+<header>
+    <div th:replace="~{fragments.html :: header(navbarTitle='Laboratory')}"/>
+</header>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"></script>
+<script th:src="@{/static/js/laboratory.js}"></script>
+<div class="popup-modal invisible" id="bloodTestModal">
+    <div class="test-popup-modal p-3">
+        <form th:method="post" th:action="@{/laboratory/saveBloodTest}" th:object="${bloodTestDto}" >
+        <div class="row mt-4">
+            <div class="col-9 col-sm-6 col-lg-4">
+                <label for="bloodTestIdInput" class="form-label fw-bold">Test Id</label>
+                <input type="text" th:field="*{testId}" class="form-control" style="pointer-events: none;" id="bloodTestIdInput" />
+            </div>
+            <div class="col-9 col-sm-6 col-lg-4">
+                <label for="visitIdInput1" class="form-label fw-bold">Visit Id</label>
+                <input type="text" th:field="*{visitId}" class="form-control" style="pointer-events: none;" id="visitIdInput1" />
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-9 col-sm-6 col-lg-3">
+                <label for="hemoglobinInput" class="form-label fw-bold">hemoglobin</label>
+                <input type="text" th:field="*{hemoglobin}" class="form-control" id="hemoglobinInput" />
+            </div>
+            <div class="col-9 col-sm-6 col-lg-3">
+                <label for="rbcInput" class="form-label fw-bold">rbc</label>
+                <input type="text" th:field="*{rbc}" class="form-control" id="rbcInput" />
+            </div>
+            <div class="col-9 col-sm-6 col-lg-3">
+                <label for="pcvInput" class="form-label fw-bold">pcv</label>
+                <input type="text" th:field="*{pcv}" class="form-control" id="pcvInput" />
+            </div>
+            <div class="col-9 col-sm-6 col-lg-3">
+                <label for="mcvInput" class="form-label fw-bold">mcv</label>
+                <input type="text" th:field="*{mcv}" class="form-control" id="mcvInput" />
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-9 col-sm-6 col-lg-4">
+                <label for="mchInput" class="form-label fw-bold">mch</label>
+                <input type="text" th:field="*{mch}" class="form-control" id="mchInput" />
+            </div>
+            <div class="col-9 col-sm-6 col-lg-4">
+                <label for="wbcInput" class="form-label fw-bold">wbc</label>
+                <input type="text" th:field="*{wbc}" class="form-control" id="wbcInput" />
+            </div>
+            <div class="col-9 col-sm-6 col-lg-4">
+                <label for="neutrophilsInput" class="form-label fw-bold">neutrophils</label>
+                <input type="text" th:field="*{neutrophils}" class="form-control" id="neutrophilsInput" />
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-9 col-sm-6 col-lg-4">
+                <label for="lymphocytesInput" class="form-label fw-bold">lymphocytes</label>
+                <input type="text" th:field="*{lymphocytes}" class="form-control" id="lymphocytesInput" />
+            </div>
+            <div class="col-9 col-sm-6 col-lg-4">
+                <label for="monocytesInput" class="form-label fw-bold">monocytes</label>
+                <input type="text" th:field="*{monocytes}" class="form-control" id="monocytesInput" />
+            </div>
+            <div class="col-9 col-sm-6 col-lg-4">
+                <label for="eosinophilesInput" class="form-label fw-bold">eosinophiles</label>
+                <input type="text" th:field="*{eosinophiles}" class="form-control" id="eosinophilesInput" />
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-1">
+                <input type="submit" value="Save" class="btn btn-primary">
+            </div>
+            <div class="col-1">
+                <input type="button" value="Cancel" onclick="closeBloodTestModal()" class="btn btn-primary">
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<!--UrinalysisTestModal-->
+<div class="popup-modal invisible" id="urinalysisTestModal">
+    <div class="test-popup-modal p-3">
+        <form th:method="post" th:action="@{/laboratory/saveUrinalysisTest}" th:object="${urinalysisTestDto}" >
+            <div class="row mt-4">
+                <div class="col-9 col-sm-6 col-lg-4">
+                    <label for="urinalysisTestIdInput" class="form-label fw-bold">Test Id</label>
+                    <input type="text" th:field="*{testId}" class="form-control" style="pointer-events: none;" id="urinalysisTestIdInput" />
+                </div>
+                <div class="col-9 col-sm-6 col-lg-4">
+                    <label for="visitIdInput2" class="form-label fw-bold">Visit Id</label>
+                    <input type="text" th:field="*{visitId}" class="form-control" style="pointer-events: none;" id="visitIdInput2" />
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-9 col-sm-6 col-lg-3">
+                    <label for="colorInput" class="form-label fw-bold">Color</label>
+                    <input type="text" th:field="*{color}" class="form-control" id="colorInput" />
+                </div>
+                <div class="col-9 col-sm-6 col-lg-3">
+                    <label for="appearanceInput" class="form-label fw-bold">Appearance</label>
+                    <input type="text" th:field="*{appearance}" class="form-control" id="appearanceInput" />
+                </div>
+                <div class="col-9 col-sm-6 col-lg-3">
+                    <label for="phInput" class="form-label fw-bold">PH</label>
+                    <input type="text" th:field="*{ph}" class="form-control" id="phInput" />
+                </div>
+                <div class="col-9 col-sm-6 col-lg-3">
+                    <label for="specificGravityInput" class="form-label fw-bold">SpecificGravity</label>
+                    <input type="text" th:field="*{specificGravity}" class="form-control" id="specificGravityInput" />
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-9 col-sm-6 col-lg-4">
+                    <label for="glucoseInput" class="form-label fw-bold">Glucose</label>
+                    <input type="text" th:field="*{glucose}" class="form-control" id="glucoseInput" />
+                </div>
+                <div class="col-9 col-sm-6 col-lg-4">
+                    <label for="ketonesInput" class="form-label fw-bold">Ketones</label>
+                    <input type="text" th:field="*{ketones}" class="form-control" id="ketonesInput" />
+                </div>
+                <div class="col-9 col-sm-6 col-lg-4">
+                    <label for="proteinInput" class="form-label fw-bold">Protein</label>
+                    <input type="text" th:field="*{protein}" class="form-control" id="proteinInput" />
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-9 col-sm-6 col-lg-4">
+                    <label for="bilirubinInput" class="form-label fw-bold">Bilirubin</label>
+                    <input type="text" th:field="*{bilirubin}" class="form-control" id="bilirubinInput" />
+                </div>
+                <div class="col-9 col-sm-6 col-lg-4">
+                    <label for="urobilinogenInput" class="form-label fw-bold">Urobilinogen</label>
+                    <input type="text" th:field="*{urobilinogen}" class="form-control" id="urobilinogenInput" />
+                </div>
+                <div class="col-9 col-sm-6 col-lg-4">
+                    <label for="bloodInput" class="form-label fw-bold">Blood</label>
+                    <input type="text" th:field="*{blood}" class="form-control" id="bloodInput" />
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-9 col-sm-6 col-lg-4">
+                    <label for="leukocyteEsteraseInput" class="form-label fw-bold">LeukocyteEsterase</label>
+                    <input type="text" th:field="*{leukocyteEsterase}" class="form-control" id="leukocyteEsteraseInput" />
+                </div>
+                <div class="col-9 col-sm-6 col-lg-4">
+                    <label for="nitriteInput" class="form-label fw-bold">Nitrite</label>
+                    <input type="text" th:field="*{nitrite}" class="form-control" id="nitriteInput" />
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-1">
+                    <input type="submit" value="Save" class="btn btn-primary">
+                </div>
+                <div class="col-1">
+                    <input type="button" value="Cancel" onclick="closeUrinalysisTestModal()" class="btn btn-primary">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--end-->
+<div class="container border custom-bg-gray rounded mw-75 m-3 mt-4 p-2" >
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Visit Id</th>
+            <th>Test Id</th>
+            <th>Test type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i : ${tests}">
+            <td th:text="${i.visitId}"></td>
+            <td th:text="${i.testId}"></td>
+            <td th:text="${i.testType}"></td>
+            <td><input type="button" class="btn btn-primary" th:attr="onclick=|openTestResultForm('${i.testId}','${i.testType}','${i.visitId}')|"
+                       id="${i.testId}" value="Enter test result"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -29,36 +29,7 @@
 var patientId = "[[${patientId}]]";
 var receptionId = "[[${receptionId}]]";
 </script>
-<!--<script th:inline="javascript">-->
 
-<!--    $(document).ready(function () {-->
-<!--var receptionId= [[${receptionId}]];-->
-
-<!--       var receptionId= [[${receptionId}]];-->
-
-
-<!--       if(receptionId != null)-->
-<!--       {-->
-<!--       alert(receptionId);-->
-<!--       var message= [[${message}]];-->
-<!--       $('#alertDiv').removeClass("invisible");-->
-<!--       $("#alertDiv").text(message);-->
-<!--         if(statusCode == 201)-->
-<!--         {-->
-<!--         $(".reception-element").removeAttr("disabled");-->
-<!--           $("#alertDiv").addClass("alert-success");-->
-<!--           $("#alertDiv").removeClass("alert-warning");-->
-<!--         }-->
-<!--         else-->
-<!--         {-->
-<!--         $("#alertDiv").removeClass("alert-success");-->
-<!--           $("#alertDiv").addClass("alert-warning");-->
-<!--         }-->
-<!--       }-->
-<!--      });-->
-
-
-<!--    </script>-->
 <script th:src="@{/static/js/reception.js}"></script>
 <div class="popup-modal invisible">
     <div class="popup-modal-content">
