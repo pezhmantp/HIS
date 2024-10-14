@@ -143,7 +143,7 @@ public class ReceptionCmdController {
 
         while(true){
             ConsumerRecords<String, Boolean> records =
-                    consumer.poll(Duration.ofMillis(3000));
+                    consumer.poll(Duration.ofMillis(500));
 
             for (ConsumerRecord<String, Boolean> record : records){
                 System.out.println("????????????? record.key: " + record.key() + " record.value : " + record.value());
