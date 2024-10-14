@@ -1,6 +1,7 @@
 package com.visit_management.visit_cmd_ms.controller;
 
 import com.visit_management.visit_cmd_ms.command.CreateVisitCommand;
+import com.visit_management.visit_cmd_ms.command.RemoveVisitCommand;
 import com.visit_management.visit_cmd_ms.service.VisitService;
 import com.visit_management.visit_core.model.Visit;
 import org.axonframework.commandhandling.gateway.CommandGateway;

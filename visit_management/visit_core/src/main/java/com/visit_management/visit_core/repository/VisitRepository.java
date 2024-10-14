@@ -10,7 +10,5 @@ import java.util.Optional;
 public interface VisitRepository extends JpaRepository<Visit,String> {
 
    Visit findVisitByReceptionId(String receptionId);
-
-
    void deleteByVisitId(String s);
 }

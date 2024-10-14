@@ -13,8 +13,7 @@ import java.util.concurrent.ExecutionException;
 
 public interface VisitService {
     String generateVisitId();
-    Visit mapUpdateVisitDtoToVisit(UpdateVisitDto updateVisitDto);
-    Visit mapVisitDtoToVisit(VisitDto visitDto);
+
     String changeVisitStatus(String r,String receptionId,String visitStatus) throws ExecutionException, InterruptedException;
     void removeVisit(String receptionId, MessageHeaders headers) throws ExecutionException, InterruptedException;
 //    void changeVisitStatusListener(@Payload VisitStatusDto msg, @Headers MessageHeaders headers);

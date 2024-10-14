@@ -70,32 +70,6 @@ public class KafkaAdminClient {
         }
     }
 
-//    public void checkSchemaRegistry() {
-//        int retryCount = 1;
-//        Integer maxRetry = retryConfigData.getMaxAttempts();
-//        int multiplier = retryConfigData.getMultiplier().intValue();
-//        Long sleepTimeMs = retryConfigData.getSleepTimeMs();
-//        while (!getSchemaRegistryStatus().is2xxSuccessful()) {
-//            checkMaxRetry(retryCount++, maxRetry);
-//            sleep(sleepTimeMs);
-//            sleepTimeMs *= multiplier;
-//        }
-//    }
-
-//    private HttpStatus getSchemaRegistryStatus() {
-//        try {
-//            return webClient
-//                    .method(HttpMethod.GET)
-//                    .uri(kafkaConfigData.getSchemaRegistryUrl())
-//                    .exchange()
-//                    .map(ClientResponse::statusCode)
-//                    .block();
-//        } catch (Exception e) {
-//            return HttpStatus.SERVICE_UNAVAILABLE;
-//        }
-//    }
-
-
     private void sleep(Long sleepTimeMs) {
         try {
             Thread.sleep(sleepTimeMs);
@@ -130,11 +104,7 @@ public class KafkaAdminClient {
 
     private Collection<TopicListing> getTopics() throws Exception {
         Collection<TopicListing> topics;
-//        try {
             topics = retryTemplate.execute(this::doGetTopics);
-//        } catch (Exception e) {
-//            System.out.println("Reached max number of retry for reading kafka topic(s)!");
-//        }
         return topics;
     }
 

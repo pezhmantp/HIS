@@ -34,7 +34,6 @@ public class VisitServiceImpl implements VisitService{
     @Autowired
     private QueryGateway queryGateway;
     private final KafkaProducer<String, VisitStatusDto> visitKafkaProducer;
-//    private final KafkaProducer<String, VisitRemovedEvent> visitRemovedKafkaProducer;
 
     private final KafkaConfigData kafkaConfigData;
     private static String TOPIC="";
@@ -59,16 +58,6 @@ public class VisitServiceImpl implements VisitService{
 
         String rndStr = sb.toString();
         return rndStr;
-    }
-
-    @Override
-    public Visit mapUpdateVisitDtoToVisit(UpdateVisitDto updateVisitDto) {
-        return null;
-    }
-
-    @Override
-    public Visit mapVisitDtoToVisit(VisitDto visitDto) {
-        return null;
     }
 
     @Override
@@ -105,34 +94,15 @@ public class VisitServiceImpl implements VisitService{
             }
         }
 
-
-//        commandGateway.send(command).thenApply(r -> {
-//            try {
-//                return sendKafkaEvent(visitId,receptionId,r.toString());
-//            } catch (ExecutionException e) {
-//                throw new RuntimeException(e);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//        });
-//        sendKafkaEvent(visitId,receptionId);
-//        visitRemovedKafkaProducer.send(kafkaConfigData.getVisitRemovedTopic(),visitId,true);
     }
 
     public void sendKafkaEvent(String visitId,String receptionId,Boolean status) throws ExecutionException, InterruptedException {
 
         VisitRemovedEvent event=new VisitRemovedEvent(receptionId,true,status);
-        SendResult<String,VisitRemovedEvent> result= kafkaTemplate.send(kafkaConfigData.getVisitRemovedTopic(),receptionId,event).get();
+        SendResult<String, VisitRemovedEvent> result= kafkaTemplate.send(kafkaConfigData.getVisitRemovedTopic(),receptionId,event).get();
         System.out.println("VisitRemovedTopic :::::::::: " + result.getRecordMetadata().topic() +"   "+
                 result.getRecordMetadata().partition() + "   "+
                 result.getRecordMetadata().offset());
     }
-
-//    @Override
-//    @KafkaListener(topics = "change-visit-status-topic", groupId = "visit-topic-consumer", containerFactory = "kafkaListenerContainerFactory")
-//    public void changeVisitStatusListener(VisitStatusDto msg, MessageHeaders headers) {
-//        System.out.println("Consumerrrrrrrrrr : " + msg.toString());
-//    }
-
 
 }
