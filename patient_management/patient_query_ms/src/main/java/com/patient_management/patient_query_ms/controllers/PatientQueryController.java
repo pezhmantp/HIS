@@ -38,12 +38,9 @@ public class PatientQueryController {
             System.out.println("From cntlr before " + nationalId);
             PatientResponse response = queryGateway.query(query, ResponseTypes.instanceOf(PatientResponse.class)).join();
 
-//            if (response == null || response.getUsers() == null) {
-//                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-//            }
             if(response.getPatient() == null)
             {
-                return new ResponseEntity<PatientResponse>(response, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<PatientResponse>(response, HttpStatus.OK);
             }
             return new ResponseEntity<PatientResponse>(response, HttpStatus.OK);
         } catch (Exception e) {
