@@ -1,2 +1,21 @@
 server:
   port: 9095
+spring:
+  application:
+    name: pharmacy_query_ms
+  datasource:
+    url: jdbc:mysql://localhost:3306/pharmacy_db?createDatabaseIfNotExist=true
+    username: root
+    password: myhawramRootPsw1
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+axon:
+  #  axonserver:
+  #    servers: localhost:8123
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson
