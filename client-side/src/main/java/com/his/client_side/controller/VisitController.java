@@ -1,12 +1,17 @@
 package com.his.client_side.controller;
 
+import com.his.client_side.dto.MedicineRequestDto;
+import com.his.client_side.dto.PrescriptionDto;
+import com.his.client_side.model.pharmacy.MedicineRequest;
 import com.his.client_side.response.laboratory.*;
 import com.his.client_side.response.patient.PatientResponse;
 import com.his.client_side.response.patient.PatientsResponse;
+import com.his.client_side.response.pharmacy.MedicinesResponse;
 import com.his.client_side.response.reception.ReceptionPatientJoin;
 import com.his.client_side.response.reception.ReceptionResponse;
 import com.his.client_side.response.reception.ReceptionsResponse;
 import com.his.client_side.service.CommonService;
+import com.his.client_side.service.PharmacyService;
 import com.his.client_side.service.ReceptionService;
 import com.his.client_side.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +40,9 @@ public class VisitController {
     private CommonService commonService;
     @Autowired
     private VisitService visitService;
+
+    @Autowired
+    private PharmacyService pharmacyService;
     @Autowired
     private ReceptionService receptionService;
 
@@ -54,23 +62,17 @@ public class VisitController {
             HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
             ResponseEntity<ReceptionsResponse> responseEntity = restTemplate.exchange(receptionMsUri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<ReceptionsResponse>() {
             });
-            System.out.println("{{{{{{{{{{{{{{{{{{{{{{ : "+responseEntity.getBody().getReceptions().toString());
         if(responseEntity.getBody().getReceptions() != null)
         {
 
             PatientsResponse patientsResponses = receptionService.getPatientsByPatientIds(responseEntity,httpEntity);
-
             List<ReceptionPatientJoin> recpsRespnsForJoin = commonService.joinPatientsToReceptions(patientsResponses.getPatients(),responseEntity.getBody().getReceptions());
-            System.out.println("okkkkkk " + recpsRespnsForJoin.toString());
             model.addAttribute("recpsRespnForJoin",recpsRespnsForJoin);
+
         }
         else {
-            System.out.println("errrrrrrr");
             model.addAttribute("recpsRespnForJoin",null);
         }
-
-//        model.addAttribute("recpsRespnForJoin",responseEntity.getBody().getReceptions());
-
         return "visitsList";
     }
 
@@ -103,11 +105,11 @@ public class VisitController {
         }
         else {
             visitId = visitService.createNewVisit(receptionId,jwtAccessToken);
-            System.out.println("OKKKKKKKKKKKKKKKKKKKKKKKKK");
+//            System.out.println("OKKKKKKKKKKKKKKKKKKKKKKKKK");
             model.addAttribute("visitId",visitId);
         }
 
-        System.out.println(">>>>>>>>>>>>>>>> " + receptionEntity.getBody().getReception());
+//        System.out.println(">>>>>>>>>>>>>>>> " + receptionEntity.getBody().getReception());
         String getPatientUrl = "http://localhost:8082/api/patientQueries/byPatientId/"+
                 receptionEntity.getBody().getReception().getPatientId();
         ResponseEntity<PatientResponse> patientEntity = restTemplate.exchange(getPatientUrl, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<PatientResponse>() {
@@ -118,6 +120,8 @@ public class VisitController {
             ReceptionPatientJoin recpRespnsForJoin= receptionService.joinPatientToReception(patientEntity.getBody().getPatient(),
                     receptionEntity.getBody().getReception());
             model.addAttribute("recpsRespnForJoin",recpRespnsForJoin);
+            MedicinesResponse medicinesResponse = pharmacyService.getMedicineList(jwtAccessToken);
+            model.addAttribute("medicinesList",medicinesResponse.getMedicines());
         }
         else {
             model.addAttribute("recpsRespnForJoin",null);
@@ -145,8 +149,8 @@ public class VisitController {
                 .toUri();
         ResponseEntity<Map<String,String>> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, httpEntity,
                 new ParameterizedTypeReference<>() {});
-        System.out.println("? testId" + responseEntity.getBody().get("testId"));
-        System.out.println("? visitId" + responseEntity.getBody().get("visitId"));
+//        System.out.println("? testId" + responseEntity.getBody().get("testId"));
+//        System.out.println("? visitId" + responseEntity.getBody().get("visitId"));
         return new ResponseEntity<>("",HttpStatus.OK);
     }
     @GetMapping("/getTestsByVisitId/{visitId}")
@@ -161,7 +165,7 @@ public class VisitController {
 
         ResponseEntity<TestResponses> testResponses = restTemplate.exchange(laboratoryQueryUri, HttpMethod.GET, httpEntity,
                 new ParameterizedTypeReference<>() {});
-        System.out.println(">>>>>>>>>>>>> testId" + testResponses.getBody().getTestResponses());
+//        System.out.println(">>>>>>>>>>>>> testId" + testResponses.getBody().getTestResponses());
         return new ResponseEntity<>(testResponses.getBody().getTestResponses(),HttpStatus.OK);
     }
     @GetMapping("/removeTest")
@@ -183,7 +187,7 @@ public class VisitController {
                 .toUri();
         ResponseEntity<Map<String,String>> responseEntity = restTemplate.exchange(uri, HttpMethod.DELETE, httpEntity,
                 new ParameterizedTypeReference<>() {});
-        System.out.println(">>>>>>>>>>>>> testId" + responseEntity.getBody().get("testId"));
+//        System.out.println(">>>>>>>>>>>>> testId" + responseEntity.getBody().get("testId"));
         return new ResponseEntity<>(responseEntity.getBody().get("responseEntity"),HttpStatus.OK);
 //        return new ResponseEntity<>("klj",HttpStatus.OK);
     }
@@ -206,15 +210,24 @@ public class VisitController {
                 .toUri();
         ResponseEntity<CompleteTestResponse> completeTestResponse = restTemplate.exchange(uri, HttpMethod.GET, httpEntity,
                 new ParameterizedTypeReference<>() {});
-//        CompleteBloodTestResponse testResponse = (CompleteBloodTestResponse) completeTestResponse.getBody();
-//        CompleteUrinalysisTestResponse testResponse = (CompleteUrinalysisTestResponse) completeTestResponse.getBody();
-//        switch (testType)
-//        {
-//            case "bloodTest" :
-//        }
-//        System.out.println(">>>>>>>>>>>>> completeTestResponse: " + completeTestResponse.getBody().getClass().getSimpleName());
         completeTestResponse.getBody().setClassName(completeTestResponse.getBody().getClass().getSimpleName());
-//        return new ResponseEntity<>(completeTestResponse.getBody().get("responseEntity"),HttpStatus.OK);
         return new ResponseEntity<>(completeTestResponse.getBody(),HttpStatus.OK);
+    }
+
+    @PostMapping("/sendPrescription/{visitId}")
+    public ResponseEntity<?> sendPrescription(@RequestBody List<PrescriptionDto> prescriptionDtos,@PathVariable ("visitId") String visitId, Authentication authentication){
+
+        MedicineRequestDto medicineRequestDto=new MedicineRequestDto();
+        medicineRequestDto.setVisitId(visitId);
+        medicineRequestDto.setPrescriptionsDto(prescriptionDtos);
+        String jwtAccessToken= commonService.getJWT(authentication);
+        String pharmacyCmdUri = "http://localhost:9094/medicineRequestCmd";
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(medicineRequestDto,httpHeaders);
+        ResponseEntity<String> result = restTemplate.exchange(pharmacyCmdUri, HttpMethod.POST, httpEntity,
+                new ParameterizedTypeReference<>() {});
+        return new ResponseEntity<>(result.getBody(),HttpStatus.OK);
     }
 }

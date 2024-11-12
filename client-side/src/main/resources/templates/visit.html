@@ -32,9 +32,9 @@
                 </button>
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
+                <div class="accordion-body" style="background-color:#f2f3fa">
 <!--        Patient's info            -->
-                    <div class="container-fluid">
+                    <div class="container">
                         <div class="row">
                             <div class="col-md-4 col-lg-3 col-sm-6 pb-3">
                                 <label for="receptionIdInput" class="form-label">Reception Id</label>
@@ -60,7 +60,7 @@
                         <div class="row mt-3 mb-3">
                             <div class="col-md-5">
                                 <label for="descriptionInput" class="form-label">Description</label>
-                                <textarea th:text="${recpsRespnForJoin.description}" class="span6 form-control" id="descriptionInput" disabled rows="2" ></textarea>
+                                <textarea style="background-color:white" th:text="${recpsRespnForJoin.description}" class="span6 form-control" id="descriptionInput" disabled rows="2" ></textarea>
                             </div>
                         </div>
                     </div>
@@ -75,9 +75,9 @@
                 </button>
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
+                <div class="accordion-body" style="background-color:#f2f3fa">
 <!--        Vital signs            -->
-                    <div class="container-fluid">
+                    <div class="container">
                         <div class="row">
                             <div class="col-md-3 col-lg-2 col-sm-6 pb-3">
                                 <label for="systolicInput" class="form-label">Systolic</label>
@@ -108,8 +108,9 @@
                 </button>
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
+                <div class="accordion-body" style="background-color:#f2f3fa">
                     <form id="testReqForm" th:action="@{/visit/requestNewTest}" th:method="post">
+                    <div class="container">
                     <div class="row">
                             <label for="testTypeDiv" class="form-label">Test type</label>
                             <div id="testTypeDiv" class="col-3">
@@ -124,11 +125,12 @@
                                 <input type="submit" value="Add" class="btn btn-primary" id="addTestBtn"/>
                             </div>
                     </div>
-                        <div class="row">
-                            <div class="col-3 alert m-2 invisible alert-danger p-2" id="alertDiv">
-                                Please select a test
-                            </div>
-                        </div>
+                    <div class="row">
+                      <div class="col-3 alert m-2 invisible alert-danger p-2" id="alertDiv">
+                            Please select a test
+                      </div>
+                    </div>
+                    </div>
                     </form>
 
 <!--        test list            -->
@@ -145,13 +147,84 @@
                             </thead>
                             <tbody id="tbody1">
 
-<!--                            <form id='removeTestForm' th:action='@{/visit/requestNewTest}' th:method='post'>-->
-<!--                            </form>-->
                             </tbody>
                         </table>
                         </form>
                     </div>
 <!--        end of test list            -->
+
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFour">
+                <button class="accordion-button fs-5 collapsed" style="color:#044a95" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    Prescription
+                </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                <div class="accordion-body" style="background-color:#f2f3fa">
+
+
+                        <div class="container" id="prescriptionDiv">
+                            <div class="row row-cols-auto">
+                                <div class="col">
+                                    <input type="button" id="addNewMedicine" class="btn btn-primary" value="Add new medicine"/>
+                                </div>
+                                <div class="col">
+                                    <input type="button" value="Save medicine" class="btn btn-primary" disabled="disabled" id="saveMedicine"/>
+                                </div>
+                                <div class="col">
+                                    <input type="button" value="Send prescription" class="btn btn-success" disabled="disabled" id="sendPrescription"/>
+                                </div>
+                            </div>
+                            <div class="row row-cols-auto mt-3" id="selectedMedicinesDiv">
+
+                            </div>
+
+                            <div class="row mt-4 new-medicine">
+                                <div class="col-3">
+                                    <label for="medicineSelect" class="form-label">Medicine name</label>
+                                    <div>
+                                        <select id="medicineSelect" disabled class="w-100 cus-dropdown">
+                                            <option th:value=null th:selected th:disabled hidden>Select</option>
+                                            <option th:each="i : ${medicinesList}" th:text="${i.name}" th:value="${i.name}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4 new-medicine">
+                                <div class="col-3">
+                                    <label for="dosage" class="form-label">Dosage</label>
+                                    <input type="text" disabled class="form-control" id="dosage"/>
+                                </div>
+                                <div class="col-3">
+                                    <label for="measurementUnit" class="form-label">Tablet/mg</label>
+                                    <div>
+                                        <select id="measurementUnit" disabled class="cus-dropdown w-75">
+                                            <option th:value=null th:selected th:disabled hidden>select</option>
+                                            <option th:value="mg" >mg</option>
+                                            <option th:value="tablet" >Tablet(s)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <label for="frequency" class="form-label">Frequency</label>
+                                    <input type="text" disabled class="form-control w-50" id="frequency"/>
+                                </div>
+                            </div>
+                            <div class="row mt-3 new-medicine">
+                                <div class="col-3">
+                                    <label for="noOfDays" class="form-label">No of days</label>
+                                    <input type="text" disabled class="form-control w-50" id="noOfDays"/>
+                                </div>
+                                <div class="col-7">
+                                    <label for="instruction" class="form-label">Instruction</label>
+                                    <input type="text" disabled class="form-control w-50" id="instruction"/>
+                                </div>
+                            </div>
+
+                        </div>
 
                 </div>
             </div>

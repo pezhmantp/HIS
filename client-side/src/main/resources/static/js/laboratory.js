@@ -1,7 +1,3 @@
-$(document).ready(function (){
-
-  });
-
 
 function openTestResultForm(testId,testType,visitId){
   switch(testType){

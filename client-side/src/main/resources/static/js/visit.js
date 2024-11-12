@@ -1,9 +1,19 @@
+var medicineList=[];
+var medicineInfo;
 $(document).ready(function (){
+
+
 fetchPatientTests();
 $(".alert").on("click",function(){
     $(".alert").addClass("invisible");
   });
+$("#addNewMedicine").on('click',function(){
+  $(".new-medicine *").removeAttr("disabled");
+  $("#addNewMedicine").attr("disabled","disabled");
+  $("#saveMedicine").removeAttr("disabled");
 
+})
+//  $("input").is("[disabled]").addClass("invisible");
   $("#testReqForm").submit(function(e) {
       e.preventDefault();
       var form = $(this);
@@ -13,21 +23,97 @@ $(".alert").on("click",function(){
       }
       else{
       $(".alert").addClass("invisible");
-              $.ajax({
-                  type: "POST",
-                  url: actionUrl,
-                  data: form.serialize(),
-                  success: function(data)
-                  {
-                  clearElements("tbody1");
-                  fetchPatientTests();
-                  },
-                  error: function(textStatus, errorThrown) {
-                    alert("err: " + textStatus + "-" +errorThrown);
-                    }
-              });
+        $.ajax({
+        type: "POST",
+        url: actionUrl,
+        data: form.serialize(),
+        success: function(data)
+        {
+        clearElements("tbody1");
+        fetchPatientTests();
+        },
+        error: function(textStatus, errorThrown) {
+        alert("err: " + textStatus + "-" +errorThrown);
+        }
+      });
       }
   });
+
+  $("#sendPrescription").on('click',function (){
+
+    $.ajax({
+      data: JSON.stringify(medicineList),
+      type: 'POST',
+      url: '/visit/sendPrescription/'+visitId,
+      contentType: "application/json",
+      success: function(data)
+      {
+      if(data !=null || data !="")
+      {
+        alert("Prescription saved")
+        $(".new-medicine *").attr("disabled","disabled");
+        $("#medicineSelect").val("");
+        $("#measurementUnit").val("");
+        $("#dosage").val("");
+        $("#frequency").val("");
+        $("#noOfDays").val("");
+        $("#instruction").val("");
+        $("#saveMedicine").attr("disabled","disabled");
+        $("#addNewMedicine").removeAttr("disabled");
+        $("#sendPrescription").removeAttr("disabled");
+        medicineList.length=0;
+        showSelectedMedicines();
+      }
+      },
+      error: function(textStatus, errorThrown) {
+      alert("err: " + JSON.stringify(textStatus) + "-" +JSON.stringify(errorThrown));
+      }
+    });
+  });
+
+  $("#saveMedicine").on('click',function(){
+  var medicineExists=false;
+  for(let j=0;j<medicineList.length;j++){
+    if(medicineList[j].medicineName == $("#medicineSelect").val())
+    {
+      medicineExists=true;
+    }
+  }
+  if(!medicineExists && $("#medicineSelect").val() !="" && $("#dosage").val() !="" && $("#measurementUnit").val() !="")
+  {
+  medicineList.push({
+        "medicineName":$("#medicineSelect").val(),
+        "dosage":$("#dosage").val(),
+        "measurementUnit":$("#measurementUnit").val(),
+        "frequency":$("#frequency").val(),
+        "noOfDays":$("#noOfDays").val(),
+        "instruction":$("#instruction").val()
+      });
+      showSelectedMedicines();
+  //    $("#selectedMedicinesDiv").append("<div class='col'>")
+      $(".new-medicine *").attr("disabled","disabled");
+      $("#medicineSelect").val("");
+      $("#measurementUnit").val("");
+      $("#dosage").val("");
+      $("#frequency").val("");
+      $("#noOfDays").val("");
+      $("#instruction").val("");
+      $("#saveMedicine").attr("disabled","disabled");
+      $("#addNewMedicine").removeAttr("disabled");
+      $("#sendPrescription").removeAttr("disabled");
+
+  }
+  else{
+    alert("Something is wrong");
+  }
+
+
+//    alert(medicineList.length);
+  })
+
+
+
+
 
 function fetchPatientTests(){
 var url = "/visit/getTestsByVisitId/"+visitId;
@@ -68,8 +154,45 @@ function removeTest(testId,testType){
   });
 }
 
+$('input[type=text]:disabled').css({
+   "background-color": "white"
+});
 });
 
+function showSelectedMedicines(){
+$("#selectedMedicinesDiv").empty();
+medicineList.map((i,j)=>{
+  $("#selectedMedicinesDiv").append("<div class='col'>" +
+        "<button id='"+medicineList[j].medicineName+"' onclick=deleteSelectedMedicine('"+ medicineList[j].medicineName +"') type='button' class='btn btn-outline-success'>" +
+        "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-x-circle' viewBox='0 0 16 16'><path d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16'/><path d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708'/></svg>"
+         + medicineList[j].medicineName
+         + "</button>"
+         + "</div>");
+})
+
+
+//for(let i=0;i<medicineList.length;i++)
+//    {
+//      $("#selectedMedicinesDiv").append("<div class='col'>" +
+//      "<button id='"+medicineList[i].medicineName+"' onclick=deleteSelectedMedicine('"+ medicineList[i].medicineName +"') type='button' class='btn btn-outline-success'>" +
+//      "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-x-circle' viewBox='0 0 16 16'><path d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16'/><path d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708'/></svg>"
+//       + medicineList[i].medicineName
+//       + "</button>"
+//       + "</div>");
+//    }
+
+
+}
+
+function deleteSelectedMedicine(medicineName){
+
+
+medicineList.map((i,j)=>{
+  if(i.medicineName == medicineName)
+  delete medicineList[j];
+})
+ showSelectedMedicines();
+}
 
 function generateTestTable(data){
 //  var table = $('<table>').addClass('foo');
