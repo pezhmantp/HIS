@@ -11,7 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReceptionResponse {
-
     private Reception reception;
     private String message;
 }

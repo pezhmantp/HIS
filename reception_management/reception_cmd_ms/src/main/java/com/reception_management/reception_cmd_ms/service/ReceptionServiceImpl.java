@@ -121,25 +121,6 @@ public class ReceptionServiceImpl implements ReceptionService {
     }
 
 
-//    public void changeVisitStatus() {
-//        UpdateReceptionCmd cmd = new UpdateReceptionCmd();
-////        ReceptionResponse receptionResponseFromQuery = this.receptionService.getReception(receptionId);
-//
-//        if (receptionResponseFromQuery.getReception() == null) {
-//            return new ResponseEntity(receptionResponseFromQuery, HttpStatus.NOT_FOUND);
-//        } else {
-//            cmd.setId(receptionResponseFromQuery.getReception().getReceptionId());
-////            Reception toBeUpdatedReception = this.receptionService.mapUpdateReceptionDtoToReception(updateReceptionDto);
-////            toBeUpdatedReception.setReceptionId(updateReceptionDto.getReceptionId());
-//            receptionResponseFromQuery.getReception().setReceptionStatus("completed");
-//            cmd.setReception(receptionResponseFromQuery.getReception());
-//            this.commandGateway.sendAndWait(cmd);
-//            ReceptionResponse response = this.receptionService.getReception(receptionId);
-//            System.out.println("################ : " + response);
-//            return new ResponseEntity(response, HttpStatus.OK);
-//        }
-//    }
-
     @Override
     @KafkaListener(topics = "change-visit-status-topic", groupId = "visit-topic-consumer", containerFactory = "changeVisitStatusTopicKafkaListener")
     public void changeVisitStatus(VisitStatusDto msg, MessageHeaders headers) {
