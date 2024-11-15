@@ -24,3 +24,9 @@ axon:
     general: jackson
     events: jackson
     messages: jackson
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      default-zone: http://localhost:8761/eureka
