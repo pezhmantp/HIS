@@ -3,9 +3,11 @@ package com.pharmacy_management.pharmacy_cmd_ms;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
+@EnableDiscoveryClient
 @EnableJpaRepositories("com.pharmacy_management.pharmacy_core")
 @EntityScan(basePackages = {
 		"com.pharmacy_management.pharmacy_core.model",
