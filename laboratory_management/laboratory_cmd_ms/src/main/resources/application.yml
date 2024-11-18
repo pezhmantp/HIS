@@ -2,7 +2,7 @@ server:
   port: 8088
 spring:
   application:
-    name: laboratory_cmd_ms
+    name: LABORATORY-CMD-MS
   #  profiles:
   #    active: docker
   #  security:
