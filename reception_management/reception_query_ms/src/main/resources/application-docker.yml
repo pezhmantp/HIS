@@ -2,7 +2,7 @@ server:
   port: 8085
 spring:
   application:
-    name: reception_query_ms
+    name: RECEPTION-QUERY-MS
   security:
     oauth2:
       resourceserver:

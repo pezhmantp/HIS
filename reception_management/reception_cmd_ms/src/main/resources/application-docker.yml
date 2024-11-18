@@ -2,7 +2,7 @@ server:
   port: 8084
 spring:
   application:
-    name: reception_cmd_ms
+    name: RECEPTION-CMD-MS
   security:
     oauth2:
       resourceserver:
