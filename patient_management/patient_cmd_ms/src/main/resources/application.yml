@@ -2,7 +2,7 @@ server:
   port: 8081
 spring:
   application:
-    name: patient_cmd_ms
+    name: PATIENT-CMD-MS
 #  profiles:
 #    active: docker
   security:
