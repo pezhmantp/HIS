@@ -7,6 +7,7 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,7 @@ public class VisitQueryController {
     @Autowired
     private QueryGateway queryGateway;
 
-    @RequestMapping("/getVisitIdByReceptionId/{receptionId}")
+    @GetMapping("/getVisitIdByReceptionId/{receptionId}")
     public ResponseEntity<VisitIdResponse> getVisitIdByReceptionId(@PathVariable ("receptionId") String receptionId)
     {
         FindVisitByReceptionIdQuery query =new FindVisitByReceptionIdQuery();
@@ -33,4 +34,5 @@ public class VisitQueryController {
             return new ResponseEntity<>(new VisitIdResponse(null,"Visit Id not found"), HttpStatus.NOT_FOUND);
         }
     }
+   
 }

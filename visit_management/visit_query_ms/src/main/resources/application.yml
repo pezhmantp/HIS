@@ -2,7 +2,7 @@ server:
   port: 8092
 spring:
   application:
-    name: visit_query_ms
+    name: VISIT-QUERY-MS
   datasource:
     url: jdbc:mysql://localhost:3306/visit_db?createDatabaseIfNotExist=true
     username: root

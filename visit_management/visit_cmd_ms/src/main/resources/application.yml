@@ -51,7 +51,7 @@ kafka-consumer-config:
 
 spring:
   application:
-    name: visit_cmd_ms
+    name: VISIT-CMD-MS
   security:
     oauth2:
       resourceserver:
