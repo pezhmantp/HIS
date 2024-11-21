@@ -21,7 +21,7 @@ public class VisitServiceImpl implements VisitService{
 
     @Override
     public String createNewVisit(String receptionId,String jwtAccessToken) {
-        String getVisitUrl = "http://localhost:8091/visitCmd";
+        String getVisitUrl = "http://localhost:9096/visitCmd";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
         httpHeaders.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
@@ -34,7 +34,7 @@ public class VisitServiceImpl implements VisitService{
 
     @Override
     public String getVisitIdByReceptionId(String receptionId,String jwtAccessToken) {
-        String getVisitUrl = "http://localhost:8092/visitQuery/getVisitIdByReceptionId/"+receptionId;
+        String getVisitUrl = "http://localhost:9096/visitQuery/getVisitIdByReceptionId/"+receptionId;
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
         httpHeaders.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);

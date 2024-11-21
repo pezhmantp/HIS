@@ -16,7 +16,7 @@ public class PharmacyServiceImpl implements PharmacyService{
     private RestTemplate restTemplate;
     @Override
     public MedicinesResponse getMedicineList(String jwtAccessToken) {
-        String medicineQueryUri = "http://localhost:9095/medicineQuery/allMedicines";
+        String medicineQueryUri = "http://localhost:9096/medicineQuery/allMedicines";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
         HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);

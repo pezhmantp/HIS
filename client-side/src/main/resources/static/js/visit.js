@@ -132,9 +132,6 @@ $.ajax({
       });
 }
 
-function clearElements(element){
-  $("#"+element).empty();
-}
 
 function removeTest(testId,testType){
   $.ajax({
@@ -271,6 +268,9 @@ $("#testResultModal").removeClass("invisible");
 
 
 
+}
+function clearElements(element){
+  $("#"+element).empty();
 }
 
 function closeTestResultModal(){

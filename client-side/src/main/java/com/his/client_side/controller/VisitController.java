@@ -55,7 +55,7 @@ public class VisitController {
                 return "unAuthorized";
             }
 
-            String receptionMsUri = "http://localhost:8085/api/receptionQueries/byDoctorId/"+principle.getUserInfo().getPreferredUsername();
+            String receptionMsUri = "http://localhost:9096/api/receptionQueries/byDoctorId/"+principle.getUserInfo().getPreferredUsername();
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
 
@@ -87,7 +87,7 @@ public class VisitController {
     @GetMapping("/findReception/byReceptionId/{receptionId}")
     public String findReceptionReceptionId(@PathVariable("receptionId") String receptionId, Authentication authentication, Model model)
     {
-        String getReceptionUrl = "http://localhost:8085/api/receptionQueries/byReceptionId/"+receptionId;
+        String getReceptionUrl = "http://localhost:9096/api/receptionQueries/byReceptionId/"+receptionId;
         String jwtAccessToken = commonService.getJWT(authentication);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
@@ -110,7 +110,7 @@ public class VisitController {
         }
 
 //        System.out.println(">>>>>>>>>>>>>>>> " + receptionEntity.getBody().getReception());
-        String getPatientUrl = "http://localhost:8082/api/patientQueries/byPatientId/"+
+        String getPatientUrl = "http://localhost:9096/api/patientQueries/byPatientId/"+
                 receptionEntity.getBody().getReception().getPatientId();
         ResponseEntity<PatientResponse> patientEntity = restTemplate.exchange(getPatientUrl, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<PatientResponse>() {
         });
@@ -136,7 +136,7 @@ public class VisitController {
                                Authentication authentication)
     {
         String jwtAccessToken= commonService.getJWT(authentication);
-        String laboratoryCmdUri = "http://localhost:8088/laboratoryCmd/test";
+        String laboratoryCmdUri = "http://localhost:9096/laboratoryCmd/test";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
 
@@ -157,7 +157,7 @@ public class VisitController {
     public ResponseEntity<?> getTestsByVisitId(@PathVariable ("visitId") String visitId, Authentication authentication)
     {
         String jwtAccessToken= commonService.getJWT(authentication);
-        String laboratoryQueryUri = "http://localhost:8089/laboratoryQuery/getTestsByVisitId/"+visitId;
+        String laboratoryQueryUri = "http://localhost:9096/laboratoryQuery/getTestsByVisitId/"+visitId;
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
 
@@ -173,7 +173,7 @@ public class VisitController {
     {
 //        System.out.println("testId " + testId +"  testType " + testType);
         String jwtAccessToken= commonService.getJWT(authentication);
-        String laboratoryCmdUri = "http://localhost:8088/laboratoryCmd/test";
+        String laboratoryCmdUri = "http://localhost:9096/laboratoryCmd/test";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
 
@@ -196,7 +196,7 @@ public class VisitController {
     {
 //        System.out.println("testId " + testId +"  testType " + testType);
         String jwtAccessToken= commonService.getJWT(authentication);
-        String laboratoryCmdUri = "http://localhost:8089/laboratoryQuery/getTestResultByTestId";
+        String laboratoryCmdUri = "http://localhost:9096/laboratoryQuery/getTestResultByTestId";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
 
@@ -221,7 +221,7 @@ public class VisitController {
         medicineRequestDto.setVisitId(visitId);
         medicineRequestDto.setPrescriptionsDto(prescriptionDtos);
         String jwtAccessToken= commonService.getJWT(authentication);
-        String pharmacyCmdUri = "http://localhost:9094/medicineRequestCmd";
+        String pharmacyCmdUri = "http://localhost:9096/medicineRequestCmd";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
 

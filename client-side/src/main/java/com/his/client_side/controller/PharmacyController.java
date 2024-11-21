@@ -41,7 +41,7 @@ public class PharmacyController {
     public ResponseEntity<?> addNewMedicine(@RequestParam String medicineName, Authentication authentication){
         String jwtAccessToken = commonService.getJWT(authentication);
 
-        String medicineQueryUri = "http://localhost:9094/medicineCmd";
+        String medicineQueryUri = "http://localhost:9096/medicineCmd";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
 
@@ -56,7 +56,7 @@ public class PharmacyController {
         String jwtAccessToken = commonService.getJWT(authentication);
 
 
-        String medicineQueryUri = "http://localhost:9095/medicineRequestQuery/getMedicineRequest/"+medicineRequestId;
+        String medicineQueryUri = "http://localhost:9096/medicineRequestQuery/getMedicineRequest/"+medicineRequestId;
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
 
@@ -79,7 +79,7 @@ public class PharmacyController {
         String jwtAccessToken = commonService.getJWT(authentication);
 
 
-        String medicineQueryUri = "http://localhost:9095/medicineRequestQuery/getAllMedicineRequests";
+        String medicineQueryUri = "http://localhost:9096/medicineRequestQuery/getAllMedicineRequests";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
 
@@ -87,7 +87,6 @@ public class PharmacyController {
 
         ResponseEntity<MedicineRequestsResponse> responseEntity = restTemplate.exchange(medicineQueryUri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
         });
-        System.out.println("&&&&&&&&&&&&&: " + responseEntity.getBody());
         if(responseEntity.getBody().getMedicineRequests().size() > 0)
         {
             return new ResponseEntity<>(responseEntity.getBody().getMedicineRequests(), HttpStatus.OK);

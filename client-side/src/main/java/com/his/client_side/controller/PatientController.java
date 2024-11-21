@@ -66,7 +66,7 @@ public class PatientController {
         String jwtAccessToken = oAuth2AuthorizedClient.getAccessToken().getTokenValue();
 
 
-        String patientMsUri = "http://localhost:8082/api/patientQueries/byNationalId/"+nationalId;
+        String patientMsUri = "http://localhost:9096/api/patientQueries/byNationalId/"+nationalId;
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
         HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
@@ -76,7 +76,7 @@ public class PatientController {
         Map<String,Object> map=new HashMap<>();
         if(patientResponseEntity.getBody().getPatient() != null)
         {
-            String receptionMsUri = "http://localhost:8085/api/receptionQueries/openReception/byPatientId/"+
+            String receptionMsUri = "http://localhost:9096/api/receptionQueries/openReception/byPatientId/"+
                     patientResponseEntity.getBody().getPatient().getPatientId();
             ResponseEntity<ReceptionResponse> receptionResponseEntity = restTemplate.exchange(receptionMsUri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<ReceptionResponse>() {
             });
@@ -109,7 +109,7 @@ public class PatientController {
                               RedirectAttributes attributes){
         if(!result.hasErrors()) {
             String jwtAccessToken = commonService.getJWT(authentication);
-            String receptionMsUri = "http://localhost:8081/patient";
+            String receptionMsUri = "http://localhost:9096/patient";
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
 

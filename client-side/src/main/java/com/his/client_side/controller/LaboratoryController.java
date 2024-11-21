@@ -38,7 +38,7 @@ public class LaboratoryController {
         if(!isAuthorized){
             return "unAuthorized";
         }
-        String allReceptionQueryUri = "http://localhost:8089/laboratoryQuery/getOpenTests";
+        String allReceptionQueryUri = "http://localhost:9096/laboratoryQuery/getOpenTests";
         HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
         httpHeaders.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
@@ -57,7 +57,7 @@ public class LaboratoryController {
     public String saveBloodTest(Model model, @ModelAttribute("bloodTestDto") BloodTestDto bloodTestDto, Authentication authentication){
         bloodTestDto.setStatus("ready");
         bloodTestDto.setType("bloodTestDto");
-        String laboratoryCmdUri = "http://localhost:8088/laboratoryCmd/test";
+        String laboratoryCmdUri = "http://localhost:9096/laboratoryCmd/test";
         String jwtAccessToken = commonService.getJWT(authentication);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
@@ -75,7 +75,7 @@ public class LaboratoryController {
     public String saveUrinalysisTest(Model model, @ModelAttribute("urinalysisTestDto") UrinalysisTestDto urinalysisTestDto,Authentication authentication){
         urinalysisTestDto.setStatus("ready");
         urinalysisTestDto.setType("urinalysisTestDto");
-        String laboratoryCmdUri = "http://localhost:8088/laboratoryCmd/test";
+        String laboratoryCmdUri = "http://localhost:9096/laboratoryCmd/test";
         String jwtAccessToken = commonService.getJWT(authentication);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);

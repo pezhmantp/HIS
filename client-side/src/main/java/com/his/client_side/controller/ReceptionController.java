@@ -77,9 +77,9 @@ public class ReceptionController {
 
 
         if(!result.hasErrors()) {
-            System.out.println("REEEEEEEEEEEception" + receptionDto.toString());
+
             String jwtAccessToken = commonService.getJWT(authentication);
-            String receptionMsUri = "http://localhost:8084/receptionCmd";
+            String receptionMsUri = "http://localhost:9096/receptionCmd";
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
 
@@ -88,7 +88,6 @@ public class ReceptionController {
             });
             model.addAttribute("receptionId",responseEntity.getBody().getReception().getReceptionId());
 
-            System.out.println("NOttttttttttt errrrrrrrrrrrrrrrrrrrrrr: " + responseEntity.getBody().getReception().getReceptionId());
         }
         return "reception";
     }
@@ -96,11 +95,9 @@ public class ReceptionController {
     @GetMapping("/changeReceptionStatusToCompleted/{receptionId}")
     public ResponseEntity<?> changeReceptionStatusToCompleted(@PathVariable String receptionId, Authentication authentication){
 
-
         String jwtAccessToken = commonService.getJWT(authentication);
 
-
-        String chngReceptionStatUri = "http://localhost:8084/receptionCmd/changeReceptionStatusToCompleted";
+        String chngReceptionStatUri = "http://localhost:9096/receptionCmd/changeReceptionStatusToCompleted";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
 
@@ -110,10 +107,9 @@ public class ReceptionController {
         ResponseEntity<ReceptionResponse> receptionResponseEntity = restTemplate.exchange(chngReceptionStatUri, HttpMethod.PATCH, httpEntity, new ParameterizedTypeReference<ReceptionResponse>() {
         });
 
-        String getReceptionUri = "http://localhost:8085/api/receptionQueries/byReceptionId/"+receptionId;
+        String getReceptionUri = "http://localhost:9096/api/receptionQueries/byReceptionId/"+receptionId;
         ResponseEntity<ReceptionResponse> receptionResponse = restTemplate.exchange(getReceptionUri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<ReceptionResponse>() {
         });
-
 
         return new ResponseEntity<>(receptionResponse.getBody().getReception(),HttpStatus.OK);
     }
@@ -133,7 +129,7 @@ public class ReceptionController {
 
         String jwtAccessToken = commonService.getJWT(authentication);
 
-        String allReceptionQueryUri = "http://localhost:8085/api/receptionQueries/allOpenReceptions";
+        String allReceptionQueryUri = "http://localhost:9096/api/receptionQueries/allOpenReceptions";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
         httpHeaders.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
@@ -159,7 +155,7 @@ public class ReceptionController {
     public ResponseEntity<?> isVisited(@PathVariable ("receptionId") String receptionId, Authentication authentication){
         String jwtAccessToken = commonService.getJWT(authentication);
 
-        String allReceptionQueryUri = "http://localhost:8085/api/receptionQueries/byReceptionId/"+receptionId;
+        String allReceptionQueryUri = "http://localhost:9096/api/receptionQueries/byReceptionId/"+receptionId;
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
@@ -186,7 +182,7 @@ public class ReceptionController {
     public String deleteReception(@PathVariable ("receptionId") String receptionId,
                                   Authentication authentication, Model model,
                                   RedirectAttributes attributes){
-        String deleteReceptionUri = "http://localhost:8084/receptionCmd/"+receptionId;
+        String deleteReceptionUri = "http://localhost:9096/receptionCmd/"+receptionId;
 
         String jwtAccessToken = commonService.getJWT(authentication);
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -212,7 +208,7 @@ public class ReceptionController {
     @GetMapping("/findReception/byNationalId")
     public String findReceptionByNationalId(@RequestParam String nationalId, Authentication authentication, Model model)
     {
-        String getPatientUrl = "http://localhost:8082/api/patientQueries/byNationalId/"+nationalId;
+        String getPatientUrl = "http://localhost:9096/api/patientQueries/byNationalId/"+nationalId;
         String jwtAccessToken = commonService.getJWT(authentication);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
@@ -226,7 +222,7 @@ public class ReceptionController {
         });
         if(patientEntity.getBody().getPatient() !=null)
         {
-            String getReceptionUrl = "http://localhost:8085/api/receptionQueries/openReception/byPatientId/"+
+            String getReceptionUrl = "http://localhost:9096/api/receptionQueries/openReception/byPatientId/"+
                     patientEntity.getBody().getPatient().getPatientId();
             ResponseEntity<ReceptionResponse> receptionEntity = restTemplate.exchange(getReceptionUrl, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<ReceptionResponse>() {
             });
