@@ -1,0 +1,146 @@
+server:
+  port: 9096
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      discovery:
+        locator:
+          enabled: false
+      routes:
+        - id: VISIT-QUERY-MS
+          uri: lb://VISIT-QUERY-MS
+          predicates:
+            - Path=/visitQuery/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                key-resolver: "#{@authHeaderResolver}"
+        - id: VISIT-CMD-MS
+          uri: lb://VISIT-CMD-MS
+          predicates:
+            - Path=/visitCmd/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                key-resolver: "#{@authHeaderResolver}"
+        - id: LABORATORY-CMD-MS
+          uri: lb://LABORATORY-CMD-MS
+          predicates:
+            - Path=/laboratoryCmd/test/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                key-resolver: "#{@authHeaderResolver}"
+        - id: LABORATORY-QUERY-MS
+          uri: lb://LABORATORY-QUERY-MS
+          predicates:
+            - Path=/laboratoryQuery/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                key-resolver: "#{@authHeaderResolver}"
+        - id: PHARMACY-CMD-MS1
+          uri: lb://PHARMACY-CMD-MS
+          predicates:
+            - Path=/medicineRequestCmd/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                key-resolver: "#{@authHeaderResolver}"
+        - id: PHARMACY-CMD-MS2
+          uri: lb://PHARMACY-CMD-MS
+          predicates:
+            - Path=/medicineCmd/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                key-resolver: "#{@authHeaderResolver}"
+        - id: PHARMACY-QUERY-MS1
+          uri: lb://PHARMACY-QUERY-MS
+          predicates:
+            - Path=/medicineQuery/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                key-resolver: "#{@authHeaderResolver}"
+        - id: PHARMACY-QUERY-MS2
+          uri: lb://PHARMACY-QUERY-MS
+          predicates:
+            - Path=/medicineRequestQuery/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                key-resolver: "#{@authHeaderResolver}"
+        - id: RECEPTION-QUERY-MS
+          uri: lb://RECEPTION-QUERY-MS
+          predicates:
+            - Path=/api/receptionQueries/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                key-resolver: "#{@authHeaderResolver}"
+        - id: RECEPTION-CMD-MS
+          uri: lb://RECEPTION-CMD-MS
+          predicates:
+            - Path=/receptionCmd/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                key-resolver: "#{@authHeaderResolver}"
+        - id: PATIENT-CMD-MS
+          uri: lb://PATIENT-CMD-MS
+          predicates:
+            - Path=/patient/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                key-resolver: "#{@authHeaderResolver}"
+        - id: PATIENT-QUERY-MS
+          uri: lb://PATIENT-QUERY-MS
+          predicates:
+            - Path=/api/patientQueries/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                key-resolver: "#{@authHeaderResolver}"
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
