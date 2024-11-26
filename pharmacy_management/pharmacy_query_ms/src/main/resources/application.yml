@@ -6,6 +6,8 @@ eureka:
     fetch-registry: true
     service-url:
       default-zone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
 spring:
   application:
     name: PHARMACY-QUERY-MS
@@ -25,3 +27,7 @@ axon:
     general: jackson
     events: jackson
     messages: jackson
+management:
+  tracing:
+    sampling:
+      probability: 1.0
