@@ -1,5 +1,9 @@
 server:
   port: 8085
+
+
+
+
 spring:
   application:
     name: RECEPTION-QUERY-MS
@@ -27,9 +31,15 @@ eureka:
     fetch-registry: true
     service-url:
       default-zone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+#    hostname: localhost
 axon:
   serializer:
     general: jackson
     events: jackson
     messages: jackson
-
+management:
+  tracing:
+    sampling:
+      probability: 1.0

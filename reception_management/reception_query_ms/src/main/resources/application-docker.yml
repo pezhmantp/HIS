@@ -32,4 +32,7 @@ axon:
     general: jackson
     events: jackson
     messages: jackson
-
+management:
+  tracing:
+    sampling:
+      probability: 1.0

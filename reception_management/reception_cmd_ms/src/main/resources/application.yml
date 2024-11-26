@@ -6,6 +6,8 @@ eureka:
     fetch-registry: true
     service-url:
       default-zone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
 spring:
   application:
     name: RECEPTION-CMD-MS
@@ -75,4 +77,8 @@ axon:
     general: jackson
     events: jackson
     messages: jackson
+management:
+  tracing:
+    sampling:
+      probability: 1.0
 reception-created-topic: "reception-created-topic"
