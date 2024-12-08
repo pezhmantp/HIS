@@ -12,4 +12,5 @@ import java.util.List;
 @Data
 public class MedicineRequestsResponse {
     List<MedicineRequest> medicineRequests;
+    String message;
 }

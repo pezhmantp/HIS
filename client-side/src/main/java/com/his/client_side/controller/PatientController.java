@@ -8,6 +8,8 @@ import com.his.client_side.service.ReceptionService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.core.ParameterizedTypeReference;
@@ -44,6 +46,7 @@ public class PatientController {
     private CommonService commonService;
     @Autowired
     private RestTemplate restTemplate;
+    private static final Logger LOG = LoggerFactory.getLogger(PatientController.class);
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -52,7 +55,7 @@ public class PatientController {
     }
 
 
-
+//    @CircuitBreaker(name = "getPatient", fallbackMethod = "getPatient")
     @GetMapping("/getPatient/{nationalId}")
     @ResponseBody
     public ResponseEntity<Map<String,Object>> getPatient(@PathVariable(value = "nationalId") String nationalId,
@@ -70,22 +73,47 @@ public class PatientController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
         HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
-        ResponseEntity<PatientResponse> patientResponseEntity = restTemplate.exchange(patientMsUri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<PatientResponse>() {
-        });
-
         Map<String,Object> map=new HashMap<>();
-        if(patientResponseEntity.getBody().getPatient() != null)
-        {
-            String receptionMsUri = "http://localhost:9096/api/receptionQueries/openReception/byPatientId/"+
-                    patientResponseEntity.getBody().getPatient().getPatientId();
-            ResponseEntity<ReceptionResponse> receptionResponseEntity = restTemplate.exchange(receptionMsUri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<ReceptionResponse>() {
+        try {
+            ResponseEntity<PatientResponse> patientResponseEntity = restTemplate.exchange(patientMsUri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<PatientResponse>() {
             });
-            map.put("receptionResponseEntity",receptionResponseEntity.getBody());
+            if(!patientResponseEntity.getBody().getMessage().equals("fallback"))
+            {
+                if(patientResponseEntity.getBody().getPatient() != null)
+                {
+                    String receptionMsUri = "http://localhost:9096/api/receptionQueries/openReception/byPatientId/"+
+                            patientResponseEntity.getBody().getPatient().getPatientId();
+                    ResponseEntity<ReceptionResponse> receptionResponseEntity = restTemplate.exchange(receptionMsUri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<ReceptionResponse>() {
+                    });
+                    if(!receptionResponseEntity.getBody().getMessage().equals("fallback"))
+                    {
+                        map.put("receptionResponseEntity",receptionResponseEntity.getBody());
+                    }
+                    else {
+                        LOG.info("Message from fallback method of reception_query_ms");
+                    }
+                }
+                map.put("patientResponseEntity",patientResponseEntity.getBody());
+            }
+            else {
+                LOG.info("Message from fallback method of patient_query_ms");
+            }
+
+        }
+        catch (Exception e)
+        {
+            LOG.error(e.getMessage());
         }
 
-        map.put("patientResponseEntity",patientResponseEntity.getBody());
+
+
+
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
+//    public ResponseEntity<Map<String,Object>> getPatient(Throwable e) {
+//        System.out.println("This is a fallback method for Service A");
+//        return null;
+//    }
 
     @GetMapping("/patientFrom")
     public String getReceptionView(Model model,Authentication authentication,
@@ -119,10 +147,18 @@ public class PatientController {
             HttpEntity<?> httpEntity = new HttpEntity<>(patientDto, httpHeaders);
             ResponseEntity<PatientResponse> responseEntity = restTemplate.exchange(receptionMsUri, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<PatientResponse>() {
             });
-            model.addAttribute("statusCode",responseEntity.getStatusCode().value());
-            model.addAttribute("message",responseEntity.getBody().getMessage());
-            model.addAttribute("patientId",responseEntity.getBody().getPatient().getPatientId());
-            attributes.addAttribute("patientIdAttr",responseEntity.getBody().getPatient().getPatientId());
+
+            if(!responseEntity.getBody().getMessage().equals("fallback"))
+            {
+                model.addAttribute("statusCode",responseEntity.getStatusCode().value());
+                model.addAttribute("message",responseEntity.getBody().getMessage());
+                model.addAttribute("patientId",responseEntity.getBody().getPatient().getPatientId());
+                attributes.addAttribute("patientIdAttr",responseEntity.getBody().getPatient().getPatientId());
+            }
+            else {
+                LOG.info("Message from fallback method of patient_cmd_ms");
+            }
+
             return "redirect:/reception/receptionFrom";
         }
 

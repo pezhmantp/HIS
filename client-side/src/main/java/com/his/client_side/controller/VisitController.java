@@ -14,6 +14,8 @@ import com.his.client_side.service.CommonService;
 import com.his.client_side.service.PharmacyService;
 import com.his.client_side.service.ReceptionService;
 import com.his.client_side.service.VisitService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -40,7 +42,7 @@ public class VisitController {
     private CommonService commonService;
     @Autowired
     private VisitService visitService;
-
+    private static final Logger LOG = LoggerFactory.getLogger(VisitController.class);
     @Autowired
     private PharmacyService pharmacyService;
     @Autowired
@@ -62,17 +64,24 @@ public class VisitController {
             HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
             ResponseEntity<ReceptionsResponse> responseEntity = restTemplate.exchange(receptionMsUri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<ReceptionsResponse>() {
             });
-        if(responseEntity.getBody().getReceptions() != null)
-        {
+            if(responseEntity.getBody().getMessage().equals("fallback"))
+            {
+                if(responseEntity.getBody().getReceptions() != null)
+                {
 
-            PatientsResponse patientsResponses = receptionService.getPatientsByPatientIds(responseEntity,httpEntity);
-            List<ReceptionPatientJoin> recpsRespnsForJoin = commonService.joinPatientsToReceptions(patientsResponses.getPatients(),responseEntity.getBody().getReceptions());
-            model.addAttribute("recpsRespnForJoin",recpsRespnsForJoin);
+                    PatientsResponse patientsResponses = receptionService.getPatientsByPatientIds(responseEntity,httpEntity);
+                    List<ReceptionPatientJoin> recpsRespnsForJoin = commonService.joinPatientsToReceptions(patientsResponses.getPatients(),responseEntity.getBody().getReceptions());
+                    model.addAttribute("recpsRespnForJoin",recpsRespnsForJoin);
 
-        }
-        else {
-            model.addAttribute("recpsRespnForJoin",null);
-        }
+                }
+                else {
+                    model.addAttribute("recpsRespnForJoin",null);
+                }
+            }
+            else {
+                LOG.error("Message from fallback method of reception_query_ms");
+            }
+
         return "visitsList";
     }
 
@@ -98,23 +107,20 @@ public class VisitController {
 
 
         String visitId = visitService.getVisitIdByReceptionId(receptionId,jwtAccessToken);
-        System.out.println("99999999999999999999 : " + visitId);
+
         if(visitId != null)
         {
             model.addAttribute("visitId",visitId);
         }
         else {
             visitId = visitService.createNewVisit(receptionId,jwtAccessToken);
-//            System.out.println("OKKKKKKKKKKKKKKKKKKKKKKKKK");
             model.addAttribute("visitId",visitId);
         }
 
-//        System.out.println(">>>>>>>>>>>>>>>> " + receptionEntity.getBody().getReception());
         String getPatientUrl = "http://localhost:9096/api/patientQueries/byPatientId/"+
                 receptionEntity.getBody().getReception().getPatientId();
         ResponseEntity<PatientResponse> patientEntity = restTemplate.exchange(getPatientUrl, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<PatientResponse>() {
         });
-//        System.out.println("PatientResponse : " + patientEntity.getBody().getPatient());
         if (patientEntity.getBody().getPatient() != null)
         {
             ReceptionPatientJoin recpRespnsForJoin= receptionService.joinPatientToReception(patientEntity.getBody().getPatient(),
