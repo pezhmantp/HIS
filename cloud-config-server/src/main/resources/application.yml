@@ -1,0 +1,19 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: configserver
+  cloud:
+    config:
+      #      allow-override: true
+      #      override-none: true
+      server:
+        git:
+#          uri: https://github.com/pezhmantp/config-server
+          uri: ${user.dir}\config-server-repository\
+#          uri: file://config-server-repository
+#          username: pezhmantp
+#          password: P2578@3788t
+          clone-on-start: true
+        bootstrap: true
+    fail-fast: true
