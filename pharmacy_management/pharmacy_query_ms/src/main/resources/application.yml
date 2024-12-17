@@ -1,5 +1,3 @@
-server:
-  port: 9095
 eureka:
   client:
     register-with-eureka: true
@@ -11,15 +9,8 @@ eureka:
 spring:
   application:
     name: PHARMACY-QUERY-MS
-  datasource:
-    url: jdbc:mysql://localhost:3306/pharmacy_db?createDatabaseIfNotExist=true
-    username: root
-    password: myhawramRootPsw1
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    show-sql: true
+  config:
+    import: configserver:http://localhost:8888
 axon:
   #  axonserver:
   #    servers: localhost:8123
