@@ -88,7 +88,7 @@ public class PharmacyController {
 
         ResponseEntity<MedicineRequestsResponse> responseEntity = restTemplate.exchange(medicineQueryUri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
         });
-        if(responseEntity.getBody().getMessage().equals("fallback"))
+        if(responseEntity.getBody().getMessage() == null)
         {
             if(responseEntity.getBody().getMedicineRequests().size() > 0)
             {
@@ -101,6 +101,11 @@ public class PharmacyController {
         else {
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
+//        if(responseEntity.getBody().getMessage().equals("fallback"))
+//        {
+//            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+//        }
+
 
 
 
