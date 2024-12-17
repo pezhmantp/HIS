@@ -7,7 +7,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/pezhmantp/config-server
+          uri: https://github.com/pezhmantp/config-server-repository
           clone-on-start: true
         bootstrap: true
     fail-fast: true
