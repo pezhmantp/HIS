@@ -20,8 +20,8 @@ public class WebSecurity {
         http
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-                        .requestMatchers("/receptionCmd/**")
-                        .hasRole("receptionist")
+                        .requestMatchers("/laboratoryQuery/**")
+                        .hasAnyRole("lab_technician","doctor")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(o -> o.jwt(j -> j.jwtAuthenticationConverter(jwtAuthenticationConverter)));
         return http.build();
