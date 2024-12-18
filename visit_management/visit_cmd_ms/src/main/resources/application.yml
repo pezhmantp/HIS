@@ -1,71 +1,9 @@
-server:
-  port: 8091
-retry-config:
-  initial-interval-ms: 1000
-  max-interval-ms: 10000
-  multiplier: 2.0
-  maxAttempts: 3
-  sleep-time-ms: 2000
-
-kafka-config:
-  bootstrap-servers: localhost:29092
-  change-visit-status-topic: change-visit-status-topic
-  remove-visit-topic: remove-visit-topic
-  visit-removed-topic: visit-removed-topic
-  topic-names-to-create:
-    - change-visit-status-topic
-    - remove-visit-topic
-    - visit-removed-topic
-    - reception-removed-topic
-  num-of-partitions: 1
-  replication-factor: 1
-
-kafka-producer-config:
-  key-serializer-class: org.apache.kafka.common.serialization.StringSerializer
-  value-serializer-class: org.springframework.kafka.support.serializer.JsonSerializer
-  compression-type: snappy
-  acks: all
-  batch-size: 16384
-  batch-size-boost-factor: 100
-  linger-ms: 5
-  request-timeout-ms: 60000
-  retry-count: 5
-
-
-kafka-consumer-config:
-  key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-  value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-  consumer-group-id: visit-topic-consumer
-  auto-offset-reset: earliest
-  trusted-package: "*"
-  batch-listener: true
-  auto-startup: true
-  concurrency-level: 3
-  session-timeout-ms: 10000
-  heartbeat-interval-ms: 3000
-  max-poll-interval-ms: 300000
-  max-poll-records: 500
-  max-partition-fetch-bytes-default: 1048576
-  max-partition-fetch-bytes-boost-factor: 1
-  poll-timeout-ms: 150
-
 spring:
   application:
     name: VISIT-CMD-MS
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://localhost:8080/realms/hisclientapp/protocol/openid-connect/certs
-  datasource:
-    url: jdbc:mysql://localhost:3306/visit_db?createDatabaseIfNotExist=true
-    username: root
-    password: myhawramRootPsw1
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    show-sql: true
+  config:
+    import: configserver:http://localhost:8888
+
 eureka:
   client:
     register-with-eureka: true
@@ -74,6 +12,7 @@ eureka:
       default-zone: http://localhost:8761/eureka
   instance:
     prefer-ip-address: true
+
 axon:
 #  axonserver:
 #    servers: localhost:8123
@@ -81,6 +20,7 @@ axon:
     general: jackson
     events: jackson
     messages: jackson
+
 management:
   tracing:
     sampling:
