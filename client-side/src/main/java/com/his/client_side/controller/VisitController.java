@@ -64,7 +64,7 @@ public class VisitController {
             HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
             ResponseEntity<ReceptionsResponse> responseEntity = restTemplate.exchange(receptionMsUri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<ReceptionsResponse>() {
             });
-            if(responseEntity.getBody().getMessage().equals("fallback"))
+            if(!responseEntity.getBody().getMessage().equals("fallback"))
             {
                 if(responseEntity.getBody().getReceptions() != null)
                 {

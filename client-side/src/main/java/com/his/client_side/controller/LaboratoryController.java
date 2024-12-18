@@ -40,7 +40,7 @@ public class LaboratoryController {
         }
         String allReceptionQueryUri = "http://localhost:9096/laboratoryQuery/getOpenTests";
         HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
+        httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
         httpHeaders.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
 
