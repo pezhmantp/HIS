@@ -1,13 +1,16 @@
 spring:
   application:
     name: RECEPTION-QUERY-MS
+  cloud:
+    config:
+      allow-override: true
+      override-none: true
+      name: reception-query-ms
   config:
-    import: configserver:http://localhost:8888
+    import: 'configserver:'
 #  profiles:
 #    active: docker
 
-#logging:
-#  file.name: logs/reception_query_ms.log
 eureka:
   client:
     register-with-eureka: true
@@ -16,12 +19,9 @@ eureka:
       default-zone: http://localhost:8761/eureka
   instance:
     prefer-ip-address: true
-#    hostname: localhost
-axon:
-  serializer:
-    general: jackson
-    events: jackson
-    messages: jackson
+#    hostname: service-registry-app
+
+
 management:
   tracing:
     sampling:
