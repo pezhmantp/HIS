@@ -1,27 +1,35 @@
 spring:
   application:
     name: PATIENT-QUERY-MS
+  cloud:
+    config:
+      allow-override: true
+      override-none: true
+      name: patient-query-ms
   config:
-    import: configserver:http://localhost:8888
+    import: 'configserver:'
 #  profiles:
 #    active: docker
-axon:
-  serializer:
-    general: jackson
-    events: jackson
-    messages: jackson
+#axon:
+#  serializer:
+#    general: jackson
+#    events: jackson
+#    messages: jackson
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
+      # default-zone: http://localhost:8761/eureka/
       default-zone: http://localhost:8761/eureka
   instance:
     prefer-ip-address: true
+#    hostname: localhost
+#    hostname: service-registry-app
 management:
-  #  zipkin:
-  #    tracing:
-  #      endpoint: http://localhost:9411
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411
   tracing:
     sampling:
       probability: 1.0
