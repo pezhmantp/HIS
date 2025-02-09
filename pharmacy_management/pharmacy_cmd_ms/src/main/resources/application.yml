@@ -9,11 +9,16 @@ eureka:
 spring:
   application:
     name: PHARMACY-CMD-MS
+  cloud:
+    config:
+      allow-override: true
+      override-none: true
+      name: pharmacy-cmd-ms
   config:
-    import: configserver:http://localhost:8888
+    import: 'configserver:'
 axon:
-  #  axonserver:
-  #    servers: localhost:8123
+  axonserver:
+    servers: localhost:8124
   serializer:
     general: jackson
     events: jackson
