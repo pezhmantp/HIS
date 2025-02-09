@@ -20,6 +20,5 @@ public interface ReceptionRepository extends JpaRepository<Reception, String> {
 
     @Query("SELECT r FROM Reception r WHERE r.receptionStatus = ?1")
     List<Reception> findAll(String receptionStatus, Sort sort);
-
 }
 
