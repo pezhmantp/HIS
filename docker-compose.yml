@@ -1,0 +1,380 @@
+version: "3.8"
+
+services:
+  cloud-config-server-docker-compose:
+    image: com.cloud-config-server/cloud.config.service:0.0.1
+    network_mode: "service:localhost"
+    restart: on-failure
+
+  localhost:
+    image: alpine:latest
+    command: sleep infinity
+    ports:
+      - "8888:8888"
+      - "8079:8079"
+      - "9411:9411"
+      - "8761:8761"
+      - "9096:9096"
+      - "8091:8091"
+      - "8092:8092"
+      - "2181:2181"
+      - "29092:29092"
+      - "8090:8090"
+      - "8081:8081"
+      - "8082:8082"
+      - "8084:8084"
+      - "8085:8085"
+      - "8088:8088"
+      - "8089:8089"
+      - "9094:9094"
+      - "9095:9095"
+      - "3306:3306"
+      - "8124:8124"
+      - "8024:8024"
+      - "8224:8224"
+
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeper:2888:3888
+    network_mode: "service:localhost"
+    restart: on-failure
+
+  kafka-service:
+    image: confluentinc/cp-kafka
+    depends_on:
+      zookeeper:
+        condition: service_started
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: localhost:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,LISTENER_LOCAL://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,LISTENER_LOCAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    healthcheck:
+      test: nc -z localhost 29092 || exit -1
+      start_period: 15s
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    network_mode: "service:localhost"
+#
+  zipkin:
+    image: openzipkin/zipkin
+    restart: on-failure
+    network_mode: "service:localhost"
+
+  api-gateway-compose:
+    image: com.api_gateway/gateway.service:0.0.1
+    volumes:
+      - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
+    user: root
+    entrypoint: [ "check-config-server-started.sh" ]
+    environment:
+      SPRING_CLOUD_CONFIG_URI: "http://localhost:8888"
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://localhost:8761/eureka"}}}}'
+    depends_on:
+      cloud-config-server-docker-compose:
+        condition: service_started
+      service-registry-app:
+        condition: service_started
+    network_mode: "service:localhost"
+    restart: on-failure
+###
+  service-registry-app:
+    image: com.eureka/eureka.service:0.0.1-SNAPSHOT
+    network_mode: "service:localhost"
+    restart: on-failure
+#
+###
+  keycloak-docker-compose:
+    image: quay.io/keycloak/keycloak:24.0.3
+    network_mode: "service:localhost"
+    command: -v start-dev --import-realm
+    environment:
+      KC_HTTP_PORT: 8079
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - ./:/opt/keycloak/data/import
+      - ./keycloak/import/:/opt/keycloak/data/import/
+    restart: on-failure
+##
+  mysql-docker-compose:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: myhawramRootPsw1
+      MYSQL_USER: user
+      MYSQL_PASSWORD: myhawramRootPsw1
+    volumes:
+      - mysql-data:/var/lib/tstmysql
+    network_mode: "service:localhost"
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=myhawramRootPsw1 --execute \"SHOW DATABASES;\""
+      timeout: 20s
+      retries: 10
+    restart: on-failure
+##
+  axon-docker-compose:
+    image: axoniq/axonserver:latest
+    environment:
+      AXONIQ_AXONSERVER_STANDALONE: true
+    volumes:
+      - axonserver-data:/data
+      - axonserver-events:/eventdata
+      - axonserver-config:/config:ro
+    network_mode: "service:localhost"
+    depends_on:
+      mysql-docker-compose:
+        condition: service_healthy
+    restart: on-failure
+###
+  patient-cmd-service-docker-compose:
+    image: com.patient_management/patient-cmd:1.0
+    volumes:
+      - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
+    user: root
+    entrypoint: [ "check-config-server-started.sh" ]
+    environment:
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://localhost:8761/eureka"}}}}'
+      SPRING_CLOUD_CONFIG_URI: "http://localhost:8888"
+    depends_on:
+      cloud-config-server-docker-compose:
+        condition: service_started
+      mysql-docker-compose:
+        condition: service_healthy
+      axon-docker-compose:
+        condition: service_started
+      service-registry-app:
+        condition: service_started
+    network_mode: "service:localhost"
+    restart: on-failure
+##
+  patient-query-service-docker-compose:
+    image: com.patient_management/patient-query:1.0
+    volumes:
+      - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
+    user: root
+    entrypoint: [ "check-config-server-started.sh" ]
+    environment:
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://localhost:8761/eureka"}}}}'
+      SPRING_CLOUD_CONFIG_URI: "http://localhost:8888"
+    depends_on:
+      cloud-config-server-docker-compose:
+        condition: service_started
+      service-registry-app:
+        condition: service_started
+      mysql-docker-compose:
+        condition: service_healthy
+      axon-docker-compose:
+        condition: service_started
+    network_mode: "service:localhost"
+    restart: on-failure
+###
+  reception-cmd-service-docker-compose:
+    image: com.reception_management/reception-cmd-ms:1.0
+    volumes:
+      - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
+    user: root
+    entrypoint: [ "check-config-server-started.sh" ]
+    environment:
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://localhost:8761/eureka"}}}}'
+      SPRING_CLOUD_CONFIG_URI: "http://localhost:8888"
+    depends_on:
+      cloud-config-server-docker-compose:
+        condition: service_started
+      service-registry-app:
+        condition: service_started
+      mysql-docker-compose:
+        condition: service_healthy
+      axon-docker-compose:
+        condition: service_started
+      kafka-service:
+        condition: service_healthy
+    network_mode: "service:localhost"
+    restart: on-failure
+####
+  reception-query-service-docker-compose:
+    image: com.reception_management/reception-query-ms:1.0
+    volumes:
+      - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
+    user: root
+    entrypoint: [ "check-config-server-started.sh" ]
+    environment:
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://localhost:8761/eureka"}}}}'
+      SPRING_CLOUD_CONFIG_URI: "http://localhost:8888"
+    depends_on:
+      cloud-config-server-docker-compose:
+        condition: service_started
+      service-registry-app:
+        condition: service_started
+      mysql-docker-compose:
+        condition: service_healthy
+      axon-docker-compose:
+        condition: service_started
+    network_mode: "service:localhost"
+    restart: on-failure
+##
+  visit-cmd-service-docker-compose:
+    image: com.visit_management/visit-cmd-ms:1.0
+    volumes:
+      - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
+    user: root
+    entrypoint: [ "check-config-server-started.sh" ]
+    environment:
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://localhost:8761/eureka"}}}}'
+      SPRING_CLOUD_CONFIG_URI: "http://localhost:8888"
+    depends_on:
+      cloud-config-server-docker-compose:
+        condition: service_started
+      service-registry-app:
+        condition: service_started
+      mysql-docker-compose:
+        condition: service_healthy
+      axon-docker-compose:
+        condition: service_started
+      kafka-service:
+        condition: service_healthy
+    network_mode: "service:localhost"
+    restart: on-failure
+#
+  visit-query-service-docker-compose:
+    image: com.visit_management/visit-query-ms:1.0
+    volumes:
+      - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
+    user: root
+    entrypoint: [ "check-config-server-started.sh" ]
+    environment:
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://localhost:8761/eureka"}}}}'
+      SPRING_CLOUD_CONFIG_URI: "http://localhost:8888"
+    depends_on:
+      cloud-config-server-docker-compose:
+        condition: service_started
+      service-registry-app:
+        condition: service_started
+      mysql-docker-compose:
+        condition: service_healthy
+      axon-docker-compose:
+        condition: service_started
+      kafka-service:
+        condition: service_healthy
+    network_mode: "service:localhost"
+    restart: on-failure
+##
+  laboratory-cmd-service-docker-compose:
+    image: com.laboratory_management/laboratory-cmd:1.0
+    volumes:
+      - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
+    user: root
+    entrypoint: [ "check-config-server-started.sh" ]
+    environment:
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://localhost:8761/eureka"}}}}'
+      SPRING_CLOUD_CONFIG_URI: "http://localhost:8888"
+    depends_on:
+      cloud-config-server-docker-compose:
+        condition: service_started
+      service-registry-app:
+        condition: service_started
+      mysql-docker-compose:
+        condition: service_healthy
+      axon-docker-compose:
+        condition: service_started
+      kafka-service:
+        condition: service_healthy
+    network_mode: "service:localhost"
+    restart: on-failure
+#
+  laboratory-query-service-docker-compose:
+    image: com.laboratory_management/laboratory-query:1.0
+    volumes:
+      - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
+    user: root
+    entrypoint: [ "check-config-server-started.sh" ]
+    environment:
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://localhost:8761/eureka"}}}}'
+      SPRING_CLOUD_CONFIG_URI: "http://localhost:8888"
+    depends_on:
+      cloud-config-server-docker-compose:
+        condition: service_started
+      service-registry-app:
+        condition: service_started
+      mysql-docker-compose:
+        condition: service_healthy
+      axon-docker-compose:
+        condition: service_started
+      kafka-service:
+        condition: service_healthy
+    network_mode: "service:localhost"
+    restart: on-failure
+#
+  pharmacy-cmd-service-docker-compose:
+    image: com.pharmacy_management/pharmacy-cmd:1.0
+    volumes:
+      - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
+    user: root
+    entrypoint: [ "check-config-server-started.sh" ]
+    environment:
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://localhost:8761/eureka"}}}}'
+      SPRING_CLOUD_CONFIG_URI: "http://localhost:8888"
+    depends_on:
+      cloud-config-server-docker-compose:
+        condition: service_started
+      service-registry-app:
+        condition: service_started
+      mysql-docker-compose:
+        condition: service_healthy
+      axon-docker-compose:
+        condition: service_started
+      kafka-service:
+        condition: service_healthy
+    network_mode: "service:localhost"
+    restart: on-failure
+#
+  pharmacy-query-service-docker-compose:
+    image: com.pharmacy_management/pharmacy-query:1.0
+    volumes:
+      - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
+    user: root
+    entrypoint: [ "check-config-server-started.sh" ]
+    environment:
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://localhost:8761/eureka"}}}}'
+      SPRING_CLOUD_CONFIG_URI: "http://localhost:8888"
+    depends_on:
+      cloud-config-server-docker-compose:
+        condition: service_started
+      service-registry-app:
+        condition: service_started
+      mysql-docker-compose:
+        condition: service_healthy
+      axon-docker-compose:
+        condition: service_started
+      kafka-service:
+        condition: service_healthy
+    network_mode: "service:localhost"
+    restart: on-failure
+#
+  client-side-docker-compose:
+    image: com.his/client-side:0.0.1
+    volumes:
+      - "./check-keycloak-started.sh:/usr/local/bin/check-keycloak-started.sh"
+    user: root
+    entrypoint: [ "check-keycloak-started.sh" ]
+    depends_on:
+      mysql-docker-compose:
+        condition: service_healthy
+    network_mode: "service:localhost"
+    restart: on-failure
+#
+
+volumes:
+  mysql-data:
+  axonserver-data:
+  axonserver-events:
+  axonserver-config:
