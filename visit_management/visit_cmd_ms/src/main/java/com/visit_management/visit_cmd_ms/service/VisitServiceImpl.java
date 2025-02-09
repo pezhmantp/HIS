@@ -1,6 +1,7 @@
 package com.visit_management.visit_cmd_ms.service;
 
 import com.visit_management.visit_cmd_ms.command.RemoveVisitCommand;
+import com.visit_management.visit_cmd_ms.controller.VisitCmdController;
 import com.visit_management.visit_cmd_ms.dto.UpdateVisitDto;
 import com.visit_management.visit_cmd_ms.dto.VisitDto;
 import com.visit_management.visit_cmd_ms.dto.VisitStatusDto;
@@ -12,6 +13,8 @@ import com.visit_management.visit_core.query.FindVisitByReceptionIdQuery;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -34,6 +37,7 @@ public class VisitServiceImpl implements VisitService{
     @Autowired
     private QueryGateway queryGateway;
     private final KafkaProducer<String, VisitStatusDto> visitKafkaProducer;
+    private static final Logger log= LoggerFactory.getLogger(VisitCmdController.class);
 
     private final KafkaConfigData kafkaConfigData;
     private static String TOPIC="";
@@ -72,7 +76,7 @@ public class VisitServiceImpl implements VisitService{
     @Override
     @KafkaListener(topics = "remove-visit-topic", groupId = "visit-topic-consumer", containerFactory = "kafkaListenerContainerFactory")
     public void removeVisit(String receptionId, MessageHeaders headers) throws ExecutionException, InterruptedException {
-        System.out.println("removeVisit Consumerrrrrrrrrrrr " + receptionId);
+
         FindVisitByReceptionIdQuery query=new FindVisitByReceptionIdQuery();
         query.setReceptionId(receptionId);
         String visitId=queryGateway.query(query, ResponseTypes.instanceOf(String.class)).join();
@@ -81,7 +85,6 @@ public class VisitServiceImpl implements VisitService{
             sendKafkaEvent(null,receptionId,true);
         }
         else {
-            System.out.println("visitId Consumerrrrrrrrrrrr " + visitId);
 
             RemoveVisitCommand command=new RemoveVisitCommand();
             command.setId(visitId);
@@ -90,6 +93,7 @@ public class VisitServiceImpl implements VisitService{
                 sendKafkaEvent(visitId,receptionId,true);
             }
             catch (Exception e){
+                log.error(e.toString());
                 sendKafkaEvent(visitId,receptionId,false);
             }
         }
@@ -100,7 +104,7 @@ public class VisitServiceImpl implements VisitService{
 
         VisitRemovedEvent event=new VisitRemovedEvent(receptionId,true,status);
         SendResult<String, VisitRemovedEvent> result= kafkaTemplate.send(kafkaConfigData.getVisitRemovedTopic(),receptionId,event).get();
-        System.out.println("VisitRemovedTopic :::::::::: " + result.getRecordMetadata().topic() +"   "+
+        log.info("VisitRemovedTopic :::::::::: " + result.getRecordMetadata().topic() +"   "+
                 result.getRecordMetadata().partition() + "   "+
                 result.getRecordMetadata().offset());
     }
