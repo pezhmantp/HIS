@@ -6,7 +6,6 @@
 		<groupId>com.visit_management</groupId>
 		<artifactId>visit_management</artifactId>
 		<version>1.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<artifactId>visit_core</artifactId>
 	<version>1.0</version>
