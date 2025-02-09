@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.api_gateway</groupId>
 	<artifactId>api_gateway_service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>api_gateway_service</name>
 	<description>Demo project for api_gateway_service</description>
 
@@ -96,6 +96,19 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>${project.groupId}/gateway.service:${project.version}</name>
+					</image>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>build-image</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
