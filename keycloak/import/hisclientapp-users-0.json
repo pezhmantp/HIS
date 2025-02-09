@@ -1,0 +1,154 @@
+{
+  "realm" : "hisclientapp",
+  "users" : [ {
+    "id" : "f046bfee-0bdd-471a-9d0f-e622c3240752",
+    "username" : "doctor1",
+    "firstName" : "Muhammad",
+    "lastName" : "Ahmad",
+    "email" : "m.a@email.com",
+    "emailVerified" : false,
+    "createdTimestamp" : 1721288348700,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "06f873ce-29e4-431a-8d7a-4b78cba5487c",
+      "type" : "password",
+      "createdDate" : 1721592105054,
+      "secretData" : "{\"value\":\"aBLFXFGejm0lDSzJiz1Cao+nDZJgJ1wTIXWY/VEzqBVjK+jQ0+oy2+Ln/YNGSjuykknD2FcMIQGpwItKLXRxcA==\",\"salt\":\"tXYlgen0m1d8KEEFeyM9nA==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-hisclientrealm", "doctor" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "c4b24d95-5555-4031-814d-4008a39f612a",
+    "username" : "doctor2",
+    "firstName" : "Harry",
+    "lastName" : "Jones",
+    "email" : "nosrat.tabeshipour@gmail.com",
+    "emailVerified" : false,
+    "createdTimestamp" : 1721288426722,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "bd8fbde4-0135-49ab-8953-62e8951d1ddd",
+      "type" : "password",
+      "createdDate" : 1726577431968,
+      "secretData" : "{\"value\":\"DlVTkSXde6xydwefGBdjfyKzF3OBAEgl11Rcm21qgyisBlmIdezq3GlesTpsFWlo1jXOXYm3R3lP76MRNb8mCQ==\",\"salt\":\"q+QdLLpScLa+yniBeSmXuA==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-hisclientrealm", "doctor" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "b041fd0c-bde2-4b85-8814-1ed4a918ee25",
+    "username" : "doctor3",
+    "firstName" : "Jack",
+    "lastName" : "Evans",
+    "email" : "a@a.com",
+    "emailVerified" : false,
+    "createdTimestamp" : 1721288496426,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "d5d8f459-0762-4dfa-a9e7-4f3e39d5a87d",
+      "type" : "password",
+      "createdDate" : 1728911354101,
+      "secretData" : "{\"value\":\"EzZqm2CkygEZGCNUEYj0mBA7wDrrCXqPsnwTUrLwZLrc/UL9DTePGkXSZ6E0HowyAXPYoLQ75TU2xxTuIG3BCQ==\",\"salt\":\"z5DMg2IGJRQwnl+AkSAX5g==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-hisclientrealm", "doctor" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "741f82dc-965a-41b8-a6f3-cf046e3cc5bb",
+    "username" : "lab_technician",
+    "firstName" : "aFirtsName",
+    "lastName" : "aLastName",
+    "email" : "hk@gm.com",
+    "emailVerified" : false,
+    "createdTimestamp" : 1728768280439,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "df434d6e-3bd5-49e8-83ad-3ca09c3556bb",
+      "type" : "password",
+      "createdDate" : 1734482241588,
+      "secretData" : "{\"value\":\"VHnUQGg8VXmBrw6HIRcdN0MFNGSEJWmldmtTNPMqmVTkdFitXK0EnLUpD8Q0dB8WL6kSTKyvmdHdJ1rxQrSBOQ==\",\"salt\":\"E+SrRLzSBZlKhtA9C1MrWA==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "lab_technician", "default-roles-hisclientrealm" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "2a23f2af-79ab-44fb-bedf-b729428dda81",
+    "username" : "pharmacist",
+    "firstName" : "pharmacistFirstName",
+    "lastName" : "pharmacistLastName",
+    "email" : "pharmacist@g.com",
+    "emailVerified" : false,
+    "createdTimestamp" : 1729284023716,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "7637aef2-7591-4241-a247-480beabf97d9",
+      "type" : "password",
+      "createdDate" : 1729284969178,
+      "secretData" : "{\"value\":\"AMHINArlR4Us7zhr1er/P44lC39WLoUDHxTh7RuaJQFcBi1EGnnemlXtpftauXR79mpZYI+rwfqf4ipgafd0Vw==\",\"salt\":\"jczzgdvqlgSjWWHtxDxN3g==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "pharmacist", "default-roles-hisclientrealm" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "05dfb9b0-25f8-4295-bc5a-d54b37e2fc0d",
+    "username" : "receptionist_user1",
+    "firstName" : "receptionist1FirstName",
+    "lastName" : "receptionist1LastName",
+    "email" : "receptionist1email@email.com",
+    "emailVerified" : false,
+    "createdTimestamp" : 1715005766582,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "e9f672fc-6cd5-47af-beba-1a507fd01453",
+      "type" : "password",
+      "userLabel" : "My password",
+      "createdDate" : 1731970963777,
+      "secretData" : "{\"value\":\"d0yZnkrtgcgnw3WNOFb2n9J1WAh/cbwHcMQURwY+cA4joRMpSjBSsFMTXTlLvDY9fO5+a0qvc+59/1EDGlL9sw==\",\"salt\":\"6GjyUY48TWTMxh9mb1dGfw==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-hisclientrealm", "receptionist" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "d8fc5466-54d8-48cd-8739-8c0699e8418f",
+    "username" : "service-account-his-client-app",
+    "emailVerified" : false,
+    "createdTimestamp" : 1715119164295,
+    "enabled" : true,
+    "totp" : false,
+    "serviceAccountClientId" : "his-client-app",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-hisclientrealm" ],
+    "clientRoles" : {
+      "his-client-app" : [ "uma_protection" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  } ]
+}
