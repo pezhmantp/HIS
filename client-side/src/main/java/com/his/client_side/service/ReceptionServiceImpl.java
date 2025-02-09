@@ -62,10 +62,12 @@ public class ReceptionServiceImpl implements ReceptionService{
     @Override
     public PatientsResponse getPatientsByPatientIds(ResponseEntity<ReceptionsResponse> responseEntity, HttpEntity<?> httpEntity) {
         String patientQueryUri = "http://localhost:9096/api/patientQueries/ListOfPatientsInfo";
+
         List<String> patientsIds=new ArrayList<>();
         responseEntity.getBody().getReceptions().forEach(i->
                 patientsIds.add(i.getPatientId())
         );
+
         URI uri = UriComponentsBuilder
                 .fromUri(URI.create(patientQueryUri))
                 .queryParam("patientsIds", patientsIds)

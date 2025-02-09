@@ -3,6 +3,9 @@ server:
 spring:
   application:
     name: his-client
+  sql:
+    init:
+      mode: always
   mvc:
     static-path-pattern: /static/**
   security:
@@ -17,21 +20,22 @@ spring:
             redirect-uri: http://localhost:8090/login/oauth2/code/hismvcclientapp
         provider:
           hismvcclientapp:
-            issuerUri: http://localhost:8080/realms/hisclientapp
-            authorization-uri: http://localhost:8080/realms/hisclientapp/protocol/openid-connect/auth
-            token-uri: http://localhost:8080/realms/hisclientapp/protocol/openid-connect/token
-            jwk-set-uri: http://localhost:8080/realms/hisclientapp/protocol/openid-connect/certs
-            user-info-uri: http://localhost:8080/realms/hisclientapp/protocol/openid-connect/userinfo
+            issuerUri: http://localhost:8079/realms/hisclientapp
+            token-uri: http://localhost:8079/realms/hisclientapp/protocol/openid-connect/token
+            jwk-set-uri: http://localhost:8079/realms/hisclientapp/protocol/openid-connect/certs
+            user-info-uri: http://localhost:8079/realms/hisclientapp/protocol/openid-connect/userinfo
             user-name-attribute: preferred_username
   datasource:
     url: jdbc:mysql://localhost:3306/doctor_db?createDatabaseIfNotExist=true
     username: root
     password: myhawramRootPsw1
+    initialization-mode: always
   jpa:
     hibernate:
       ddl-auto: update
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: true
+    defer-datasource-initialization: true
 management:
   health:
     circuitbreakers:
@@ -43,30 +47,5 @@ management:
   endpoint:
     health:
       show-details: always
-#resilience4j:
-#  circuitbreaker:
-#    instances:
-#      serviceA:
-#        registerHealthIndicator: true
-#        eventConsumerBufferSize: 10
-#        failureRateThreshold: 50
-#        minimumNumberOfCalls: 5
-#        automaticTransitionFromOpenToHalfOpenEnabled: true
-#        waitDurationInOpenState: 5s
-#        permittedNumberOfCallsInHalfOpenState: 3
-#        slidingWindowSize: 10
-#        slidingWindowType: COUNT_BASED
-#  retry:
-#    instances:
-#      serviceA:
-#        registerHealthIndicator: true
-#        maxRetryAttempts: 5
-#        waitDuration: 10s
-#  ratelimiter:
-#    instances:
-#      serviceA:
-#        registerHealthIndicator: false
-#        limitForPeriod: 10
-#        limitRefreshPeriod: 10s
-#        timeoutDuration: 3s
+
 

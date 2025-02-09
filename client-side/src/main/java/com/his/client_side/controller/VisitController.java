@@ -10,6 +10,7 @@ import com.his.client_side.response.pharmacy.MedicinesResponse;
 import com.his.client_side.response.reception.ReceptionPatientJoin;
 import com.his.client_side.response.reception.ReceptionResponse;
 import com.his.client_side.response.reception.ReceptionsResponse;
+import com.his.client_side.response.reception.ResponseMsgWithBoolean;
 import com.his.client_side.service.CommonService;
 import com.his.client_side.service.PharmacyService;
 import com.his.client_side.service.ReceptionService;
@@ -19,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -68,10 +71,16 @@ public class VisitController {
             {
                 if(responseEntity.getBody().getReceptions() != null)
                 {
-
                     PatientsResponse patientsResponses = receptionService.getPatientsByPatientIds(responseEntity,httpEntity);
-                    List<ReceptionPatientJoin> recpsRespnsForJoin = commonService.joinPatientsToReceptions(patientsResponses.getPatients(),responseEntity.getBody().getReceptions());
-                    model.addAttribute("recpsRespnForJoin",recpsRespnsForJoin);
+
+                    if(patientsResponses.getPatients().size() > 0)
+                    {
+                        List<ReceptionPatientJoin> recpsRespnsForJoin = commonService.joinPatientsToReceptions(patientsResponses.getPatients(),responseEntity.getBody().getReceptions());
+                        model.addAttribute("recpsRespnForJoin",recpsRespnsForJoin);
+                    }
+                    else {
+                        model.addAttribute("recpsRespnForJoin",null);
+                    }
 
                 }
                 else {
@@ -136,7 +145,28 @@ public class VisitController {
         return "visit";
     }
 
+    @GetMapping("/changeVisitStatus/{receptionId}")
+    public ResponseEntity<?> changeVisitStatus(@PathVariable ("receptionId") String receptionId, Authentication authentication){
+        String jwtAccessToken = commonService.getJWT(authentication);
+        String changeVisitStatusUri = "http://localhost:9096/receptionCmd/changeVisitStatus";
 
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization", "Bearer " + jwtAccessToken);
+        httpHeaders.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+        HttpEntity<?> httpEntity = new HttpEntity<>(receptionId,httpHeaders);
+
+        ResponseEntity<ResponseMsgWithBoolean> receptionResponseEntity = restTemplate.exchange(changeVisitStatusUri, HttpMethod.PUT, httpEntity, new ParameterizedTypeReference<ResponseMsgWithBoolean>() {
+        });
+        System.out.println("=============== : " + receptionResponseEntity.getBody().toString());
+        if(receptionResponseEntity.getBody().getResult())
+        {
+
+            return new ResponseEntity<>(true,HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(false,HttpStatus.OK);
+        }
+    }
     @PostMapping("/requestNewTest")
     public ResponseEntity<?> requestNewTest(@RequestParam String visitId, @RequestParam String testType,
                                Authentication authentication)

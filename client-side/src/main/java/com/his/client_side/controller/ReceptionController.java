@@ -103,8 +103,8 @@ public class ReceptionController {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(receptionId,httpHeaders);
 
-        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
-        ResponseEntity<ReceptionResponse> receptionResponseEntity = restTemplate.exchange(chngReceptionStatUri, HttpMethod.PATCH, httpEntity, new ParameterizedTypeReference<ReceptionResponse>() {
+//        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+        ResponseEntity<ReceptionResponse> receptionResponseEntity = restTemplate.exchange(chngReceptionStatUri, HttpMethod.PUT, httpEntity, new ParameterizedTypeReference<ReceptionResponse>() {
         });
 
         String getReceptionUri = "http://localhost:9096/api/receptionQueries/byReceptionId/"+receptionId;
@@ -141,13 +141,19 @@ public class ReceptionController {
         if(responseEntity.getBody().getReceptions() != null)
         {
             PatientsResponse patientsResponses = receptionService.getPatientsByPatientIds(responseEntity,httpEntity);
-            List<ReceptionPatientJoin> recpsRespnsForJoin = commonService.joinPatientsToReceptions(patientsResponses.getPatients(),responseEntity.getBody().getReceptions());
-            model.addAttribute("recpsRespnForJoin",recpsRespnsForJoin);
+            if (patientsResponses.getPatients().size()>0)
+            {
+                List<ReceptionPatientJoin> recpsRespnsForJoin = commonService.joinPatientsToReceptions(patientsResponses.getPatients(),responseEntity.getBody().getReceptions());
+                model.addAttribute("recpsRespnForJoin",recpsRespnsForJoin);
+            }
+            else {
+                model.addAttribute("recpsRespnForJoin",null);
+            }
+
         }
         else {
             model.addAttribute("recpsRespnForJoin",null);
         }
-
         return "receptionsList";
     }
 
@@ -167,15 +173,11 @@ public class ReceptionController {
 
         if(responseEntity.getBody().getReception().getVisitStatus().equals("visited"))
         {
-            System.out.println("resssss: " + responseEntity.getBody().getReception().getVisitStatus());
             return new ResponseEntity<>(true,HttpStatus.OK);
         }
         else {
-            System.out.println("resssss: " + responseEntity.getBody().getReception().getVisitStatus());
             return new ResponseEntity<>(false,HttpStatus.OK);
         }
-
-
     }
 
     @GetMapping("/delete/{receptionId}")
@@ -226,7 +228,7 @@ public class ReceptionController {
                     patientEntity.getBody().getPatient().getPatientId();
             ResponseEntity<ReceptionResponse> receptionEntity = restTemplate.exchange(getReceptionUrl, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<ReceptionResponse>() {
             });
-            System.out.println("ReceptionResponse : " + receptionEntity.getBody().getReception());
+
             if (receptionEntity.getBody().getReception() != null)
             {
                 ReceptionPatientJoin recpRespnsForJoin= receptionService.joinPatientToReception(patientEntity.getBody().getPatient(),

@@ -105,15 +105,8 @@ public class PatientController {
             LOG.error(e.getMessage());
         }
 
-
-
-
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
-//    public ResponseEntity<Map<String,Object>> getPatient(Throwable e) {
-//        System.out.println("This is a fallback method for Service A");
-//        return null;
-//    }
 
     @GetMapping("/patientFrom")
     public String getReceptionView(Model model,Authentication authentication,

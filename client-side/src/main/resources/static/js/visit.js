@@ -155,6 +155,27 @@ $('input[type=text]:disabled').css({
    "background-color": "white"
 });
 });
+function changeVisitStatus(receptionId){
+ $.ajax({
+   type: 'GET',
+   url: '/visit/changeVisitStatus/'+receptionId,
+   success: function(result,textStatus){
+     if(result == false)
+     {
+       $("#visitErr").text("Error");
+       $("#visitErr").removeClass("invisible");
+     }
+     else if(result == true){
+     $("#visitErr").text("Successful!");
+        $("#visitErr").removeClass("invisible");
+        alert("Marked as visited");
+     }
+   },
+   error: function(jqXHR, textStatus, errorThrown){
+     alert(errorThrown);
+   },
+ });
+}
 
 function showSelectedMedicines(){
 $("#selectedMedicinesDiv").empty();

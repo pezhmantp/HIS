@@ -66,9 +66,7 @@ public class LaboratoryController {
 //
         ResponseEntity<Map<String,String>> responseEntity = restTemplate.exchange(laboratoryCmdUri, HttpMethod.PUT, httpEntity, new ParameterizedTypeReference<>() {
         });
-        System.out.println("$$$$$$$$ " + responseEntity.getBody());
-//        model.addAttribute("tests",responseEntity.getBody().getTestResponses());
-//        return "laboratory";
+
         return "redirect:/laboratory/laboratoryPage";
     }
     @PostMapping("/saveUrinalysisTest")

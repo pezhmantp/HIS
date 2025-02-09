@@ -23,7 +23,7 @@ public class PharmacyServiceImpl implements PharmacyService{
 
         ResponseEntity<MedicinesResponse> responseEntity = restTemplate.exchange(medicineQueryUri, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
         });
-        System.out.println("44444444444 "+responseEntity.getBody().getMedicines().toString());
+
         return responseEntity.getBody();
     }
 }

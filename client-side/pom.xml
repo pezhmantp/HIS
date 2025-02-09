@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.his</groupId>
 	<artifactId>client-side</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>client-side</name>
 	<description>Demo project for client side application</description>
 	<properties>
@@ -56,6 +56,13 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+<!--		&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>org.apache.httpcomponents</groupId>-->
+<!--			<artifactId>httpclient</artifactId>-->
+<!--			<version>4.5.14</version>-->
+<!--		</dependency>-->
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -90,7 +97,18 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<image>
+						<name>${project.groupId}/client-side:${project.version}</name>
+					</image>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>build-image</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

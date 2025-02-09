@@ -1,9 +1,6 @@
 package com.his.client_side.model.doctor;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "doctor_tbl")
 public class Doctor {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "doctor_id")
     private Integer doctorId;
     @Column(name = "doctor_kc_username")

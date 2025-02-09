@@ -76,7 +76,6 @@ public class CommonServiceImpl implements CommonService{
                 }
             });
         });
-        System.out.println("recpRespnsForJoinList : " + recpRespnsForJoinList.toString());
         return recpRespnsForJoinList;
     }
 
