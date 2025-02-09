@@ -8,6 +8,7 @@ Microservices, Java, Spring boot, Spring cloud, Spring MVC,
 Docker, Axon framework, Kafka, Keycloak, MySql, Hibernate, Thymeleaf, Javascript, JQuery, Html and CSS
 
 # Description:
+This application is designed based on microservices principles and patterns such as CQRS, database-per-service, loose coupling, and autonomy, etc.
 The following picture illustrates the structure of the application.
 
 
