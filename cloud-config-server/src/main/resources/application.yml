@@ -1,5 +1,9 @@
 server:
   port: 8888
+logging:
+  level:
+    ROOT: INFO
+    org.spring.framework.cloud.config: DEBUG
 spring:
   application:
     name: configserver
@@ -8,6 +12,6 @@ spring:
       server:
         git:
           uri: https://github.com/pezhmantp/config-server-repository
+          default-label: main
           clone-on-start: true
-        bootstrap: true
     fail-fast: true
