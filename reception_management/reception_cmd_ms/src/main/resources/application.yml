@@ -1,8 +1,13 @@
 spring:
   application:
     name: RECEPTION-CMD-MS
+  cloud:
+    config:
+      allow-override: true
+      override-none: true
+      name: reception-cmd-ms
   config:
-    import: configserver:http://localhost:8888
+    import: 'configserver:'
 eureka:
   client:
     register-with-eureka: true
@@ -14,15 +19,7 @@ eureka:
 #  profiles:
 #    active: docker
 
-#logging:
-#  file.name: logs/reception_cmd_ms.log
-axon:
-  serializer:
-    general: jackson
-    events: jackson
-    messages: jackson
 management:
   tracing:
     sampling:
       probability: 1.0
-#reception-created-topic: "reception-created-topic"

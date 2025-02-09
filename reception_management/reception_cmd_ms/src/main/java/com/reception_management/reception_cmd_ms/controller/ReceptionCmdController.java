@@ -101,12 +101,22 @@ public class ReceptionCmdController {
             return new ResponseEntity(response.getReception(), HttpStatus.OK);
         }
     }
-    @GetMapping("/changeVisitStatus/{receptionId}")
-    public ResponseEntity<?> changeVisitStatus(@PathVariable String receptionId) {
-        System.out.println("changeVisitStatusssssssssssssssssssssssssssssssssss");
-        return new ResponseEntity("response", HttpStatus.OK);
+    @PutMapping("/changeVisitStatus")
+    public ResponseEntity<?> changeVisitStatus(@RequestBody String receptionId) {
+        System.out.println("??????????? : changeVisitStatus : " + receptionId);
+        UpdateReceptionCmd cmd = new UpdateReceptionCmd();
+        ReceptionResponse receptionResponseFromQuery = this.receptionService.getReception(receptionId);
+        ResponseMsgWithBoolean responseMsgWithBoolean=new ResponseMsgWithBoolean();
+
+            System.out.println("??????????? : changeVisitStatus : " + cmd.toString());
+            cmd.setId(receptionResponseFromQuery.getReception().getReceptionId());
+            receptionResponseFromQuery.getReception().setVisitStatus("visited");
+            cmd.setReception(receptionResponseFromQuery.getReception());
+            this.commandGateway.sendAndWait(cmd);
+            responseMsgWithBoolean.setResult(true);
+            return new ResponseEntity(responseMsgWithBoolean, HttpStatus.OK);
     }
-    @PatchMapping("/changeReceptionStatusToCompleted")
+    @PutMapping("/changeReceptionStatusToCompleted")
     public ResponseEntity<?> changeReceptionStatusToCompleted(@RequestBody String receptionId) {
         UpdateReceptionCmd cmd = new UpdateReceptionCmd();
         ReceptionResponse receptionResponseFromQuery = this.receptionService.getReception(receptionId);
@@ -137,34 +147,34 @@ public class ReceptionCmdController {
         event.setReceptionId(receptionId);
 
         receptionService.removeReceptionTransaction(event,null);
+        response.setResult(true);
+        response.setMessage("removed!");
+//        KafkaConsumer<String, Boolean> consumer = new KafkaConsumer<>(receptionService.getConsumerProperties());
+//        consumer.subscribe(Arrays.asList("reception-removed-topic"));
 
-        KafkaConsumer<String, Boolean> consumer = new KafkaConsumer<>(receptionService.getConsumerProperties());
-        consumer.subscribe(Arrays.asList("reception-removed-topic"));
-
-        while(true){
-            ConsumerRecords<String, Boolean> records =
-                    consumer.poll(Duration.ofMillis(500));
-
-            for (ConsumerRecord<String, Boolean> record : records){
-                System.out.println("????????????? record.key: " + record.key() + " record.value : " + record.value());
-                if(record.key().equals(receptionId)){
-                    if(record.value() == true)
-                    {
-                        System.out.println("????????????? reception: " + receptionId + " deleted : " + record.value());
-                        response.setResult(true);
-                        response.setMessage("Reception removed successfully");
-                        return new ResponseEntity(response, HttpStatus.OK);
-                    }
-                    response.setResult(false);
-                    response.setMessage("Reception did not removed");
-                    return new ResponseEntity(response, HttpStatus.OK);
-                }
-            }
-        }
+//        while(true){
+//            ConsumerRecords<String, Boolean> records =
+//                    consumer.poll(Duration.ofMillis(500));
+//
+//            for (ConsumerRecord<String, Boolean> record : records){
+//                System.out.println("????????????? record.key: " + record.key() + " record.value : " + record.value());
+//                if(record.key().equals(receptionId)){
+//                    if(record.value() == true)
+//                    {
+//                        System.out.println("????????????? reception: " + receptionId + " deleted : " + record.value());
+//                        response.setResult(true);
+//                        response.setMessage("Reception removed successfully");
+//                        return new ResponseEntity(response, HttpStatus.OK);
+//                    }
+//                    response.setResult(false);
+//                    response.setMessage("Reception did not removed");
+//                    return new ResponseEntity(response, HttpStatus.OK);
+//                }
+//            }
+//        }
 //        removeVisitKafkaTemplate.send(kafkaConfigData.getRemoveVisitTopic(),receptionId,receptionId);
+        return new ResponseEntity(response, HttpStatus.OK);
 
-//        response.setResult(true);
-//        response.setMessage("bbbbbbbb");
 //            return new ResponseEntity(response, HttpStatus.OK);
         }
     }
