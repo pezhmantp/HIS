@@ -5,7 +5,7 @@ This is a web-based application for managing patients and their related informat
 
 # Technologies:
 Microservices, Java, Spring boot, Spring cloud, Spring MVC,
-Docker, Axon framework, Kafka, Keycloak, MySql, Hibernate, Thymeleaf, Javascript, JQuery, Html and CSS
+Docker, Axon framework, Kafka, Keycloak, MySql, Hibernate, Thymeleaf, Javascript, jQuery, Html and CSS
 
 # Description:
 This application is designed based on microservices principles and patterns such as CQRS, database-per-service, loose coupling, and autonomy, etc.
