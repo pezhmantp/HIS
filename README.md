@@ -9,7 +9,9 @@ Docker, Axon framework, Kafka, Keycloak, MySql, Hibernate, Thymeleaf, JavaScript
 
 # Description:
 This application is designed based on microservices principles and patterns such as CQRS, database-per-service, loose coupling, and autonomy, etc.
-The following picture illustrates the structure of the application.
+The following image illustrates the architecture and structure of the application.
+
+
 
 
 
