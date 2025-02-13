@@ -13,5 +13,11 @@ The following image illustrates the architecture and structure of the applicatio
 
 ![image info](picture.png)
 
+# How To Run:
+To run this project, Docker must be installed.
+After installing Docker, run the run-me.sh file using Git Bash necessary all the neccessary Docker images. Then, it will run the containers using docker-compose.
+To stop the application, just run "docker-compose -f docker-compose.yml down" in the project's root directory.
+
+
 
 
