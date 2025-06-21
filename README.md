@@ -19,7 +19,7 @@ After installing Docker, run the run-me.sh file using Git Bash to create all the
 To stop the application, just run "docker-compose -f docker-compose.yml down" in the project's root directory.
 
 After ruuning the application, use the following usernames and passwords to access each part of the application:
-
+![image info](1.png)
 
 
 
